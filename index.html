@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aula 03: Custeio Baseado em Atividades (ABC) & ABM | CEST Anil</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23002060'/><path d='M20 75 Q50 65 75 25' stroke='%230080FF' stroke-width='8' fill='none'/></svg>">
+    <style>
+        :root {
+            --primary: #002060;
+            --primary-dark: #001138;
+            --secondary: #0080FF;
+            --secondary-light: #E6F2FF;
+            --accent: #00A3FF;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --background: #F4F7FA;
+            --surface: #FFFFFF;
+            --text-primary: #0F172A;
+            --text-secondary: #475569;
+            --border: #E2E8F0;
+            --radius-md: 12px;
+            --shadow-sm: 0 1px 3px rgba(0, 32, 96, 0.05);
+            --shadow-md: 0 4px 20px -2px rgba(0, 32, 96, 0.08);
+            --transition: all 0.25s ease;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--background); color: var(--text-primary); line-height: 1.6; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: #FFFFFF;
+            padding: 3rem 2.5rem;
+            border-radius: var(--radius-md);
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-md);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--secondary-light);
+            margin-bottom: 1.25rem;
+        }
+
+        .header-title { font-size: clamp(1.8rem, 3vw, 2.5rem); font-weight: 800; line-height: 1.2; margin-bottom: 0.75rem; }
+        .header-desc { font-size: 1.05rem; color: rgba(255, 255, 255, 0.88); max-width: 780px; margin-bottom: 1.5rem; }
+
+        .header-meta {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+            background: rgba(255, 255, 255, 0.08);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        .meta-label { font-size: 0.75rem; text-transform: uppercase; color: var(--secondary-light); font-weight: 700; }
+        .meta-val { font-size: 0.95rem; font-weight: 700; color: #FFF; }
+
+        .action-bar { display: flex; gap: 1rem; margin-bottom: 2.5rem; flex-wrap: wrap; }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 0.85rem 1.6rem;
+            font-size: 0.95rem;
+            font-weight: 700;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+        .btn-green { background: #10B981; color: #FFF; }
+        .btn-green:hover { background: #059669; transform: translateY(-2px); }
+        .btn-blue { background: var(--secondary); color: #FFF; }
+        .btn-blue:hover { background: #0066CC; transform: translateY(-2px); }
+
+        .section-title { font-size: 1.4rem; font-weight: 800; color: var(--primary); margin-bottom: 1.25rem; border-left: 5px solid var(--secondary); padding-left: 12px; }
+        
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; }
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 1.75rem;
+            border-top: 4px solid var(--secondary);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            text-decoration: none;
+            color: inherit;
+            transition: var(--transition);
+            box-shadow: var(--shadow-sm);
+        }
+        .card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: var(--secondary); }
+        .card-num { font-size: 0.8rem; font-weight: 800; color: var(--secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.4rem; }
+        .card-title { font-size: 1.15rem; font-weight: 800; color: var(--primary); margin-bottom: 0.6rem; line-height: 1.3; }
+        .card-desc { font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 1.5rem; flex-grow: 1; }
+        .card-btn {
+            background: var(--primary);
+            color: #FFFFFF;
+            padding: 0.6rem 1rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-align: center;
+            transition: var(--transition);
+        }
+        .card:hover .card-btn { background: var(--secondary); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="badge">Aula 03 • Administração CEST Anil • 4º Período</div>
+            <h1 class="header-title">Custeio Baseado em Atividades (ABC) & ABM</h1>
+            <p class="header-desc">
+                Ruptura com o rateio tradicional, eliminação do subsídio cruzado e identificação dos reais direcionadores de custos da operação empresarial.
+            </p>
+            <div class="header-meta">
+                <div><span class="meta-label">Disciplina</span><div class="meta-val">Gestão de Custos</div></div>
+                <div><span class="meta-label">Docente</span><div class="meta-val">Prof. Msc. Philipe Sampaio Lima</div></div>
+                <div><span class="meta-label">Foco Metodológico</span><div class="meta-val">Atividades, Cost Drivers e ABM</div></div>
+            </div>
+        </header>
+
+        <div class="action-bar">
+            <a href="atv.html" class="btn btn-green">Laboratório Prático de Fixação (Aluno)</a>
+            <a href="gbt.html" class="btn btn-blue">Painel do Professor (Solucionador em Tempo Real)</a>
+        </div>
+
+        <h2 class="section-title">Trilha Temática dos 10 Módulos de Slides</h2>
+
+        <div class="grid">
+            <a href="1.html" class="card">
+                <div>
+                    <div class="card-num">Tópico 01 de 10</div>
+                    <h3 class="card-title">A Crise dos Rateios Tradicionais e a Gênese do ABC</h3>
+                    <p class="card-desc">Por que o Custeio por Absorção com base volumétrica gera subsídios cruzados e decisões empresariais desastrosas.</p>
+                </div>
+                <div class="card-btn">Acessar Módulo &rarr;</div>
+            </a>
+
+            <a href="2.html" class="card">
+                <div>
+                    <div class="card-num">Tópico 02 de 10</div>
+                    <h3 class="card-title">O Princípio Central: Recursos, Atividades e Objetos</h3>
+                    <p class="card-desc">A máxima do ABC: "Produtos consomem atividades; atividades consomem recursos". O fim das arbitrariedades de rateio.</p>
+                </div>
+                <div class="card-btn">Acessar Módulo &rarr;</div>
+            </a>
+
+            <a href="3.html" class="card">
+                <div>
+                    <div class="card-num">Tópico 03 de 10</div>
+                    <h3 class="card-title">Mapeamento de Processos e Dicionário de Atividades</h3>
+                    <p class="card-desc">Como decompor uma organização em macroprocessos, atividades primárias e atividades de suporte operacional.</p>
+                </div>
+                <div class="card-btn">Acessar Módulo &rarr;</div>
+            </a>
+
+            <a href="4.html" class="card">
+                <div>
+                    <div class="card-num">Tópico 04 de 10</div>
+                    <h3 class="card-title">Direcionadores de Recursos vs Direcionadores de Atividades</h3>
+                    <p class="card-desc">Diferenciação clara entre direcionadores de 1º e 2º estágio (Cost Drivers) e a mecânica das taxas de atividade.</p>
+                </div>
+                <div class="card-btn">Acessar Módulo &rarr;</div>
+            </a>
+
+            <a href="5.html" class="card">
+                <div>
+                    <div class="card-num">Tópico 05 de 10</div>
+                    <h3 class="card-title">Hierarquia de Atividades: Unidade, Lote, Produto e Fábrica</h3>
+                    <p class="card-desc">A arquitetura de Cooper & Kaplan para categorizar os custos conforme o gatilho de sua ocorrência física.</p>
+                </div>
+                <div class="card-btn">Acessar Módulo &rarr;</div>
+            </a>
+
+            <a href="6.html" class="card">
+                <div>
+                    <div class="card-num">Tópico 06 de 10</div>
+                    <h3 class="card-title">Laboratório Comparativo: Absorção Tradicional vs ABC</h3>
+                    <p class="card-desc">Caso numérico em tempo real comprovando como o produto padrão subsidia o produto complexo e especializado.</p>
+                </div>
+                <div class="card-btn">Acessar Módulo &rarr;</div>
+            </a>
+
+            <a href="7.html" class="card">
+                <div>
+                    <div class="card-num">Tópico 07 de 10</div>
+                    <h3 class="card-title">Custos da Capacidade Ociosa: Teórica, Prática e Real</h3>
+                    <p class="card-desc">Como evitar embutir o desperdício de máquinas paradas no preço do produto ativo e apurar a ociosidade na DRE.</p>
+                </div>
+                <div class="card-btn">Acessar Módulo &rarr;</div>
+            </a>
+
+            <a href="8.html" class="card">
+                <div>
+                    <div class="card-num">Tópico 08 de 10</div>
+                    <h3 class="card-title">Gestão Baseada em Atividades (ABM) e Cadeia de Valor</h3>
+                    <p class="card-desc">Análise de Atividades que Agregam Valor (AV) versus Não Agregam Valor (NAV) e técnicas de eliminação de desperdícios.</p>
+                </div>
+                <div class="card-btn">Acessar Módulo &rarr;</div>
+            </a>
+
+            <a href="9.html" class="card">
+                <div>
+                    <div class="card-num">Tópico 09 de 10</div>
+                    <h3 class="card-title">TDABC: Custeio Baseado em Atividades por Tempo</h3>
+                    <p class="card-desc">A evolução moderna do ABC: simplificação por equações de tempo e taxas horárias de capacidade prática.</p>
+                </div>
+                <div class="card-btn">Acessar Módulo &rarr;</div>
+            </a>
+
+            <a href="10.html" class="card">
+                <div>
+                    <div class="card-num">Tópico 10 de 10</div>
+                    <h3 class="card-title">Matriz de Decisão Gerencial, Vantagens e Limitações</h3>
+                    <p class="card-desc">Quando vale a pena implantar o ABC na empresa e preparação estratégica para o Custeio Variável na Aula 04.</p>
+                </div>
+                <div class="card-btn">Acessar Módulo &rarr;</div>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tópico 2: O Princípio Fundamental do ABC | Gestão de Custos CEST</title>
+    <style>
+        :root {
+            --primary: #002060; --primary-dark: #001138; --secondary: #0080FF;
+            --secondary-light: #E6F2FF; --success: #10B981; --background: #F4F7FA;
+            --surface: #FFFFFF; --text-primary: #0F172A; --text-secondary: #475569;
+            --border: #E2E8F0; --radius-md: 12px; --shadow-md: 0 4px 20px -2px rgba(0,32,96,0.08);
+            --font-mono: 'SFMono-Regular', Consolas, Menlo, monospace;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: system-ui, -apple-system, sans-serif; background: var(--background); color: var(--text-primary); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: #FFF; border-bottom: 1px solid var(--border); padding: 0.85rem 1.5rem; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+        .brand { text-decoration: none; color: var(--primary); font-weight: 700; font-size: 0.95rem; }
+        .container { max-width: 980px; width: 100%; margin: 2rem auto; padding: 0 1rem; flex-grow: 1; display: flex; flex-direction: column; }
+        .slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 2.5rem; box-shadow: var(--shadow-md); min-height: 520px; display: none; flex-direction: column; justify-content: space-between; }
+        .slide-card.active { display: flex; }
+        .slide-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 1rem; margin-bottom: 1.5rem; }
+        .tag { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--secondary); background: var(--secondary-light); padding: 4px 10px; border-radius: 6px; }
+        .title { font-size: 1.65rem; color: var(--primary); font-weight: 800; margin-bottom: 1rem; }
+        .highlight-box { background: var(--secondary-light); border-left: 4px solid var(--secondary); padding: 1.2rem; border-radius: 6px; margin: 1.25rem 0; color: var(--primary); font-weight: 500; }
+        
+        /* Diagrama Causal */
+        .causal-chain { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin: 2rem 0; flex-wrap: wrap; }
+        .node { flex: 1; min-width: 200px; background: #FFFFFF; border: 2px solid var(--secondary); border-radius: 8px; padding: 1.25rem; text-align: center; box-shadow: 0 4px 10px rgba(0,32,96,0.05); }
+        .node-title { font-size: 1.1rem; font-weight: 800; color: var(--primary); margin-bottom: 0.25rem; }
+        .node-desc { font-size: 0.8rem; color: var(--text-secondary); }
+        .arrow { font-size: 1.8rem; font-weight: 800; color: var(--secondary); }
+
+        .controls { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 1.25rem; margin-top: 2rem; }
+        .btn { padding: 0.75rem 1.5rem; font-size: 0.9rem; font-weight: 700; border-radius: 6px; text-decoration: none; cursor: pointer; border: none; }
+        .btn-nav { background: var(--primary); color: #FFF; }
+        .btn-out { background: transparent; color: var(--primary); border: 1.5px solid var(--border); }
+        .progress-dots { display: flex; gap: 8px; }
+        .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--border); cursor: pointer; }
+        .dot.active { background: var(--secondary); width: 22px; border-radius: 10px; }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="brand">&larr; Portal da Aula 03</a>
+        <span style="font-size:0.85rem; font-weight:700; color:var(--text-secondary);">Tópico 2 de 10: Princípio Fundamental</span>
+    </header>
+
+    <div class="container">
+        <!-- Slide 1 -->
+        <div class="slide-card active" data-slide="1">
+            <div>
+                <div class="slide-header">
+                    <span class="tag">Fundamento Conceitual</span>
+                    <span style="font-weight:700; color:var(--text-secondary);">Slide 01 / 04</span>
+                </div>
+                <h1 class="title">O Axioma de Causalidade do ABC</h1>
+                <p>O Custeio ABC rejeita qualquer apropriação direta de custos indiretos aos produtos. Ele insere uma <strong>etapa intermediária obrigatória</strong> que reflete a realidade operacional:</p>
+                
+                <div class="causal-chain">
+                    <div class="node">
+                        <div class="node-title">1. RECURSOS</div>
+                        <div class="node-desc">Salários, aluguel, energia, amortizações, softwares.</div>
+                    </div>
+                    <div class="arrow">&rarr;</div>
+                    <div class="node" style="border-color:#10B981;">
+                        <div class="node-title" style="color:#065F46;">2. ATIVIDADES</div>
+                        <div class="node-desc">Comprar insumos, preparar máquinas, inspecionar peças.</div>
+                    </div>
+                    <div class="arrow">&rarr;</div>
+                    <div class="node" style="border-color:var(--primary);">
+                        <div class="node-title">3. PRODUTOS / CLIENTES</div>
+                        <div class="node-desc">Bens, serviços, linhas e contratos que demandam atividades.</div>
+                    </div>
+                </div>
+
+                <div class="highlight-box">
+                    <strong>Princípio Operacional:</strong> Os produtos não consomem recursos diretamente da conta bancária da empresa; os produtos exigem tarefas (atividades), e essas tarefas é que consomem recursos!
+                </div>
+            </div>
+            <div class="controls"></div>
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="slide-card" data-slide="2">
+            <div>
+                <div class="slide-header">
+                    <span class="tag">Definição Operacional</span>
+                    <span style="font-weight:700; color:var(--text-secondary);">Slide 02 / 04</span>
+                </div>
+                <h1 class="title">O que é uma "Atividade" em Custos?</h1>
+                <p>Uma atividade é uma combinação de pessoas, tecnologia, matérias-primas e espaço físico para gerar uma entrega mensurável.</p>
+                <div class="highlight-box">
+                    <strong>Como identificar uma atividade?</strong> Toda atividade deve ser descrita obrigatoriamente por um <strong>verbo de ação no infinitivo + objeto direto</strong>:
+                    <ul style="padding-left:1.25rem; margin-top:0.5rem;">
+                        <li><em>Emitir</em> ordens de compra</li>
+                        <li><em>Calibrar</em> ferramentas e tornos (Setup)</li>
+                        <li><em>Inspecionar</em> peças no laboratório</li>
+                        <li><em>Atender</em> chamados de assistência técnica</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="controls"></div>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="slide-card" data-slide="3">
+            <div>
+                <div class="slide-header">
+                    <span class="tag">Contraste Metodológico</span>
+                    <span style="font-weight:700; color:var(--text-secondary);">Slide 03 / 04</span>
+                </div>
+                <h1 class="title">Absorção Tradicional vs Custeio ABC</h1>
+                <table style="width:100%; border-collapse:collapse; margin-top:1rem; font-size:0.95rem;">
+                    <tr style="background:var(--primary); color:#FFF;">
+                        <th style="padding:10px; border:1px solid var(--border);">Característica</th>
+                        <th style="padding:10px; border:1px solid var(--border);">Custeio por Absorção</th>
+                        <th style="padding:10px; border:1px solid var(--border);">Custeio ABC</th>
+                    </tr>
+                    <tr>
+                        <td style="padding:10px; border:1px solid var(--border); font-weight:700;">Visão do Processo</td>
+                        <td style="padding:10px; border:1px solid var(--border);">Por Departamentos (Silos)</td>
+                        <td style="padding:10px; border:1px solid var(--border); font-weight:700; color:var(--secondary);">Por Processos e Atividades transversais</td>
+                    </tr>
+                    <tr style="background:#F8FAFC;">
+                        <td style="padding:10px; border:1px solid var(--border); font-weight:700;">Base de Rateio dos CIF</td>
+                        <td style="padding:10px; border:1px solid var(--border);">Volumétrica (Horas MOD, Volume)</td>
+                        <td style="padding:10px; border:1px solid var(--border); font-weight:700; color:var(--secondary);">Direcionadores causais de atividade</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:10px; border:1px solid var(--border); font-weight:700;">Objetivo Principal</td>
+                        <td style="padding:10px; border:1px solid var(--border);">Atender Fisco e Balanço (CPC 16)</td>
+                        <td style="padding:10px; border:1px solid var(--border); font-weight:700; color:var(--secondary);">Gestão estratégica de custos e preços</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="controls"></div>
+        </div>
+
+        <!-- Slide 4 -->
+        <div class="slide-card" data-slide="4">
+            <div>
+                <div class="slide-header">
+                    <span class="tag">Fechamento do Módulo</span>
+                    <span style="font-weight:700; color:var(--text-secondary);">Slide 04 / 04</span>
+                </div>
+                <h1 class="title">Rumo ao Mapeamento Prático</h1>
+                <p>Ao entender que as atividades consomem recursos e os produtos consomem atividades, o passo seguinte do gestor é listar e documentar essas tarefas dentro da empresa.</p>
+                <div class="highlight-box">
+                    No próximo tópico, aprenderemos a estruturar o <strong>Dicionário de Atividades</strong> e construir o catálogo de processos empresariais.
+                </div>
+            </div>
+            <div class="controls"></div>
+        </div>
+    </div>
+
+    <script>
+        let cur = 1;
+        const total = 4;
+
+        function render() {
+            document.querySelectorAll('.controls').forEach(bar => {
+                bar.innerHTML = `
+                    <button class="btn btn-out" onclick="go(-1)" ${cur === 1 ? 'disabled style="opacity:0.4; cursor:not-allowed;"' : ''}>&larr; Anterior</button>
+                    <div class="progress-dots">
+                        ${Array.from({length: total}, (_, i) => `<span class="dot ${i+1 === cur ? 'active' : ''}" onclick="toSlide(${i+1})"></span>`).join('')}
+                    </div>
+                    ${cur < total 
+                        ? `<button class="btn btn-nav" onclick="go(1)">Próximo &rarr;</button>`
+                        : `<a href="3.html" class="btn btn-nav" style="background:#10B981;">Ir para Tópico 3 &rarr;</a>`
+                    }
+                `;
+            });
+        }
+
+        function show(n) {
+            document.querySelectorAll('.slide-card').forEach(c => c.classList.remove('active'));
+            document.querySelector(`.slide-card[data-slide="${n}"]`).classList.add('active');
+            cur = n;
+            render();
+        }
+
+        function go(s) { if(cur + s >= 1 && cur + s <= total) show(cur + s); }
+        function toSlide(n) { show(n); }
+
+        document.addEventListener('keydown', e => {
+            if (e.key === 'ArrowRight' && cur < total) go(1);
+            if (e.key === 'ArrowLeft' && cur > 1) go(-1);
+        });
+
+        document.addEventListener('DOMContentLoaded', () => { render(); });
+    </script>
+</body>
+</html>

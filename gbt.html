@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel do Professor: Solucionador ABC & ABM | CEST Anil</title>
+    <style>
+        :root {
+            --primary: #002060; --primary-dark: #001138; --secondary: #0080FF;
+            --secondary-light: #E6F2FF; --background: #F4F7FA; --surface: #FFFFFF;
+            --text-primary: #0F172A; --text-secondary: #475569; --border: #CBD5E1;
+            --radius-md: 12px; --font-mono: "SFMono-Regular", Consolas, Menlo, monospace;
+            --shadow-sm: 0 1px 3px rgba(0,32,96,0.06); --shadow-md: 0 6px 20px -2px rgba(0,32,96,0.1);
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: system-ui, -apple-system, sans-serif; background: var(--background); color: var(--text-primary); line-height: 1.6; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: #FFFFFF; padding: 2.5rem 2rem; border-radius: var(--radius-md); margin-bottom: 2rem;
+            display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
+        }
+        .header-brand h1 { font-size: 1.85rem; font-weight: 800; margin-bottom: 0.35rem; }
+        .header-badge { background: rgba(255,255,255,0.12); padding: 0.75rem 1.25rem; border-radius: 6px; text-align: right; border: 1px solid rgba(255,255,255,0.2); }
+
+        .nav-dock {
+            background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md);
+            padding: 1rem 1.5rem; margin-bottom: 2rem; position: sticky; top: 1rem; z-index: 100; box-shadow: var(--shadow-sm);
+        }
+        .nav-buttons { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.5rem; }
+        .nav-btn {
+            background: var(--background); border: 1px solid var(--border); color: var(--primary);
+            font-weight: 700; font-size: 0.85rem; padding: 0.35rem 0.65rem; border-radius: 4px; text-decoration: none;
+        }
+        .nav-btn:hover { background: var(--secondary); color: #FFF; border-color: var(--secondary); }
+
+        .solver-card {
+            background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md);
+            padding: 2.25rem; margin-bottom: 2rem; border-top: 5px solid var(--secondary); box-shadow: var(--shadow-sm);
+        }
+        .solver-header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid var(--border); padding-bottom: 1rem; margin-bottom: 1.5rem; }
+        .card-title { font-size: 1.3rem; font-weight: 800; color: var(--primary); }
+        .card-tag { background: var(--secondary-light); color: var(--primary); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; padding: 4px 10px; border-radius: 20px; }
+
+        .inputs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+        .form-group { display: flex; flex-direction: column; gap: 0.35rem; }
+        .form-label { font-size: 0.8rem; font-weight: 700; color: var(--primary); text-transform: uppercase; }
+        .form-control { padding: 0.75rem; font-size: 1rem; font-family: var(--font-mono); font-weight: 700; border: 1.5px solid var(--border); border-radius: 6px; }
+
+        .solution-box { background: #F8FAFC; border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; }
+        .formula-line { font-family: var(--font-mono); font-size: 1.05rem; font-weight: 700; color: var(--secondary); background: #FFF; padding: 0.75rem 1rem; border-radius: 4px; border-left: 4px solid var(--secondary); margin-bottom: 0.75rem; }
+        .step-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1rem; }
+        .step-item { font-family: var(--font-mono); font-size: 0.95rem; color: var(--text-primary); }
+
+        .res-final {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: #FFF; padding: 1.25rem 1.5rem; border-radius: 6px; display: flex; justify-content: space-between; align-items: center;
+        }
+        .res-val { font-size: 1.6rem; font-weight: 800; color: #A7F3D0; }
+        .dica { margin-top: 1rem; font-size: 0.9rem; color: #475569; background: #EFF6FF; border-left: 3px solid var(--secondary); padding: 0.75rem 1rem; border-radius: 4px; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <div class="header-brand">
+                <h1>Painel do Professor: Solucionador em Tempo Real</h1>
+                <p>Aula 03: Custeio Baseado em Atividades (ABC) & ABM • Administração CEST</p>
+            </div>
+            <div class="header-badge">
+                <strong style="font-size:1rem; display:block;">Prof. Msc. Philipe Sampaio Lima</strong>
+                <span>Calculadora Docente de Projeção em Sala</span>
+            </div>
+        </header>
+
+        <div class="nav-dock">
+            <span style="font-size:0.8rem; font-weight:800; text-transform:uppercase; color:var(--primary);">Navegador Rápido de Questões</span>
+            <div class="nav-buttons" id="navButtons"></div>
+        </div>
+
+        <div id="solversContainer"></div>
+    </div>
+
+    <script>
+        function formatMoeda(n) { return "R$ " + (isNaN(n) ? 0 : n).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+        function parseBR(v) { return parseFloat((v || '0').toString().replace(/\./g, '').replace(',', '.')) || 0; }
+
+        const configs = [
+            {
+                id: 1, titulo: "Questão 1: Taxa da Atividade de Setup", tag: "Cost Drivers",
+                enunciado: "Calcular a taxa do direcionador dividindo o custo da atividade pelo número total de setups.",
+                formula: "Taxa de Atividade = Custo Total do Setup ÷ Quantidade Total de Setups",
+                inputs: [
+                    { id: "q1_c", label: "Custo do Setup (R$)", def: "50.000,00" },
+                    { id: "q1_q", label: "Total de Setups", def: "125" }
+                ],
+                calc: () => {
+                    const c = parseBR(document.getElementById('q1_c').value);
+                    const q = parseBR(document.getElementById('q1_q').value) || 1;
+                    const r = c / q;
+                    return {
+                        steps: [
+                            `Passo 1: Identificar a fórmula da Taxa do Direcionador: Taxa = Custo ÷ Base`,
+                            `Passo 2: Substituir dados da questão: ${formatMoeda(c)} ÷ ${q} preparações`,
+                            `Passo 3: Taxa unitária calculada: ${formatMoeda(r)} / setup`
+                        ],
+                        res: `${formatMoeda(r)} / setup`,
+                        dica: "Destaque aos discentes que essa taxa será cobrada de cada lote produzido multiplicando pelo número de preparações que ele exigiu."
+                    };
+                }
+            },
+            {
+                id: 2, titulo: "Questão 2: Apropriação de CIF de Setup ao Lote", tag: "Alocação aos Lotes",
+                enunciado: "Multiplicar a taxa do direcionador pelo consumo de preparações exigido pelo lote.",
+                formula: "CIF do Lote = Taxa do Setup × Setups Realizados pelo Lote",
+                inputs: [
+                    { id: "q2_t", label: "Taxa por Setup (R$)", def: "400,00" },
+                    { id: "q2_n", label: "Setups do Lote", def: "8" }
+                ],
+                calc: () => {
+                    const t = parseBR(document.getElementById('q2_t').value);
+                    const n = parseBR(document.getElementById('q2_n').value);
+                    const r = t * n;
+                    return {
+                        steps: [
+                            `Passo 1: Multiplicar taxa pelo número de ocorrências: ${formatMoeda(t)} × ${n} setups`,
+                            `Passo 2: Total de CIF absorvido: ${formatMoeda(r)}`
+                        ],
+                        res: formatMoeda(r),
+                        dica: "Mostre que um lote de 10 unidades com 8 setups absorve o mesmo valor que um lote de 1.000 unidades com 8 setups."
+                    };
+                }
+            },
+            {
+                id: 3, titulo: "Questão 3: Taxa Horária de Inspeção de Qualidade", tag: "Cost Drivers",
+                enunciado: "Apurar a taxa por hora técnica de inspeção laboratorial.",
+                formula: "Taxa de Inspeção = Custo do Laboratório ÷ Total de Horas de Teste",
+                inputs: [
+                    { id: "q3_c", label: "Custo Laboratório (R$)", def: "32.000,00" },
+                    { id: "q3_h", label: "Horas de Inspeção", def: "640" }
+                ],
+                calc: () => {
+                    const c = parseBR(document.getElementById('q3_c').value);
+                    const h = parseBR(document.getElementById('q3_h').value) || 1;
+                    const r = c / h;
+                    return {
+                        steps: [
+                            `Passo 1: Taxa Horária = ${formatMoeda(c)} ÷ ${h} horas técnicas`,
+                            `Passo 2: Resultado = ${formatMoeda(r)} / hora`
+                        ],
+                        res: `${formatMoeda(r)} / hora`,
+                        dica: "A inspeção é um direcionador de duração, mais justo do que simplesmente contar o número de testes se alguns demorarem mais."
+                    };
+                }
+            },
+            {
+                id: 4, titulo: "Questão 4: Rateio Tradicional por Volume", tag: "Absorção Tradicional",
+                enunciado: "Calcular o rateio volumétrico tradicional para contrastar com o ABC.",
+                formula: "Rateio Tradicional = CIF Total × (Volume do Produto ÷ Volume Global)",
+                inputs: [
+                    { id: "q4_cif", label: "CIF Total (R$)", def: "120.000,00" },
+                    { id: "q4_va", label: "Volume Produto A", def: "8.000" },
+                    { id: "q4_vb", label: "Volume Produto B", def: "2.000" }
+                ],
+                calc: () => {
+                    const cif = parseBR(document.getElementById('q4_cif').value);
+                    const va = parseBR(document.getElementById('q4_va').value);
+                    const vb = parseBR(document.getElementById('q4_vb').value);
+                    const tot = va + vb || 1;
+                    const r = cif * (va / tot);
+                    return {
+                        steps: [
+                            `Passo 1: Volume Total Fabril = ${va} + ${vb} = ${tot} unidades`,
+                            `Passo 2: Proporção do Produto A = ${va} ÷ ${tot} = ${((va/tot)*100).toFixed(2)}%`,
+                            `Passo 3: CIF Alocado a A = ${formatMoeda(cif)} × ${((va/tot)*100).toFixed(2)}% = ${formatMoeda(r)}`
+                        ],
+                        res: formatMoeda(r),
+                        dica: "Enfatize que o Produto A recebe 80% do custo apenas porque tem mais volume, gerando subsídio cruzado."
+                    };
+                }
+            },
+            {
+                id: 5, titulo: "Questão 5: Custo da Atividade de Compras", tag: "Atividade de Apoio",
+                enunciado: "Calcular a parcela de custos do setor de suprimentos alocada a uma linha de produtos.",
+                formula: "Custo Compras = (Custo Total ÷ Total de Ordens) × Ordens da Linha",
+                inputs: [
+                    { id: "q5_c", label: "Custo Setor Compras (R$)", def: "45.000,00" },
+                    { id: "q5_tot", label: "Total de Ordens Emitidas", def: "900" },
+                    { id: "q5_ord", label: "Ordens do Produto Alfa", def: "120" }
+                ],
+                calc: () => {
+                    const c = parseBR(document.getElementById('q5_c').value);
+                    const tot = parseBR(document.getElementById('q5_tot').value) || 1;
+                    const ord = parseBR(document.getElementById('q5_ord').value);
+                    const taxa = c / tot;
+                    const r = taxa * ord;
+                    return {
+                        steps: [
+                            `Passo 1: Taxa por Ordem de Compra = ${formatMoeda(c)} ÷ ${tot} = ${formatMoeda(taxa)} / ordem`,
+                            `Passo 2: Multiplicar pelas ordens exclusivas: ${formatMoeda(taxa)} × ${ord} ordens`,
+                            `Passo 3: Custo Alocado = ${formatMoeda(r)}`
+                        ],
+                        res: formatMoeda(r),
+                        dica: "Produtos com muitas peças e fornecedores diferentes exigem mais ordens e devem pagar por isso."
+                    };
+                }
+            },
+            {
+                id: 6, titulo: "Questão 6: Custo Total Unitário no ABC", tag: "Custo Unitário",
+                enunciado: "Somar os custos diretos com a parcela unitária de CIF apurada pelas atividades.",
+                formula: "Custo Total Unitário = Custo Direto Unitário + (CIF Total ABC ÷ Volume Produzido)",
+                inputs: [
+                    { id: "q6_cd", label: "Custo Direto Unitário (R$)", def: "45,00" },
+                    { id: "q6_cif", label: "CIF Total ABC Alocado (R$)", def: "28.000,00" },
+                    { id: "q6_vol", label: "Volume Produzido (un)", def: "1.400" }
+                ],
+                calc: () => {
+                    const cd = parseBR(document.getElementById('q6_cd').value);
+                    const cif = parseBR(document.getElementById('q6_cif').value);
+                    const vol = parseBR(document.getElementById('q6_vol').value) || 1;
+                    const cifUn = cif / vol;
+                    const r = cd + cifUn;
+                    return {
+                        steps: [
+                            `Passo 1: Apurar CIF por Unidade = ${formatMoeda(cif)} ÷ ${vol} un = ${formatMoeda(cifUn)} / un`,
+                            `Passo 2: Somar ao Custo Direto = ${formatMoeda(cd)} + ${formatMoeda(cifUn)}`,
+                            `Passo 3: Custo Total Unitário ABC = ${formatMoeda(r)} / un`
+                        ],
+                        res: `${formatMoeda(r)} / un`,
+                        dica: "Este é o valor contábil que representará o estoque do produto no Balanço e base de precificação."
+                    };
+                }
+            },
+            {
+                id: 7, titulo: "Questão 7: Diluição de Custo de Nível de Lote", tag: "Nível de Lote",
+                enunciado: "Dividir o custo fixo de preparação pelo tamanho do lote programado.",
+                formula: "Setup por Unidade = Custo do Setup do Lote ÷ Tamanho do Lote",
+                inputs: [
+                    { id: "q7_cs", label: "Custo Fixo do Setup (R$)", def: "1.200,00" },
+                    { id: "q7_tam", label: "Quantidade no Lote (un)", def: "40" }
+                ],
+                calc: () => {
+                    const cs = parseBR(document.getElementById('q7_cs').value);
+                    const tam = parseBR(document.getElementById('q7_tam').value) || 1;
+                    const r = cs / tam;
+                    return {
+                        steps: [
+                            `Passo 1: Dividir custo da preparação pelo volume: ${formatMoeda(cs)} ÷ ${tam} unidades`,
+                            `Passo 2: Custo Unitário de Setup = ${formatMoeda(r)} / unidade`
+                        ],
+                        res: `${formatMoeda(r)} / un`,
+                        dica: "Altere o lote para 1.200 peças e mostre que o custo despenca para R$ 1,00 / un."
+                    };
+                }
+            },
+            {
+                id: 8, titulo: "Questão 8: Taxa por Minuto no TDABC", tag: "TDABC Moderno",
+                enunciado: "Determinar a taxa do minuto de capacidade prática de um departamento.",
+                formula: "Taxa do Minuto = Custo da Equipe ÷ (Horas Práticas × 60)",
+                inputs: [
+                    { id: "q8_custo", label: "Custo da Equipe (R$)", def: "24.000,00" },
+                    { id: "q8_horas", label: "Horas Práticas Mensais", def: "400" }
+                ],
+                calc: () => {
+                    const custo = parseBR(document.getElementById('q8_custo').value);
+                    const horas = parseBR(document.getElementById('q8_horas').value) || 1;
+                    const minutos = horas * 60;
+                    const r = custo / minutos;
+                    return {
+                        steps: [
+                            `Passo 1: Converter horas em minutos práticos: ${horas} horas × 60 = ${minutos} minutos`,
+                            `Passo 2: Dividir custo mensal: ${formatMoeda(custo)} ÷ ${minutos} min`,
+                            `Passo 3: Taxa por minuto = ${formatMoeda(r)} / minuto`
+                        ],
+                        res: `${formatMoeda(r)} / min`,
+                        dica: "No TDABC, a capacidade prática desconta 15% a 20% do tempo para pausas fisiológicas e reuniões."
+                    };
+                }
+            },
+            {
+                id: 9, titulo: "Questão 9: Custo de Atendimento ao Cliente no TDABC", tag: "TDABC Moderno",
+                enunciado: "Multiplicar o tempo de atendimento em minutos pela taxa unitária do TDABC.",
+                formula: "Custo do Atendimento = Taxa por Minuto × Tempo Consumido",
+                inputs: [
+                    { id: "q9_taxa", label: "Taxa por Minuto (R$)", def: "1,25" },
+                    { id: "q9_tempo", label: "Tempo do Atendimento (min)", def: "50" }
+                ],
+                calc: () => {
+                    const taxa = parseBR(document.getElementById('q9_taxa').value);
+                    const tempo = parseBR(document.getElementById('q9_tempo').value);
+                    const r = taxa * tempo;
+                    return {
+                        steps: [
+                            `Passo 1: Multiplicar taxa pelo tempo: ${formatMoeda(taxa)} × ${tempo} minutos`,
+                            `Passo 2: Custo Total do Atendimento = ${formatMoeda(r)}`
+                        ],
+                        res: formatMoeda(r),
+                        dica: "Permite apurar a DRE por cliente, identificando clientes que geram prejuízo pelo excesso de demandas."
+                    };
+                }
+            },
+            {
+                id: 10, titulo: "Questão 10: Apuração da Capacidade Ociosa", tag: "Capacidade Ociosa",
+                enunciado: "Calcular o custo da capacidade ociosa que deve ser segregado direto na DRE.",
+                formula: "Custo Ocioso = (Custo Total ÷ Cap. Prática) × (Cap. Prática − Horas Reais)",
+                inputs: [
+                    { id: "q10_c", label: "Custo Total do Recurso (R$)", def: "90.000,00" },
+                    { id: "q10_cp", label: "Capacidade Prática (horas)", def: "1.500" },
+                    { id: "q10_cr", label: "Horas Reais Trabalhadas", def: "1.100" }
+                ],
+                calc: () => {
+                    const c = parseBR(document.getElementById('q10_c').value);
+                    const cp = parseBR(document.getElementById('q10_cp').value) || 1;
+                    const cr = parseBR(document.getElementById('q10_cr').value);
+                    const taxa = c / cp;
+                    const ociosas = Math.max(0, cp - cr);
+                    const r = taxa * ociosas;
+                    return {
+                        steps: [
+                            `Passo 1: Taxa da Capacidade Prática: ${formatMoeda(c)} ÷ ${cp}h = ${formatMoeda(taxa)} / h`,
+                            `Passo 2: Horas Ociosas no Mês: ${cp}h − ${cr}h = ${ociosas} horas`,
+                            `Passo 3: Custo da Ociosidade = ${formatMoeda(taxa)} × ${ociosas}h = ${formatMoeda(r)}`
+                        ],
+                        res: formatMoeda(r),
+                        dica: "Relembre que esse valor NÃO vai para o custo do produto; é lançado como 'Perda com Ociosidade' na DRE."
+                    };
+                }
+            }
+        ];
+
+        // Gera de 11 a 20 automaticamente
+        for (let i = 11; i <= 20; i++) {
+            configs.push({
+                id: i, titulo: `Questão ${i}: Alocação de Atividade Parametrizada`, tag: "Aplicação Integrada",
+                enunciado: "Calcular o custo absorvido a partir de direcionador de evento parametrizável.",
+                formula: "Custo Alocado = (Custo da Atividade ÷ Base Total) × Consumo Efetivo",
+                inputs: [
+                    { id: `q${i}_c`, label: "Custo da Atividade (R$)", def: `${(35000 + (i*2500)).toLocaleString('pt-BR')},00` },
+                    { id: `q${i}_b`, label: "Base Total do Driver", def: `${200 + (i*15)}` },
+                    { id: `q${i}_u`, label: "Consumo da Ordem", def: `${20 + (i*2)}` }
+                ],
+                calc: function() {
+                    const c = parseBR(document.getElementById(`q${this.id}_c`).value);
+                    const b = parseBR(document.getElementById(`q${this.id}_b`).value) || 1;
+                    const u = parseBR(document.getElementById(`q${this.id}_u`).value);
+                    const taxa = c / b;
+                    const r = taxa * u;
+                    return {
+                        steps: [
+                            `Passo 1: Taxa do Direcionador = ${formatMoeda(c)} ÷ ${b} = ${formatMoeda(taxa)} por evento`,
+                            `Passo 2: Multiplicar pelo consumo: ${formatMoeda(taxa)} × ${u} eventos`,
+                            `Passo 3: Valor Alocado = ${formatMoeda(r)}`
+                        ],
+                        res: formatMoeda(r),
+                        dica: "Fórmula universal do 2º estágio do Custeio Baseado em Atividades."
+                    };
+                }
+            });
+        }
+
+        function renderPainel() {
+            const nav = document.getElementById('navButtons');
+            const container = document.getElementById('solversContainer');
+            nav.innerHTML = '';
+            container.innerHTML = '';
+
+            configs.forEach(q => {
+                nav.innerHTML += `<a href="#card-solv-${q.id}" class="nav-btn">Q${q.id}</a>`;
+
+                const inputsHtml = q.inputs.map(inp => `
+                    <div class="form-group">
+                        <label class="form-label">${inp.label}</label>
+                        <input type="text" id="${inp.id}" class="form-control" value="${inp.def}" oninput="resolver(${q.id})">
+                    </div>
+                `).join('');
+
+                container.innerHTML += `
+                    <div class="solver-card" id="card-solv-${q.id}">
+                        <div class="solver-header">
+                            <div>
+                                <h2 class="card-title">${q.titulo}</h2>
+                                <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:2px;">${q.enunciado}</p>
+                            </div>
+                            <span class="card-tag">${q.tag}</span>
+                        </div>
+                        <div class="inputs-grid">${inputsHtml}</div>
+                        <div class="solution-box">
+                            <div class="formula-line">${q.formula}</div>
+                            <ul class="step-list" id="steps-${q.id}"></ul>
+                            <div class="res-final">
+                                <div>
+                                    <span style="font-size:0.75rem; text-transform:uppercase; color:var(--secondary-light);">Resposta Correta</span>
+                                    <div class="res-val" id="res-${q.id}">R$ 0,00</div>
+                                </div>
+                                <span style="font-size:0.85rem; opacity:0.8;">Atualização Dinâmica</span>
+                            </div>
+                            <div class="dica" id="dica-${q.id}"></div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            configs.forEach(q => resolver(q.id));
+        }
+
+        function resolver(id) {
+            const q = configs.find(item => item.id === id);
+            if (!q) return;
+            const r = q.calc();
+            document.getElementById(`steps-${id}`).innerHTML = r.steps.map(s => `<li class="step-item">• ${s}</li>`).join('');
+            document.getElementById(`res-${id}`).innerText = r.res;
+            document.getElementById(`dica-${id}`).innerHTML = `<strong>Dica Pedagógica em Sala:</strong> ${r.dica}`;
+        }
+
+        document.addEventListener('DOMContentLoaded', renderPainel);
+    </script>
+</body>
+</html>

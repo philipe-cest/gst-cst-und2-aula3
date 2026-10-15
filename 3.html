@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tópico 3: Mapeamento de Atividades | Gestão de Custos CEST</title>
+    <style>
+        :root {
+            --primary: #002060; --primary-dark: #001138; --secondary: #0080FF;
+            --secondary-light: #E6F2FF; --background: #F4F7FA; --surface: #FFFFFF;
+            --text-primary: #0F172A; --text-secondary: #475569; --border: #E2E8F0;
+            --radius-md: 12px; --shadow-md: 0 4px 20px -2px rgba(0,32,96,0.08);
+            --font-mono: 'SFMono-Regular', Consolas, Menlo, monospace;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: system-ui, -apple-system, sans-serif; background: var(--background); color: var(--text-primary); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: #FFF; border-bottom: 1px solid var(--border); padding: 0.85rem 1.5rem; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+        .brand { text-decoration: none; color: var(--primary); font-weight: 700; font-size: 0.95rem; }
+        .container { max-width: 980px; width: 100%; margin: 2rem auto; padding: 0 1rem; flex-grow: 1; display: flex; flex-direction: column; }
+        .slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 2.5rem; box-shadow: var(--shadow-md); min-height: 520px; display: none; flex-direction: column; justify-content: space-between; }
+        .slide-card.active { display: flex; }
+        .slide-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 1rem; margin-bottom: 1.5rem; }
+        .tag { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--secondary); background: var(--secondary-light); padding: 4px 10px; border-radius: 6px; }
+        .title { font-size: 1.65rem; color: var(--primary); font-weight: 800; margin-bottom: 1rem; }
+        .highlight-box { background: var(--secondary-light); border-left: 4px solid var(--secondary); padding: 1.2rem; border-radius: 6px; margin: 1.25rem 0; color: var(--primary); font-weight: 500; }
+        
+        .dict-table { width: 100%; border-collapse: collapse; margin-top: 1rem; font-size: 0.9rem; }
+        .dict-table th, .dict-table td { border: 1px solid var(--border); padding: 8px 12px; }
+        .dict-table th { background: var(--primary); color: #FFF; text-align: left; }
+        .dict-table tr:nth-child(even) { background: #F8FAFC; }
+
+        .controls { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 1.25rem; margin-top: 2rem; }
+        .btn { padding: 0.75rem 1.5rem; font-size: 0.9rem; font-weight: 700; border-radius: 6px; text-decoration: none; cursor: pointer; border: none; }
+        .btn-nav { background: var(--primary); color: #FFF; }
+        .btn-out { background: transparent; color: var(--primary); border: 1.5px solid var(--border); }
+        .progress-dots { display: flex; gap: 8px; }
+        .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--border); cursor: pointer; }
+        .dot.active { background: var(--secondary); width: 22px; border-radius: 10px; }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="brand">&larr; Portal da Aula 03</a>
+        <span style="font-size:0.85rem; font-weight:700; color:var(--text-secondary);">Tópico 3 de 10: Mapeamento de Atividades</span>
+    </header>
+
+    <div class="container">
+        <!-- Slide 1 -->
+        <div class="slide-card active" data-slide="1">
+            <div>
+                <div class="slide-header">
+                    <span class="tag">Mapeamento de Processos</span>
+                    <span style="font-weight:700; color:var(--text-secondary);">Slide 01 / 04</span>
+                </div>
+                <h1 class="title">Construção do Dicionário de Atividades</h1>
+                <p>O primeiro passo prático na implantação do ABC é identificar o que a equipe realmente faz durante o expediente.</p>
+                <div class="highlight-box">
+                    <strong>Dicionário de Atividades:</strong> É o catálogo padronizado contendo a descrição, escopo, insumos consumidos e entregáveis de cada tarefa realizada nos setores da organização.
+                </div>
+                <p>O administrador deve evitar o detalhamento microscópico (ex: "clicar com o mouse para abrir e-mail") e focar em <strong>atividades homogêneas e relevantes</strong>.</p>
+            </div>
+            <div class="controls"></div>
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="slide-card" data-slide="2">
+            <div>
+                <div class="slide-header">
+                    <span class="tag">Exemplo Real</span>
+                    <span style="font-weight:700; color:var(--text-secondary);">Slide 02 / 04</span>
+                </div>
+                <h1 class="title">Exemplo: Dicionário em Indústria Metalúrgica</h1>
+                <p>Observe como as atividades são documentadas com seus respectivos direcionadores:</p>
+                <table class="dict-table">
+                    <tr>
+                        <th>Código</th>
+                        <th>Atividade</th>
+                        <th>Macroprocesso</th>
+                        <th>Direcionador Causal</th>
+                    </tr>
+                    <tr>
+                        <td style="font-weight:700;">ATV-01</td>
+                        <td>Ajustar ferramentas nas prensas (Setup)</td>
+                        <td>Operações Fabris</td>
+                        <td>Número de preparações (Setups)</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight:700;">ATV-02</td>
+                        <td>Emitir pedidos aos fornecedores</td>
+                        <td>Suprimentos / Compras</td>
+                        <td>Número de ordens de compra</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight:700;">ATV-03</td>
+                        <td>Inspecionar peças acabadas</td>
+                        <td>Controle de Qualidade</td>
+                        <td>Horas de inspeção técnica</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight:700;">ATV-04</td>
+                        <td>Emitir notas fiscais e despachar carga</td>
+                        <td>Expedição e Logística</td>
+                        <td>Número de lotes expedidos</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="controls"></div>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="slide-card" data-slide="3">
+            <div>
+                <div class="slide-header">
+                    <span class="tag">Regra de Ouro</span>
+                    <span style="font-weight:700; color:var(--text-secondary);">Slide 03 / 04</span>
+                </div>
+                <h1 class="title">O Princípio da Relevância Econômica</h1>
+                <p>Um dos maiores motivos de fracasso em projetos de ABC é a criação de 500 atividades minúsculas que inviabilizam o sistema.</p>
+                <div class="highlight-box">
+                    <strong>Regra 80/20 (Pareto em Custos):</strong> Normalmente, entre <strong>15 e 25 atividades-chave</strong> respondem por mais de 80% de todo o custo indireto da organização. Concentre o esforço de medição onde o dinheiro realmente é gasto!
+                </div>
+            </div>
+            <div class="controls"></div>
+        </div>
+
+        <!-- Slide 4 -->
+        <div class="slide-card" data-slide="4">
+            <div>
+                <div class="slide-header">
+                    <span class="tag">Conexão Causal</span>
+                    <span style="font-weight:700; color:var(--text-secondary);">Slide 04 / 04</span>
+                </div>
+                <h1 class="title">Próximo Passo: Como Atribuir Valores?</h1>
+                <p>Uma vez identificadas as atividades, o gestor precisa saber:</p>
+                <div class="highlight-box">
+                    1. Como pegar os R$ 100.000 de salários e aluguel e alocar para cada atividade? &rarr; <em>Direcionadores de Recursos</em>.<br><br>
+                    2. Como pegar o custo acumulado em cada atividade e cobrar dos produtos? &rarr; <em>Direcionadores de Atividades</em>.
+                </div>
+                <p style="text-align:center; margin-top:1.5rem;">
+                    Avançar para o <strong>Tópico 4</strong>: A mecânica dos <strong>Cost Drivers</strong>!
+                </p>
+            </div>
+            <div class="controls"></div>
+        </div>
+    </div>
+
+    <script>
+        let cur = 1;
+        const total = 4;
+
+        function render() {
+            document.querySelectorAll('.controls').forEach(bar => {
+                bar.innerHTML = `
+                    <button class="btn btn-out" onclick="go(-1)" ${cur === 1 ? 'disabled style="opacity:0.4; cursor:not-allowed;"' : ''}>&larr; Anterior</button>
+                    <div class="progress-dots">
+                        ${Array.from({length: total}, (_, i) => `<span class="dot ${i+1 === cur ? 'active' : ''}" onclick="toSlide(${i+1})"></span>`).join('')}
+                    </div>
+                    ${cur < total 
+                        ? `<button class="btn btn-nav" onclick="go(1)">Próximo &rarr;</button>`
+                        : `<a href="4.html" class="btn btn-nav" style="background:#10B981;">Ir para Tópico 4 &rarr;</a>`
+                    }
+                `;
+            });
+        }
+
+        function show(n) {
+            document.querySelectorAll('.slide-card').forEach(c => c.classList.remove('active'));
+            document.querySelector(`.slide-card[data-slide="${n}"]`).classList.add('active');
+            cur = n;
+            render();
+        }
+
+        function go(s) { if(cur + s >= 1 && cur + s <= total) show(cur + s); }
+        function toSlide(n) { show(n); }
+
+        document.addEventListener('keydown', e => {
+            if (e.key === 'ArrowRight' && cur < total) go(1);
+            if (e.key === 'ArrowLeft' && cur > 1) go(-1);
+        });
+
+        document.addEventListener('DOMContentLoaded', () => { render(); });
+    </script>
+</body>
+</html>

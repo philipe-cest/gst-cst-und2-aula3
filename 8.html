@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tópico 8: Gestão Baseada em Atividades (ABM) | CEST</title>
+    <style>
+        :root {
+            --primary: #002060; --primary-dark: #001138; --secondary: #0080FF;
+            --secondary-light: #E6F2FF; --danger: #EF4444; --success: #10B981;
+            --background: #F4F7FA; --surface: #FFFFFF; --text-primary: #0F172A;
+            --text-secondary: #475569; --border: #E2E8F0; --radius-md: 12px;
+            --shadow-md: 0 4px 20px -2px rgba(0,32,96,0.08);
+            --font-mono: 'SFMono-Regular', Consolas, Menlo, monospace;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: system-ui, -apple-system, sans-serif; background: var(--background); color: var(--text-primary); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: #FFF; border-bottom: 1px solid var(--border); padding: 0.85rem 1.5rem; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+        .brand { text-decoration: none; color: var(--primary); font-weight: 700; font-size: 0.95rem; }
+        .container { max-width: 980px; width: 100%; margin: 2rem auto; padding: 0 1rem; flex-grow: 1; display: flex; flex-direction: column; }
+        .slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 2.5rem; box-shadow: var(--shadow-md); min-height: 520px; display: none; flex-direction: column; justify-content: space-between; }
+        .slide-card.active { display: flex; }
+        .slide-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 1rem; margin-bottom: 1.5rem; }
+        .tag { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--secondary); background: var(--secondary-light); padding: 4px 10px; border-radius: 6px; }
+        .title { font-size: 1.65rem; color: var(--primary); font-weight: 800; margin-bottom: 1rem; }
+        .highlight-box { background: var(--secondary-light); border-left: 4px solid var(--secondary); padding: 1.2rem; border-radius: 6px; margin: 1.25rem 0; color: var(--primary); font-weight: 500; }
+
+        .abm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 1.5rem 0; }
+        .abm-card { padding: 1.25rem; border-radius: 8px; border: 1px solid var(--border); }
+        .abm-card.va { background: #F0FDF4; border-color: #86EFAC; }
+        .abm-card.nva { background: #FEF2F2; border-color: #FCA5A5; }
+
+        .controls { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 1.25rem; margin-top: 2rem; }
+        .btn { padding: 0.75rem 1.5rem; font-size: 0.9rem; font-weight: 700; border-radius: 6px; text-decoration: none; cursor: pointer; border: none; }
+        .btn-nav { background: var(--primary); color: #FFF; }
+        .btn-out { background: transparent; color: var(--primary); border: 1.5px solid var(--border); }
+        .progress-dots { display: flex; gap: 8px; }
+        .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--border); cursor: pointer; }
+        .dot.active { background: var(--secondary); width: 22px; border-radius: 10px; }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="brand">&larr; Portal da Aula 03</a>
+        <span style="font-size:0.85rem; font-weight:700; color:var(--text-secondary);">Tópico 8 de 10: Gestão Baseada em Atividades</span>
+    </header>
+
+    <div class="container">
+        <!-- Slide 1 -->
+        <div class="slide-card active" data-slide="1">
+            <div>
+                <div class="slide-header">
+                    <span class="tag">Do Custeio à Gestão</span>
+                    <span style="font-weight:700; color:var(--text-secondary);">Slide 01 / 04</span>
+                </div>
+                <h1 class="title">O que é ABM (Activity-Based Management)?</h1>
+                <p>Enquanto o <strong>ABC</strong> é o método quantitativo de apuração contábil dos custos, o <strong>ABM</strong> é a filosofia de gestão que usa esses dados para eliminar desperdícios e redesenhar processos de negócio.</p>
+                <div class="highlight-box">
+                    <strong>Foco do ABM:</strong> "Em vez de tentar cortar custos demitindo funcionários às cegas, elimine as <em>atividades inúteis</em> que consomem o tempo e o dinheiro da sua equipe!"
+                </div>
+            </div>
+            <div class="controls"></div>
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="slide-card" data-slide="2">
+            <div>
+                <div class="slide-header">
+                    <span class="tag">Análise de Valor</span>
+                    <span style="font-weight:700; color:var(--text-secondary);">Slide 02 / 04</span>
+                </div>
+                <h1 class="title">Atividades com Valor Agregado vs Sem Valor Agregado</h1>
+                <p>O Administrador deve auditar cada atividade do dicionário sob a ótica do cliente final:</p>
+
+                <div class="abm-grid">
+                    <div class="abm-card va">
+                        <strong style="color:#166534; font-size:1rem; text-transform:uppercase;">Agregam Valor (VA)</strong>
+                        <p style="font-size:0.85rem; color:#14532D; margin-top:0.4rem;">O cliente reconhece, valoriza e está disposto a pagar por ela.</p>
+                        <div style="font-size:0.85rem; margin-top:0.5rem; color:#166534;">
+                            • Usinagem e acabamento da peça<br>
+                            • Design ergonômico<br>
+                            • Entrega rápida no prazo prometido
+                        </div>
+                    </div>
+
+                    <div class="abm-card nva">
+                        <strong style="color:#991B1B; font-size:1rem; text-transform:uppercase;">Não Agregam Valor (NVA)</strong>
+                        <p style="font-size:0.85rem; color:#7F1D1D; margin-top:0.4rem;">Consomem tempo e recursos, mas não acrescentam nada ao produto.</p>
+                        <div style="font-size:0.85rem; margin-top:0.5rem; color:#991B1B;">
+                            • Retrabalho de peças defeituosas<br>
+                            • Deslocamento de materiais no estoque<br>
+                            • Tempo de espera em filas de máquinas
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="controls"></div>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="slide-card" data-slide="3">
+            <div>
+                <div class="slide-header">
+                    <span class="tag">Cadeia de Valor</span>
+                    <span style="font-weight:700; color:var(--text-secondary);">Slide 03 / 04</span>
+                </div>
+                <h1 class="title">As 4 Estratégias do ABM para Atividades</h1>
+                <p>O gestor analisa cada atividade do processo e toma uma de quatro decisões:</p>
+                <div class="highlight-box">
+                    1. <strong>Eliminar:</strong> Extinguir atividades que não agregam valor (ex: assinaturas manuais redundantes de autorização).<br><br>
+                    2. <strong>Reduzir:</strong> Otimizar o tempo e custo das tarefas essenciais (ex: implementar troca rápida de ferramentas - SMED para derrubar tempo de setup).<br><br>
+                    3. <strong>Compartilhar:</strong> Aproveitar atividades comuns entre várias linhas para atingir economia de escala.<br><br>
+                    4. <strong>Selecionar:</strong> Escolher o conjunto de atividades que produz o maior valor pelo menor custo de direcionador.
+                </div>
+            </div>
+            <div class="controls"></div>
+        </div>
+
+        <!-- Slide 4 -->
+        <div class="slide-card" data-slide="4">
+            <div>
+                <div class="slide-header">
+                    <span class="tag">Evolução Metodológica</span>
+                    <span style="font-weight:700; color:var(--text-secondary);">Slide 04 / 04</span>
+                </div>
+                <h1 class="title">A Limitação do ABC Tradicional e o Surgimento do TDABC</h1>
+                <p>Apesar do poder do ABC e ABM, muitas empresas abandonaram o sistema porque manter centenas de entrevistas mensais para saber quanto tempo os operários gastavam tornava-se caro demais.</p>
+                <div class="highlight-box">
+                    Para resolver isso, Kaplan criou o <strong>TDABC (Time-Driven ABC)</strong>, que automatiza o cálculo por meio de taxas horárias e equações de tempo!
+                </div>
+                <p style="text-align:center; margin-top:1.5rem;">
+                    Conheça a abordagem moderna no <strong>Tópico 9</strong>!
+                </p>
+            </div>
+            <div class="controls"></div>
+        </div>
+    </div>
+
+    <script>
+        let cur = 1;
+        const total = 4;
+
+        function render() {
+            document.querySelectorAll('.controls').forEach(bar => {
+                bar.innerHTML = `
+                    <button class="btn btn-out" onclick="go(-1)" ${cur === 1 ? 'disabled style="opacity:0.4; cursor:not-allowed;"' : ''}>&larr; Anterior</button>
+                    <div class="progress-dots">
+                        ${Array.from({length: total}, (_, i) => `<span class="dot ${i+1 === cur ? 'active' : ''}" onclick="toSlide(${i+1})"></span>`).join('')}
+                    </div>
+                    ${cur < total 
+                        ? `<button class="btn btn-nav" onclick="go(1)">Próximo &rarr;</button>`
+                        : `<a href="9.html" class="btn btn-nav" style="background:#10B981;">Ir para Tópico 9 &rarr;</a>`
+                    }
+                `;
+            });
+        }
+
+        function show(n) {
+            document.querySelectorAll('.slide-card').forEach(c => c.classList.remove('active'));
+            document.querySelector(`.slide-card[data-slide="${n}"]`).classList.add('active');
+            cur = n;
+            render();
+        }
+
+        function go(s) { if(cur + s >= 1 && cur + s <= total) show(cur + s); }
+        function toSlide(n) { show(n); }
+
+        document.addEventListener('keydown', e => {
+            if (e.key === 'ArrowRight' && cur < total) go(1);
+            if (e.key === 'ArrowLeft' && cur > 1) go(-1);
+        });
+
+        document.addEventListener('DOMContentLoaded', () => { render(); });
+    </script>
+</body>
+</html>

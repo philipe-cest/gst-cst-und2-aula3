@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tópico 7: Custos da Capacidade Ociosa | Gestão de Custos CEST</title>
+    <style>
+        :root {
+            --primary: #002060; --primary-dark: #001138; --secondary: #0080FF;
+            --secondary-light: #E6F2FF; --danger: #EF4444; --danger-light: #FEE2E2;
+            --success: #10B981; --background: #F4F7FA; --surface: #FFFFFF;
+            --text-primary: #0F172A; --text-secondary: #475569; --border: #E2E8F0;
+            --radius-md: 12px; --shadow-md: 0 4px 20px -2px rgba(0,32,96,0.08);
+            --font-mono: 'SFMono-Regular', Consolas, Menlo, monospace;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: system-ui, -apple-system, sans-serif; background: var(--background); color: var(--text-primary); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: #FFF; border-bottom: 1px solid var(--border); padding: 0.85rem 1.5rem; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+        .brand { text-decoration: none; color: var(--primary); font-weight: 700; font-size: 0.95rem; }
+        .container { max-width: 980px; width: 100%; margin: 2rem auto; padding: 0 1rem; flex-grow: 1; display: flex; flex-direction: column; }
+        .slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 2.5rem; box-shadow: var(--shadow-md); min-height: 520px; display: none; flex-direction: column; justify-content: space-between; }
+        .slide-card.active { display: flex; }
+        .slide-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 1rem; margin-bottom: 1.5rem; }
+        .tag { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--secondary); background: var(--secondary-light); padding: 4px 10px; border-radius: 6px; }
+        .title { font-size: 1.65rem; color: var(--primary); font-weight: 800; margin-bottom: 1rem; }
+        .highlight-box { background: var(--secondary-light); border-left: 4px solid var(--secondary); padding: 1.2rem; border-radius: 6px; margin: 1.25rem 0; color: var(--primary); font-weight: 500; }
+
+        .calc-box { background: #F8FAFC; border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; margin: 1.25rem 0; }
+        .calc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1rem; }
+        .form-group { display: flex; flex-direction: column; gap: 0.35rem; }
+        .form-label { font-size: 0.8rem; font-weight: 700; color: var(--primary); text-transform: uppercase; }
+        .form-control { padding: 0.65rem 0.85rem; border: 1.5px solid var(--border); border-radius: 6px; font-family: var(--font-mono); font-weight: 700; font-size: 0.95rem; }
+
+        .res-box { background: var(--primary); color: #FFF; padding: 1.2rem; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; }
+
+        .controls { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 1.25rem; margin-top: 2rem; }
+        .btn { padding: 0.75rem 1.5rem; font-size: 0.9rem; font-weight: 700; border-radius: 6px; text-decoration: none; cursor: pointer; border: none; }
+        .btn-nav { background: var(--primary); color: #FFF; }
+        .btn-out { background: transparent; color: var(--primary); border: 1.5px solid var(--border); }
+        .progress-dots { display: flex; gap: 8px; }
+        .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--border); cursor: pointer; }
+        .dot.active { background: var(--secondary); width: 22px; border-radius: 10px; }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="brand">&larr; Portal da Aula 03</a>
+        <span style="font-size:0.85rem; font-weight:700; color:var(--text-secondary);">Tópico 7 de 10: Capacidade Ociosa</span>
+    </header>
+
+    <div class="container">
+        <!-- Slide 1 -->
+        <div class="slide-card active" data-slide="1">
+            <div>
+                <div class="slide-header">
+                    <span class="tag">Conceito de Capacidade</span>
+                    <span style="font-weight:700; color:var(--text-secondary);">Slide 01 / 04</span>
+                </div>
+                <h1 class="title">Teórica vs Prática vs Real</h1>
+                <p>O que a empresa faz com o custo de máquinas e equipes que ficam paradas por falta de demanda?</p>
+                <div class="highlight-box">
+                    • <strong>Capacidade Teórica (100%):</strong> Produção ininterrupta 24h por dia, 365 dias por ano, sem pausas ou quebras (utópica).<br><br>
+                    • <strong>Capacidade Prática (~80% a 85%):</strong> Desconta paradas inevitáveis para manutenção preventiva, trocas de turno e feriados. É a base correta para calcular a taxa de atividade do ABC!<br><br>
+                    • <strong>Capacidade Real Efetiva:</strong> O volume que a fábrica realmente operou no mês com base nos pedidos dos clientes.
+                </div>
+            </div>
+            <div class="controls"></div>
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="slide-card" data-slide="2">
+            <div>
+                <div class="slide-header">
+                    <span class="tag">O Erro do Custeio Tradicional</span>
+                    <span style="font-weight:700; color:var(--text-secondary);">Slide 02 / 04</span>
+                </div>
+                <h1 class="title">Não puna o cliente pela sua ineficiência!</h1>
+                <p>No custeio tradicional, se a fábrica tem custo de R$ 100.000 e a demanda cai de 10.000 para 2.000 unidades, o custo indireto unitário salta de <strong>R$ 10 para R$ 50</strong>!</p>
+                <div style="background:#FEF2F2; border-left:4px solid var(--danger); padding:1.2rem; border-radius:6px; margin:1.25rem 0; color:#991B1B;">
+                    <strong>O Absurdo:</strong> Em época de crise e queda de vendas, o custeio tradicional manda a empresa <em>aumentar</em> o preço de venda para cobrir o custo da fábrica vazia!<br>
+                    Isso afasta ainda mais os clientes e acelera a falência da empresa.
+                </div>
+            </div>
+            <div class="controls"></div>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="slide-card" data-slide="3">
+            <div>
+                <div class="slide-header">
+                    <span class="tag">Simulador em Sala</span>
+                    <span style="font-weight:700; color:var(--text-secondary);">Slide 03 / 04</span>
+                </div>
+                <h1 class="title">Calculadora de Segregação da Ociosidade no ABC</h1>
+                <p>Veja como o ABC mantém o custo do produto estável e expõe o custo da ociosidade como perda na DRE:</p>
+
+                <div class="calc-box">
+                    <div class="calc-grid">
+                        <div class="form-group">
+                            <label class="form-label">Custo Total dos Recursos (R$)</label>
+                            <input type="text" id="capRecurso" class="form-control" value="80.000,00" oninput="calcOciosidade()">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Capacidade Prática Normal (h)</label>
+                            <input type="text" id="capPratica" class="form-control" value="1.000" oninput="calcOciosidade()">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Horas Efetivamente Usadas (h)</label>
+                            <input type="text" id="capReal" class="form-control" value="650" oninput="calcOciosidade()">
+                        </div>
+                    </div>
+                    <div class="res-box">
+                        <div>
+                            <span style="font-size:0.75rem; text-transform:uppercase; color:var(--secondary-light);">Custo Absorvido pelos Produtos</span>
+                            <div id="lblCustoProd" style="font-size:1.25rem; font-weight:800; color:#A7F3D0;">R$ 52.000,00</div>
+                        </div>
+                        <div style="text-align:right;">
+                            <span style="font-size:0.75rem; text-transform:uppercase; color:var(--secondary-light);">Custo da Ociosidade (Perda na DRE)</span>
+                            <div id="lblCustoOcioso" style="font-size:1.25rem; font-weight:800; color:#FCA5A5;">R$ 28.000,00 (35%)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="controls"></div>
+        </div>
+
+        <!-- Slide 4 -->
+        <div class="slide-card" data-slide="4">
+            <div>
+                <div class="slide-header">
+                    <span class="tag">Conclusão do Módulo</span>
+                    <span style="font-weight:700; color:var(--text-secondary);">Slide 04 / 04</span>
+                </div>
+                <h1 class="title">Transparência para a Diretoria</h1>
+                <p>Ao isolar os R$ 28.000 como <strong>Custo de Capacidade Ociosa</strong>, a gerência de produção e o comercial têm metas claras:</p>
+                <div class="highlight-box">
+                    O gerente de fábrica não é penalizado por custos de máquinas paradas por falta de pedidos, e o setor comercial é cobrado para vender promoções e ocupar a capacidade livre.
+                </div>
+                <p style="text-align:center; margin-top:1.5rem;">
+                    No <strong>Tópico 8</strong>, veremos como transformar essa informação em melhoria contínua através do <strong>ABM (Gestão Baseada em Atividades)</strong>!
+                </p>
+            </div>
+            <div class="controls"></div>
+        </div>
+    </div>
+
+    <script>
+        let cur = 1;
+        const total = 4;
+
+        function parseBR(v) { return parseFloat((v || '0').replace(/\./g, '').replace(',', '.')) || 0; }
+        function fmtMoeda(n) { return "R$ " + n.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+
+        function calcOciosidade() {
+            const recursos = parseBR(document.getElementById('capRecurso').value);
+            const pratica = parseBR(document.getElementById('capPratica').value) || 1;
+            const real = parseBR(document.getElementById('capReal').value);
+
+            const taxaPratica = recursos / pratica;
+            const custoAbsorvido = real * taxaPratica;
+            const custoOcioso = recursos - custoAbsorvido;
+            const percOcioso = ((pratica - real) / pratica) * 100;
+
+            document.getElementById('lblCustoProd').innerText = fmtMoeda(custoAbsorvido);
+            document.getElementById('lblCustoOcioso').innerText = fmtMoeda(custoOcioso) + " (" + percOcioso.toFixed(1) + "%)";
+        }
+
+        function render() {
+            document.querySelectorAll('.controls').forEach(bar => {
+                bar.innerHTML = `
+                    <button class="btn btn-out" onclick="go(-1)" ${cur === 1 ? 'disabled style="opacity:0.4; cursor:not-allowed;"' : ''}>&larr; Anterior</button>
+                    <div class="progress-dots">
+                        ${Array.from({length: total}, (_, i) => `<span class="dot ${i+1 === cur ? 'active' : ''}" onclick="toSlide(${i+1})"></span>`).join('')}
+                    </div>
+                    ${cur < total 
+                        ? `<button class="btn btn-nav" onclick="go(1)">Próximo &rarr;</button>`
+                        : `<a href="8.html" class="btn btn-nav" style="background:#10B981;">Ir para Tópico 8 &rarr;</a>`
+                    }
+                `;
+            });
+        }
+
+        function show(n) {
+            document.querySelectorAll('.slide-card').forEach(c => c.classList.remove('active'));
+            document.querySelector(`.slide-card[data-slide="${n}"]`).classList.add('active');
+            cur = n;
+            render();
+        }
+
+        function go(s) { if(cur + s >= 1 && cur + s <= total) show(cur + s); }
+        function toSlide(n) { show(n); }
+
+        document.addEventListener('keydown', e => {
+            if (e.key === 'ArrowRight' && cur < total) go(1);
+            if (e.key === 'ArrowLeft' && cur > 1) go(-1);
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            render();
+            calcOciosidade();
+        });
+    </script>
+</body>
+</html>

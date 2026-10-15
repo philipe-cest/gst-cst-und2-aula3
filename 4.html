@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tópico 4: Direcionadores de Custos (Cost Drivers) | Gestão de Custos CEST</title>
+    <style>
+        :root {
+            --primary: #002060; --primary-dark: #001138; --secondary: #0080FF;
+            --secondary-light: #E6F2FF; --success: #10B981; --background: #F4F7FA;
+            --surface: #FFFFFF; --text-primary: #0F172A; --text-secondary: #475569;
+            --border: #E2E8F0; --radius-md: 12px; --shadow-md: 0 4px 20px -2px rgba(0,32,96,0.08);
+            --font-mono: 'SFMono-Regular', Consolas, Menlo, monospace;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: system-ui, -apple-system, sans-serif; background: var(--background); color: var(--text-primary); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: #FFF; border-bottom: 1px solid var(--border); padding: 0.85rem 1.5rem; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+        .brand { text-decoration: none; color: var(--primary); font-weight: 700; font-size: 0.95rem; }
+        .container { max-width: 980px; width: 100%; margin: 2rem auto; padding: 0 1rem; flex-grow: 1; display: flex; flex-direction: column; }
+        .slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 2.5rem; box-shadow: var(--shadow-md); min-height: 520px; display: none; flex-direction: column; justify-content: space-between; }
+        .slide-card.active { display: flex; }
+        .slide-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 1rem; margin-bottom: 1.5rem; }
+        .tag { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--secondary); background: var(--secondary-light); padding: 4px 10px; border-radius: 6px; }
+        .title { font-size: 1.65rem; color: var(--primary); font-weight: 800; margin-bottom: 1rem; }
+        .highlight-box { background: var(--secondary-light); border-left: 4px solid var(--secondary); padding: 1.2rem; border-radius: 6px; margin: 1.25rem 0; color: var(--primary); font-weight: 500; }
+
+        .calc-panel { background: #F8FAFC; border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; margin: 1.25rem 0; }
+        .grid-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+        .form-group { display: flex; flex-direction: column; gap: 0.35rem; }
+        .form-label { font-size: 0.8rem; font-weight: 700; color: var(--primary); text-transform: uppercase; }
+        .form-control { padding: 0.65rem 0.85rem; border: 1.5px solid var(--border); border-radius: 6px; font-family: var(--font-mono); font-weight: 700; font-size: 0.95rem; }
+        
+        .res-display { background: var(--primary); color: #FFF; padding: 1.2rem; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; }
+
+        .controls { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 1.25rem; margin-top: 2rem; }
+        .btn { padding: 0.75rem 1.5rem; font-size: 0.9rem; font-weight: 700; border-radius: 6px; text-decoration: none; cursor: pointer; border: none; }
+        .btn-nav { background: var(--primary); color: #FFF; }
+        .btn-out { background: transparent; color: var(--primary); border: 1.5px solid var(--border); }
+        .progress-dots { display: flex; gap: 8px; }
+        .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--border); cursor: pointer; }
+        .dot.active { background: var(--secondary); width: 22px; border-radius: 10px; }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="brand">&larr; Portal da Aula 03</a>
+        <span style="font-size:0.85rem; font-weight:700; color:var(--text-secondary);">Tópico 4 de 10: Cost Drivers</span>
+    </header>
+
+    <div class="container">
+        <!-- Slide 1 -->
+        <div class="slide-card active" data-slide="1">
+            <div>
+                <div class="slide-header">
+                    <span class="tag">Mecânica dos Drivers</span>
+                    <span style="font-weight:700; color:var(--text-secondary);">Slide 01 / 04</span>
+                </div>
+                <h1 class="title">Os Dois Estágios de Direcionamento</h1>
+                <p>O ABC opera em dois momentos perfeitamente coordenados para garantir precisão:</p>
+                <div class="highlight-box">
+                    <strong>1º Estágio • Direcionador de Recursos:</strong> Distribui os gastos globais (aluguel, salários, energia) para as <em>atividades</em>.<br>
+                    <em>Exemplo:</em> Horas trabalhadas pela equipe de suporte para cada atividade.<br><br>
+                    <strong>2º Estágio • Direcionador de Atividades:</strong> Distribui o custo acumulado nas atividades para os <em>produtos</em>.<br>
+                    <em>Exemplo:</em> Quantidade de setups realizados para fabricar o Produto A.
+                </div>
+            </div>
+            <div class="controls"></div>
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="slide-card" data-slide="2">
+            <div>
+                <div class="slide-header">
+                    <span class="tag">Tipologia dos Drivers</span>
+                    <span style="font-weight:700; color:var(--text-secondary);">Slide 02 / 04</span>
+                </div>
+                <h1 class="title">Três Tipos de Direcionadores de Atividades</h1>
+                <p>A precisão e o custo de controle variam conforme o tipo de direcionador escolhido:</p>
+                <div class="highlight-box">
+                    • <strong>1. Direcionador de Transação:</strong> Conta quantas vezes a atividade aconteceu (ex: número de setups, número de compras). É o mais simples e barato de medir.<br><br>
+                    • <strong>2. Direcionador de Duração:</strong> Mede o tempo gasto na atividade (ex: horas de setup, horas de inspeção). Usado quando um lote demora muito mais tempo que outro.<br><br>
+                    • <strong>3. Direcionador de Intensidade:</strong> Apropria os recursos diretamente pelo esforço e expertise específicos requeridos em cada atendimento complexo.
+                </div>
+            </div>
+            <div class="controls"></div>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="slide-card" data-slide="3">
+            <div>
+                <div class="slide-header">
+                    <span class="tag">Simulador em Sala</span>
+                    <span style="font-weight:700; color:var(--text-secondary);">Slide 03 / 04</span>
+                </div>
+                <h1 class="title">Calculadora da Taxa de Atividade</h1>
+                <p>Demonstre aos alunos como apurar o custo unitário por evento do direcionador:</p>
+                
+                <div class="calc-panel">
+                    <div class="grid-inputs">
+                        <div class="form-group">
+                            <label class="form-label">Custo Total da Atividade "Setup" (R$)</label>
+                            <input type="text" id="inCustoAtv" class="form-control" value="48.000,00" oninput="calcTaxaAtv()">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Total de Setups Realizados no Mês</label>
+                            <input type="text" id="inQtdDrivers" class="form-control" value="120" oninput="calcTaxaAtv()">
+                        </div>
+                    </div>
+                    <div class="res-display">
+                        <div>
+                            <span style="font-size:0.8rem; text-transform:uppercase; color:var(--secondary-light);">Taxa do Direcionador</span>
+                            <div id="lblTaxaDriver" style="font-size:1.4rem; font-weight:800; color:#A7F3D0;">R$ 400,00 / setup</div>
+                        </div>
+                        <div style="font-size:0.85rem; color:rgba(255,255,255,0.85); text-align:right;">
+                            Cada lote produzido absorverá R$ 400 por setup que exigir!
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="controls"></div>
+        </div>
+
+        <!-- Slide 4 -->
+        <div class="slide-card" data-slide="4">
+            <div>
+                <div class="slide-header">
+                    <span class="tag">Conclusão do Módulo</span>
+                    <span style="font-weight:700; color:var(--text-secondary);">Slide 04 / 04</span>
+                </div>
+                <h1 class="title">Resumo do Tópico & Próximo Módulo</h1>
+                <p>Com os direcionadores calibrados, as atividades passam a cobrar dos produtos exatamente a quantidade de esforço consumida.</p>
+                <div class="highlight-box">
+                    No próximo tópico (Tópico 5), categorizaremos as atividades na famosa <strong>Hierarquia de Cooper & Kaplan</strong>: Unidade, Lote, Produto e Instalações fabris.
+                </div>
+            </div>
+            <div class="controls"></div>
+        </div>
+    </div>
+
+    <script>
+        let cur = 1;
+        const total = 4;
+
+        function parseBR(v) { return parseFloat((v || '0').replace(/\./g, '').replace(',', '.')) || 0; }
+        function fmtMoeda(n) { return "R$ " + n.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+
+        function calcTaxaAtv() {
+            const custo = parseBR(document.getElementById('inCustoAtv').value);
+            const qtd = parseBR(document.getElementById('inQtdDrivers').value) || 1;
+            const taxa = custo / qtd;
+            document.getElementById('lblTaxaDriver').innerText = fmtMoeda(taxa) + " / setup";
+        }
+
+        function render() {
+            document.querySelectorAll('.controls').forEach(bar => {
+                bar.innerHTML = `
+                    <button class="btn btn-out" onclick="go(-1)" ${cur === 1 ? 'disabled style="opacity:0.4; cursor:not-allowed;"' : ''}>&larr; Anterior</button>
+                    <div class="progress-dots">
+                        ${Array.from({length: total}, (_, i) => `<span class="dot ${i+1 === cur ? 'active' : ''}" onclick="toSlide(${i+1})"></span>`).join('')}
+                    </div>
+                    ${cur < total 
+                        ? `<button class="btn btn-nav" onclick="go(1)">Próximo &rarr;</button>`
+                        : `<a href="5.html" class="btn btn-nav" style="background:#10B981;">Ir para Tópico 5 &rarr;</a>`
+                    }
+                `;
+            });
+        }
+
+        function show(n) {
+            document.querySelectorAll('.slide-card').forEach(c => c.classList.remove('active'));
+            document.querySelector(`.slide-card[data-slide="${n}"]`).classList.add('active');
+            cur = n;
+            render();
+        }
+
+        function go(s) { if(cur + s >= 1 && cur + s <= total) show(cur + s); }
+        function toSlide(n) { show(n); }
+
+        document.addEventListener('keydown', e => {
+            if (e.key === 'ArrowRight' && cur < total) go(1);
+            if (e.key === 'ArrowLeft' && cur > 1) go(-1);
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            render();
+            calcTaxaAtv();
+        });
+    </script>
+</body>
+</html>

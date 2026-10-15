@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atividade Prática: Custeio ABC & ABM | CEST Anil</title>
+    <style>
+        :root {
+            --primary: #002060; --primary-dark: #001138; --secondary: #0080FF;
+            --secondary-light: #E6F2FF; --success: #10B981; --success-light: #D1FAE5;
+            --danger: #EF4444; --danger-light: #FEE2E2; --background: #F4F7FA;
+            --surface: #FFFFFF; --text-primary: #0F172A; --text-secondary: #475569;
+            --border: #CBD5E1; --radius-md: 12px; --shadow-sm: 0 1px 3px rgba(0, 32, 96, 0.05);
+            --shadow-md: 0 4px 20px -2px rgba(0, 32, 96, 0.08);
+            --font-mono: "SFMono-Regular", Consolas, Menlo, monospace;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: system-ui, -apple-system, sans-serif; background: var(--background); color: var(--text-primary); line-height: 1.6; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: #FFFFFF; padding: 2.5rem 2rem; border-radius: var(--radius-md);
+            margin-bottom: 2rem; box-shadow: var(--shadow-md);
+        }
+        .header-title { font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem; }
+        .header-sub { font-size: 1.05rem; opacity: 0.88; }
+
+        .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 2rem; margin-bottom: 1.5rem; box-shadow: var(--shadow-sm); }
+        .card-title { font-size: 1.25rem; font-weight: 800; color: var(--primary); margin-bottom: 1rem; border-bottom: 2px solid var(--secondary-light); padding-bottom: 0.5rem; }
+
+        .ident-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem; }
+        .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+        .form-label { font-size: 0.85rem; font-weight: 700; color: var(--primary); text-transform: uppercase; }
+        .form-control { padding: 0.8rem 1rem; border: 1.5px solid var(--border); border-radius: 6px; font-size: 1rem; }
+
+        .glossary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+        .formula-box { background: var(--background); padding: 0.85rem 1rem; border-left: 4px solid var(--primary); border-radius: 4px; font-family: var(--font-mono); font-size: 0.9rem; font-weight: 600; color: var(--primary-dark); margin-bottom: 0.5rem; }
+
+        .question-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 2rem; margin-bottom: 1.5rem; border-top: 4px solid var(--secondary); transition: 0.3s; }
+        .question-card:hover { box-shadow: var(--shadow-md); }
+        .q-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+        .q-number { font-size: 1.1rem; font-weight: 800; color: var(--primary); }
+        .q-target { font-size: 0.75rem; background: var(--secondary-light); color: var(--primary); padding: 4px 10px; border-radius: 12px; font-weight: 700; }
+        .q-text { font-size: 1.05rem; color: var(--text-primary); margin-bottom: 1.25rem; }
+        
+        .q-data { background: #F8FAFC; padding: 1rem 1.25rem; border-radius: 8px; border: 1px dashed var(--border); margin-bottom: 1.25rem; display: flex; flex-wrap: wrap; gap: 1.5rem; }
+        .q-data-item { font-size: 0.95rem; color: var(--text-secondary); }
+        .q-data-item strong { color: var(--primary); }
+
+        .answer-container { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+        .input-wrapper { position: relative; display: inline-flex; align-items: center; }
+        .currency-prefix { position: absolute; left: 12px; color: #64748B; font-weight: 700; font-size: 0.9rem; }
+        .answer-input { width: 220px; padding: 0.75rem 1rem 0.75rem 2.5rem; font-size: 1rem; font-weight: 700; border: 1.5px solid var(--border); border-radius: 6px; font-family: var(--font-mono); }
+        .answer-input.no-prefix { padding-left: 1rem; }
+
+        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 0.75rem 1.5rem; font-size: 0.95rem; font-weight: 700; border-radius: 6px; cursor: pointer; border: none; transition: 0.2s; }
+        .btn-check { background: var(--surface); color: var(--primary); border: 1.5px solid var(--border); }
+        .btn-check:hover { border-color: var(--secondary); background: var(--secondary-light); }
+        .btn-primary { background: var(--primary); color: #FFFFFF; }
+        .btn-primary:hover { background: var(--secondary); }
+
+        .feedback { margin-top: 1rem; padding: 1rem; border-radius: 6px; font-weight: 700; display: none; }
+        .feedback.correct { display: block; background: var(--success-light); color: #064E3B; border: 1px solid #6EE7B7; }
+        .feedback.incorrect { display: block; background: var(--danger-light); color: #7F1D1D; border: 1px solid #FCA5A5; }
+
+        .final-controls { display: flex; justify-content: space-between; align-items: center; background: var(--surface); padding: 1.5rem 2rem; border-radius: var(--radius-md); border: 1px solid var(--border); margin-bottom: 3rem; }
+        .score-value { font-size: 1.8rem; font-weight: 800; color: var(--primary); }
+
+        @media print {
+            body { background: #FFF; }
+            header, .btn, .final-controls { display: none !important; }
+            .question-card { break-inside: avoid; border: 1px solid #000; box-shadow: none; margin-bottom: 12px; }
+            .print-header { display: block !important; margin-bottom: 20px; border-bottom: 2px solid #000; padding-bottom: 10px; }
+        }
+        .print-header { display: none; }
+    </style>
+</head>
+<body>
+
+    <div class="print-header">
+        <h2>CEST - Centro Universitário Santa Terezinha</h2>
+        <h3>Disciplina: Gestão de Custos - Prof. Msc. Philipe Sampaio Lima</h3>
+        <p><strong>Relatório Oficial de Exercícios: Custeio Baseado em Atividades (ABC) & ABM</strong></p>
+    </div>
+
+    <div class="container">
+        <header>
+            <div class="header-title">Laboratório de Gestão de Custos: ABC & ABM</div>
+            <div class="header-sub">Lista Dinâmica Parametrizada • 4º Período de Administração • CEST Anil</div>
+            <p style="margin-top:0.75rem; font-size:0.95rem; opacity:0.9;">Prof. Msc. Philipe Sampaio Lima</p>
+        </header>
+
+        <div class="card">
+            <h2 class="card-title">1. Identificação do Discente</h2>
+            <div class="ident-grid">
+                <div class="form-group">
+                    <label class="form-label" for="alunoNome">Nome Completo do Aluno *</label>
+                    <input type="text" id="alunoNome" class="form-control" placeholder="Digite seu nome para emissão do relatório..." required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="alunoMatricula">Matrícula / Turma</label>
+                    <input type="text" id="alunoMatricula" class="form-control" placeholder="Ex: ADM-2026.2">
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 class="card-title">2. Fórmulas e Relações do Custeio ABC</h2>
+            <div class="glossary-grid">
+                <div>
+                    <div class="formula-box">Taxa da Atividade = Custo Total da Atividade ÷ Base Total do Direcionador</div>
+                    <div class="formula-box">Custo Indireto do Produto = &Sigma; (Consumo do Direcionador &times; Taxa da Atividade)</div>
+                </div>
+                <div>
+                    <div class="formula-box">Custo Total Unitário = Custo Direto Unitário + CIF ABC Unitário</div>
+                    <div class="formula-box">Taxa Minuto TDABC = Custo do Setor ÷ Minutos Práticos Disponíveis</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="questionsContainer"></div>
+
+        <div class="final-controls">
+            <div>
+                <span style="font-size:0.8rem; font-weight:700; text-transform:uppercase; color:#64748B;">Desempenho Atual</span>
+                <div class="score-value"><span id="lblAcertos">0</span> / 20</div>
+            </div>
+            <div style="display:flex; gap:1rem;">
+                <button class="btn btn-check" onclick="verificarTodas()">Verificar Todas as Respostas</button>
+                <button class="btn btn-primary" onclick="exportarPDF()">Exportar Relatório PDF</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function formatMoeda(n) { return "R$ " + n.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+        function formatNum(n, casas = 2) { return n.toLocaleString('pt-BR', { minimumFractionDigits: casas, maximumFractionDigits: casas }); }
+        function parseBR(v) { return parseFloat((v || '0').replace(/\./g, '').replace(',', '.')) || 0; }
+        function randRange(min, max, step = 1) { return min + Math.floor(Math.random() * (((max - min) / step) + 1)) * step; }
+
+        function aplicarMascara(el) {
+            el.addEventListener('input', e => {
+                let v = e.target.value.replace(/[^\d,]/g, "");
+                let parts = v.split(',');
+                if (parts.length > 2) v = parts[0] + ',' + parts.slice(1).join('');
+                e.target.value = v;
+            });
+        }
+
+        let questoes = [];
+
+        function gerarQuestoes() {
+            questoes = [];
+
+            // Q1: Taxa de Atividade de Setup
+            let c1 = randRange(30000, 70000, 2000);
+            let s1 = randRange(80, 250, 10);
+            questoes.push({
+                id: 1, topico: "Taxa de Atividade",
+                enunciado: `A atividade 'Ajustar Máquinas (Setup)' custou ${formatMoeda(c1)} no mês. Sabendo que foram executados ${s1} setups no período, qual a Taxa do Direcionador por setup?`,
+                dados: [{ l: 'Custo da Atividade', v: formatMoeda(c1) }, { l: 'Direcionador Total', v: `${s1} preparações` }],
+                prefixo: 'R$', respReal: c1 / s1
+            });
+
+            // Q2: Apropriação de Setup ao Lote
+            let t2 = randRange(250, 600, 25);
+            let n2 = randRange(6, 18, 1);
+            questoes.push({
+                id: 2, topico: "Alocação aos Lotes",
+                enunciado: `A taxa de setup é de ${formatMoeda(t2)} por preparação. Um lote especial demandou exatamente ${n2} preparações. Qual o montante total de CIF de setup absorvido por esse lote?`,
+                dados: [{ l: 'Taxa por Setup', v: formatMoeda(t2) }, { l: 'Setups do Lote', v: `${n2} vezes` }],
+                prefixo: 'R$', respReal: t2 * n2
+            });
+
+            // Q3: Taxa de Inspeção de Qualidade
+            let c3 = randRange(20000, 50000, 1000);
+            let h3 = randRange(400, 1000, 50);
+            questoes.push({
+                id: 3, topico: "Taxa de Atividade",
+                enunciado: `O laboratório de controle de qualidade consumiu ${formatMoeda(c3)} em salários e reagentes, totalizando ${h3} horas de inspeção técnica. Determine a taxa horária de inspeção.`,
+                dados: [{ l: 'Custo Laboratório', v: formatMoeda(c3) }, { l: 'Horas Totais', v: `${h3} horas` }],
+                prefixo: 'R$', respReal: c3 / h3
+            });
+
+            // Q4: Rateio Tradicional por Volume (Comparação)
+            let cif4 = randRange(80000, 160000, 5000);
+            let vA4 = randRange(6000, 12000, 1000);
+            let vB4 = randRange(1000, 3000, 500);
+            let tot4 = vA4 + vB4;
+            questoes.push({
+                id: 4, topico: "Absorção Tradicional",
+                enunciado: `Pelo método tradicional volumétrico, ${formatMoeda(cif4)} de CIF são distribuídos com base nas peças produzidas. O Produto A produziu ${formatNum(vA4,0)} un e o Produto B produziu ${formatNum(vB4,0)} un. Qual a parcela de CIF rateada ao Produto A?`,
+                dados: [{ l: 'CIF Total', v: formatMoeda(cif4) }, { l: 'Vol. Prod. A', v: `${formatNum(vA4,0)} un` }, { l: 'Vol. Prod. B', v: `${formatNum(vB4,0)} un` }],
+                prefixo: 'R$', respReal: cif4 * (vA4 / tot4)
+            });
+
+            // Q5: Custo ABC de Compras
+            let c5 = randRange(35000, 65000, 1000);
+            let ordTot5 = randRange(500, 1000, 50);
+            let ordProd5 = randRange(80, 200, 10);
+            let taxa5 = c5 / ordTot5;
+            questoes.push({
+                id: 5, topico: "Atividade Suprimentos",
+                enunciado: `O setor de compras teve custo operacional de ${formatMoeda(c5)} e emitiu ${ordTot5} pedidos de compra. O Produto Alfa exigiu ${ordProd5} ordens exclusivas. Qual o custo da atividade de compras atribuído ao Produto Alfa?`,
+                dados: [{ l: 'Custo Compras', v: formatMoeda(c5) }, { l: 'Ordens Totais', v: `${ordTot5} ordens` }, { l: 'Ordens Alfa', v: `${ordProd5} ordens` }],
+                prefixo: 'R$', respReal: taxa5 * ordProd5
+            });
+
+            // Q6: Custo Unitário com 2 Atividades
+            let cd6 = randRange(30, 80, 5);
+            let cifProd6 = randRange(15000, 40000, 1000);
+            let vol6 = randRange(1000, 2500, 100);
+            questoes.push({
+                id: 6, topico: "Custo Total ABC",
+                enunciado: `Um produto possui Custo Direto Unitário de ${formatMoeda(cd6)}. Pelo ABC, recebeu ${formatMoeda(cifProd6)} de custos indiretos totais de atividades. Sabendo que o lote entregou ${formatNum(vol6,0)} unidades acabadas, qual o Custo Total Unitário ABC?`,
+                dados: [{ l: 'Custo Direto Un.', v: formatMoeda(cd6) }, { l: 'CIF ABC Total', v: formatMoeda(cifProd6) }, { l: 'Volume Lote', v: `${formatNum(vol6,0)} un` }],
+                prefixo: 'R$', respReal: cd6 + (cifProd6 / vol6)
+            });
+
+            // Q7: Nível de Lote vs Unitário
+            let cSetup7 = randRange(800, 2000, 100);
+            let tamLote7 = randRange(20, 100, 10);
+            questoes.push({
+                id: 7, topico: "Hierarquia de Atividades",
+                enunciado: `A calibração de uma prensa (atividade de nível de lote) custa ${formatMoeda(cSetup7)} fixos por lote. Se o lote econômico for programado para produzir apenas ${tamLote7} peças, qual será o custo de setup absorvido por unidade individual?`,
+                dados: [{ l: 'Custo do Setup', v: formatMoeda(cSetup7) }, { l: 'Peças no Lote', v: `${tamLote7} un` }],
+                prefixo: 'R$', respReal: cSetup7 / tamLote7
+            });
+
+            // Q8: TDABC - Taxa por Minuto
+            let salSetor8 = randRange(18000, 36000, 1000);
+            let horasPrat8 = randRange(300, 600, 20);
+            let minPrat8 = horasPrat8 * 60;
+            questoes.push({
+                id: 8, topico: "TDABC Moderno",
+                enunciado: `Uma equipe de atendimento corporativo custa ${formatMoeda(salSetor8)} mensais e possui capacidade prática de ${horasPrat8} horas úteis (${minPrat8} minutos). Qual a taxa de custo por minuto de atendimento?`,
+                dados: [{ l: 'Custo Equipe', v: formatMoeda(salSetor8) }, { l: 'Minutos Práticos', v: `${minPrat8} min` }],
+                prefixo: 'R$', respReal: salSetor8 / minPrat8
+            });
+
+            // Q9: TDABC - Custo do Atendimento do Cliente
+            let taxaMin9 = randRange(1, 3, 1) + 0.25;
+            let tempoAtend9 = randRange(35, 90, 5);
+            questoes.push({
+                id: 9, topico: "TDABC Moderno",
+                enunciado: `A taxa do minuto técnico apurada no TDABC é de ${formatMoeda(taxaMin9)}/minuto. Um cliente de perfil complexo exigiu ${tempoAtend9} minutos de consultoria dedicada. Qual o custo da atividade alocado a este cliente?`,
+                dados: [{ l: 'Taxa / Minuto', v: formatMoeda(taxaMin9) }, { l: 'Tempo Dedicado', v: `${tempoAtend9} minutos` }],
+                prefixo: 'R$', respReal: taxaMin9 * tempoAtend9
+            });
+
+            // Q10: Custo da Capacidade Ociosa
+            let cRec10 = randRange(60000, 120000, 5000);
+            let capPrat10 = randRange(1000, 2000, 100);
+            let capReal10 = capPrat10 - randRange(200, 500, 50);
+            let taxaPrat10 = cRec10 / capPrat10;
+            let ociosas10 = capPrat10 - capReal10;
+            questoes.push({
+                id: 10, topico: "Capacidade Ociosa",
+                enunciado: `O setor fabril tem custo de ${formatMoeda(cRec10)} para uma capacidade prática de ${capPrat10} horas. No mês atual, a demanda utilizou apenas ${capReal10} horas. Qual o montante monetário de Capacidade Ociosa que deve ser lançado direto como perda na DRE?`,
+                dados: [{ l: 'Custo Total Recurso', v: formatMoeda(cRec10) }, { l: 'Cap. Prática', v: `${capPrat10} h` }, { l: 'Horas Efetivas', v: `${capReal10} h` }],
+                prefixo: 'R$', respReal: taxaPrat10 * ociosas10
+            });
+
+            // Q11 a Q20 (Variações dos 10 tópicos)
+            for (let i = 11; i <= 20; i++) {
+                let baseC = randRange(40000, 90000, 2000);
+                let baseD = randRange(150, 400, 25);
+                let taxa = baseC / baseD;
+                let consumo = randRange(15, 60, 5);
+                questoes.push({
+                    id: i, topico: "Aplicação Integrada ABC",
+                    enunciado: `A atividade corporativa acumulou ${formatMoeda(baseC)} para um total de ${baseD} acionamentos do direcionador. O lote de produção sob análise consumiu exatamente ${consumo} acionamentos. Determine o valor alocado a esse lote.`,
+                    dados: [{ l: 'Custo Atividade', v: formatMoeda(baseC) }, { l: 'Direcionadores Totais', v: `${baseD} ev` }, { l: 'Consumo do Lote', v: `${consumo} ev` }],
+                    prefixo: 'R$', respReal: taxa * consumo
+                });
+            }
+
+            renderizar();
+        }
+
+        function renderizar() {
+            const c = document.getElementById("questionsContainer");
+            c.innerHTML = "";
+            questoes.forEach(q => {
+                const dadosHtml = q.dados.map(d => `<div class="q-data-item"><span>${d.l}:</span> <strong>${d.v}</strong></div>`).join('');
+                c.innerHTML += `
+                    <div class="question-card" id="card-${q.id}">
+                        <div class="q-header">
+                            <span class="q-number">Questão ${q.id}</span>
+                            <span class="q-target">${q.topico}</span>
+                        </div>
+                        <p class="q-text">${q.enunciado}</p>
+                        <div class="q-data">${dadosHtml}</div>
+                        <div class="answer-container">
+                            <span style="font-size:0.9rem; font-weight:700; color:var(--primary);">Sua Resposta:</span>
+                            <div class="input-wrapper">
+                                ${q.prefixo ? `<span class="currency-prefix">${q.prefixo}</span>` : ''}
+                                <input type="text" id="input-${q.id}" class="answer-input ${q.prefixo ? '' : 'no-prefix'}" placeholder="Ex: 250,00">
+                            </div>
+                            <button class="btn btn-check" onclick="verificarQuestao(${q.id})">Verificar</button>
+                        </div>
+                        <div class="feedback" id="feed-${q.id}"></div>
+                    </div>
+                `;
+            });
+            document.querySelectorAll('.answer-input').forEach(inp => aplicarMascara(inp));
+        }
+
+        function verificarQuestao(id) {
+            const q = questoes.find(item => item.id === id);
+            const inputEl = document.getElementById(`input-${id}`);
+            const feedEl = document.getElementById(`feed-${id}`);
+            const val = parseBR(inputEl.value);
+
+            if (!inputEl.value.trim()) {
+                feedEl.className = 'feedback incorrect';
+                feedEl.innerHTML = "Campo em branco. Digite um valor.";
+                return false;
+            }
+
+            const dif = Math.abs(val - q.respReal);
+            const margem = Math.max(0.08, Math.abs(q.respReal * 0.015));
+            const correto = dif <= margem;
+
+            if (correto) {
+                feedEl.className = 'feedback correct';
+                feedEl.innerHTML = `✅ Correto! O valor apurado atende aos critérios causais da atividade.`;
+                q.status = 'OK';
+            } else {
+                feedEl.className = 'feedback incorrect';
+                feedEl.innerHTML = `❌ Incorreto. Revise sua taxa ou o consumo do direcionador.`;
+                q.status = 'ERRO';
+            }
+            atualizarPlacar();
+            return correto;
+        }
+
+        function verificarTodas() {
+            questoes.forEach(q => verificarQuestao(q.id));
+            alert("Todas as questões preenchidas foram analisadas!");
+        }
+
+        function atualizarPlacar() {
+            const acertos = questoes.filter(q => q.status === 'OK').length;
+            document.getElementById('lblAcertos').innerText = acertos;
+        }
+
+        function exportarPDF() {
+            const nome = document.getElementById('alunoNome').value.trim();
+            if (!nome) {
+                alert("Preencha o Nome Completo antes de exportar o PDF oficial.");
+                document.getElementById('alunoNome').focus();
+                return;
+            }
+            questoes.forEach(q => verificarQuestao(q.id));
+            const tit = document.title;
+            document.title = `Atividade_ABC_CEST_${nome.replace(/[^a-zA-Z0-9]/g, '_')}`;
+            window.print();
+            setTimeout(() => { document.title = tit; }, 1000);
+        }
+
+        window.onload = gerarQuestoes;
+    </script>
+</body>
+</html>

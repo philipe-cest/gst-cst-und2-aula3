@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tópico 9: TDABC - Custeio por Tempo | Gestão de Custos CEST</title>
+    <style>
+        :root {
+            --primary: #002060; --primary-dark: #001138; --secondary: #0080FF;
+            --secondary-light: #E6F2FF; --success: #10B981; --background: #F4F7FA;
+            --surface: #FFFFFF; --text-primary: #0F172A; --text-secondary: #475569;
+            --border: #E2E8F0; --radius-md: 12px; --shadow-md: 0 4px 20px -2px rgba(0,32,96,0.08);
+            --font-mono: 'SFMono-Regular', Consolas, Menlo, monospace;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: system-ui, -apple-system, sans-serif; background: var(--background); color: var(--text-primary); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: #FFF; border-bottom: 1px solid var(--border); padding: 0.85rem 1.5rem; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+        .brand { text-decoration: none; color: var(--primary); font-weight: 700; font-size: 0.95rem; }
+        .container { max-width: 980px; width: 100%; margin: 2rem auto; padding: 0 1rem; flex-grow: 1; display: flex; flex-direction: column; }
+        .slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 2.5rem; box-shadow: var(--shadow-md); min-height: 520px; display: none; flex-direction: column; justify-content: space-between; }
+        .slide-card.active { display: flex; }
+        .slide-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 1rem; margin-bottom: 1.5rem; }
+        .tag { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--secondary); background: var(--secondary-light); padding: 4px 10px; border-radius: 6px; }
+        .title { font-size: 1.65rem; color: var(--primary); font-weight: 800; margin-bottom: 1rem; }
+        .highlight-box { background: var(--secondary-light); border-left: 4px solid var(--secondary); padding: 1.2rem; border-radius: 6px; margin: 1.25rem 0; color: var(--primary); font-weight: 500; }
+
+        .calc-box { background: #F8FAFC; border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; margin: 1.25rem 0; }
+        .calc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1rem; }
+        .form-group { display: flex; flex-direction: column; gap: 0.35rem; }
+        .form-label { font-size: 0.8rem; font-weight: 700; color: var(--primary); text-transform: uppercase; }
+        .form-control { padding: 0.65rem 0.85rem; border: 1.5px solid var(--border); border-radius: 6px; font-family: var(--font-mono); font-weight: 700; font-size: 0.95rem; }
+        
+        .res-display { background: var(--primary); color: #FFF; padding: 1.2rem; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; }
+
+        .controls { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 1.25rem; margin-top: 2rem; }
+        .btn { padding: 0.75rem 1.5rem; font-size: 0.9rem; font-weight: 700; border-radius: 6px; text-decoration: none; cursor: pointer; border: none; }
+        .btn-nav { background: var(--primary); color: #FFF; }
+        .btn-out { background: transparent; color: var(--primary); border: 1.5px solid var(--border); }
+        .progress-dots { display: flex; gap: 8px; }
+        .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--border); cursor: pointer; }
+        .dot.active { background: var(--secondary); width: 22px; border-radius: 10px; }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="brand">&larr; Portal da Aula 03</a>
+        <span style="font-size:0.85rem; font-weight:700; color:var(--text-secondary);">Tópico 9 de 10: TDABC</span>
+    </header>
+
+    <div class="container">
+        <!-- Slide 1 -->
+        <div class="slide-card active" data-slide="1">
+            <div>
+                <div class="slide-header">
+                    <span class="tag">Inovação em Custos</span>
+                    <span style="font-weight:700; color:var(--text-secondary);">Slide 01 / 04</span>
+                </div>
+                <h1 class="title">A Simplificação Genial do TDABC</h1>
+                <p>O <strong>Time-Driven Activity-Based Costing (TDABC)</strong> dispensa o processo trabalhoso de entrevistar funcionários sobre percentuais de tempo dedicados a atividades.</p>
+                <div class="highlight-box">
+                    <strong>Tudo o que o TDABC precisa são dois parâmetros:</strong><br>
+                    1. <strong>Custo Unitário da Capacidade:</strong> O custo de cada minuto da equipe ou máquina (Custo Total &divide; Minutos de Capacidade Prática).<br><br>
+                    2. <strong>Equação de Tempo:</strong> O tempo padrão que a atividade leva em minutos.
+                </div>
+            </div>
+            <div class="controls"></div>
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="slide-card" data-slide="2">
+            <div>
+                <div class="slide-header">
+                    <span class="tag">Equações de Tempo</span>
+                    <span style="font-weight:700; color:var(--text-secondary);">Slide 02 / 04</span>
+                </div>
+                <h1 class="title">Como Funcionam as Equações de Tempo?</h1>
+                <p>O tempo de uma tarefa varia conforme as características do cliente ou produto:</p>
+                <div class="highlight-box" style="font-family:var(--font-mono); font-size:0.95rem;">
+                    Tempo de Processar Pedido = 10 min (base) + 2 min por item + 15 min (se cliente novo)
+                </div>
+                <p>O ERP da empresa multiplica o tempo total resultante pela taxa por minuto da equipe. Simples, automático e sem questionários subjetivos!</p>
+            </div>
+            <div class="controls"></div>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="slide-card" data-slide="3">
+            <div>
+                <div class="slide-header">
+                    <span class="tag">Simulador em Sala</span>
+                    <span style="font-weight:700; color:var(--text-secondary);">Slide 03 / 04</span>
+                </div>
+                <h1 class="title">Calculadora da Taxa por Minuto no TDABC</h1>
+                <p>Calcule o custo exato do minuto de um setor e precifique o atendimento de um pedido:</p>
+
+                <div class="calc-box">
+                    <div class="calc-grid">
+                        <div class="form-group">
+                            <label class="form-label">Custo Mensal do Setor (R$)</label>
+                            <input type="text" id="tdCustoSetor" class="form-control" value="24.000,00" oninput="calcTDABC()">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Capacidade Prática Mensal (horas)</label>
+                            <input type="text" id="tdHorasSetor" class="form-control" value="800" oninput="calcTDABC()">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Tempo do Pedido Analisado (min)</label>
+                            <input type="text" id="tdTempoPedido" class="form-control" value="45" oninput="calcTDABC()">
+                        </div>
+                    </div>
+                    <div class="res-display">
+                        <div>
+                            <span style="font-size:0.75rem; text-transform:uppercase; color:var(--secondary-light);">Taxa do Minuto de Trabalho</span>
+                            <div id="lblTaxaMinuto" style="font-size:1.3rem; font-weight:800; color:#A7F3D0;">R$ 0,50 / minuto</div>
+                        </div>
+                        <div style="text-align:right;">
+                            <span style="font-size:0.75rem; text-transform:uppercase; color:var(--secondary-light);">Custo Indireto do Pedido</span>
+                            <div id="lblCustoPedido" style="font-size:1.3rem; font-weight:800; color:#60A5FA;">R$ 22,50</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="controls"></div>
+        </div>
+
+        <!-- Slide 4 -->
+        <div class="slide-card" data-slide="4">
+            <div>
+                <div class="slide-header">
+                    <span class="tag">Síntese e Fechamento</span>
+                    <span style="font-weight:700; color:var(--text-secondary);">Slide 04 / 04</span>
+                </div>
+                <h1 class="title">O Estado da Arte da Gestão de Custos</h1>
+                <p>O TDABC conecta os custos aos sistemas ERP modernos, permitindo monitorar a lucratividade de cada cliente e produto pedido a pedido.</p>
+                <div class="highlight-box">
+                    No último tópico (Tópico 10), faremos a síntese geral de vantagens, limites de implantação e prepararemos a ponte para o <strong>Custeio Variável</strong> da Aula 04!
+                </div>
+            </div>
+            <div class="controls"></div>
+        </div>
+    </div>
+
+    <script>
+        let cur = 1;
+        const total = 4;
+
+        function parseBR(v) { return parseFloat((v || '0').replace(/\./g, '').replace(',', '.')) || 0; }
+        function fmtMoeda(n) { return "R$ " + n.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+
+        function calcTDABC() {
+            const custo = parseBR(document.getElementById('tdCustoSetor').value);
+            const horas = parseBR(document.getElementById('tdHorasSetor').value) || 1;
+            const minTotais = horas * 60;
+            const tempoPed = parseBR(document.getElementById('tdTempoPedido').value);
+
+            const taxaMinuto = custo / minTotais;
+            const custoPedido = taxaMinuto * tempoPed;
+
+            document.getElementById('lblTaxaMinuto').innerText = fmtMoeda(taxaMinuto) + " / min";
+            document.getElementById('lblCustoPedido').innerText = fmtMoeda(custoPedido);
+        }
+
+        function render() {
+            document.querySelectorAll('.controls').forEach(bar => {
+                bar.innerHTML = `
+                    <button class="btn btn-out" onclick="go(-1)" ${cur === 1 ? 'disabled style="opacity:0.4; cursor:not-allowed;"' : ''}>&larr; Anterior</button>
+                    <div class="progress-dots">
+                        ${Array.from({length: total}, (_, i) => `<span class="dot ${i+1 === cur ? 'active' : ''}" onclick="toSlide(${i+1})"></span>`).join('')}
+                    </div>
+                    ${cur < total 
+                        ? `<button class="btn btn-nav" onclick="go(1)">Próximo &rarr;</button>`
+                        : `<a href="10.html" class="btn btn-nav" style="background:#10B981;">Ir para Tópico 10 &rarr;</a>`
+                    }
+                `;
+            });
+        }
+
+        function show(n) {
+            document.querySelectorAll('.slide-card').forEach(c => c.classList.remove('active'));
+            document.querySelector(`.slide-card[data-slide="${n}"]`).classList.add('active');
+            cur = n;
+            render();
+        }
+
+        function go(s) { if(cur + s >= 1 && cur + s <= total) show(cur + s); }
+        function toSlide(n) { show(n); }
+
+        document.addEventListener('keydown', e => {
+            if (e.key === 'ArrowRight' && cur < total) go(1);
+            if (e.key === 'ArrowLeft' && cur > 1) go(-1);
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            render();
+            calcTDABC();
+        });
+    </script>
+</body>
+</html>

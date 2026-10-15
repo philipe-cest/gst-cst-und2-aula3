@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tópico 10: Matriz de Decisão, Vantagens e Limitações | Gestão de Custos CEST</title>
+    <style>
+        :root {
+            --primary: #002060; --primary-dark: #001138; --secondary: #0080FF;
+            --secondary-light: #E6F2FF; --success: #10B981; --warning: #F59E0B;
+            --danger: #EF4444; --background: #F4F7FA; --surface: #FFFFFF;
+            --text-primary: #0F172A; --text-secondary: #475569; --border: #E2E8F0;
+            --radius-md: 12px; --shadow-md: 0 4px 20px -2px rgba(0,32,96,0.08);
+            --font-mono: 'SFMono-Regular', Consolas, Menlo, monospace;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: system-ui, -apple-system, sans-serif; background: var(--background); color: var(--text-primary); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: #FFF; border-bottom: 1px solid var(--border); padding: 0.85rem 1.5rem; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+        .brand { text-decoration: none; color: var(--primary); font-weight: 700; font-size: 0.95rem; }
+        .container { max-width: 980px; width: 100%; margin: 2rem auto; padding: 0 1rem; flex-grow: 1; display: flex; flex-direction: column; }
+        .slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 2.5rem; box-shadow: var(--shadow-md); min-height: 520px; display: none; flex-direction: column; justify-content: space-between; }
+        .slide-card.active { display: flex; }
+        .slide-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 1rem; margin-bottom: 1.5rem; }
+        .tag { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--secondary); background: var(--secondary-light); padding: 4px 10px; border-radius: 6px; }
+        .title { font-size: 1.65rem; color: var(--primary); font-weight: 800; margin-bottom: 1rem; }
+        .highlight-box { background: var(--secondary-light); border-left: 4px solid var(--secondary); padding: 1.2rem; border-radius: 6px; margin: 1.25rem 0; color: var(--primary); font-weight: 500; }
+        
+        .comp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 1.25rem 0; }
+        .comp-box { padding: 1.25rem; border-radius: 8px; border: 1px solid var(--border); }
+        .comp-box.pros { background: #F0FDF4; border-color: #86EFAC; }
+        .comp-box.cons { background: #FEF2F2; border-color: #FCA5A5; }
+
+        .checklist { list-style: none; display: flex; flex-direction: column; gap: 0.75rem; margin: 1.25rem 0; }
+        .checklist li { background: #F8FAFC; border: 1px solid var(--border); padding: 0.85rem 1.2rem; border-radius: 6px; display: flex; align-items: center; gap: 10px; font-size: 0.95rem; }
+        .checklist li strong { color: var(--primary); }
+
+        .controls { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 1.25rem; margin-top: 2rem; }
+        .btn { padding: 0.75rem 1.5rem; font-size: 0.9rem; font-weight: 700; border-radius: 6px; text-decoration: none; cursor: pointer; border: none; }
+        .btn-nav { background: var(--primary); color: #FFF; }
+        .btn-out { background: transparent; color: var(--primary); border: 1.5px solid var(--border); }
+        .progress-dots { display: flex; gap: 8px; }
+        .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--border); cursor: pointer; }
+        .dot.active { background: var(--secondary); width: 22px; border-radius: 10px; }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="brand">&larr; Portal da Aula 03</a>
+        <span style="font-size:0.85rem; font-weight:700; color:var(--text-secondary);">Tópico 10 de 10: Matriz de Decisão e Fechamento</span>
+    </header>
+
+    <div class="container">
+        <!-- Slide 1 -->
+        <div class="slide-card active" data-slide="1">
+            <div>
+                <div class="slide-header">
+                    <span class="tag">Balanço Crítico</span>
+                    <span style="font-weight:700; color:var(--text-secondary);">Slide 01 / 04</span>
+                </div>
+                <h1 class="title">Vantagens vs Limitações Reais do ABC</h1>
+                <p>Nenhum sistema de custos é uma bala de prata. O bom Administrador conhece com precisão o retorno sobre o investimento e os pontos de atrito da metodologia:</p>
+                
+                <div class="comp-grid">
+                    <div class="comp-box pros">
+                        <strong style="color:#166534; font-size:1rem; text-transform:uppercase;">Principais Vantagens</strong>
+                        <ul style="padding-left:1.2rem; margin-top:0.5rem; font-size:0.88rem; color:#14532D; display:flex; flex-direction:column; gap:0.4rem;">
+                            <li>Elimina o subsídio cruzado entre produtos e contratos de clientes.</li>
+                            <li>Apoia decisões estratégicas de formação de preço e descontinuação.</li>
+                            <li>Identifica e quantifica o custo financeiro da capacidade ociosa.</li>
+                            <li>Fornece base rigorosa para a Gestão de Processos (ABM).</li>
+                        </ul>
+                    </div>
+
+                    <div class="comp-box cons">
+                        <strong style="color:#991B1B; font-size:1rem; text-transform:uppercase;">Principais Limitações</strong>
+                        <ul style="padding-left:1.2rem; margin-top:0.5rem; font-size:0.88rem; color:#7F1D1D; display:flex; flex-direction:column; gap:0.4rem;">
+                            <li>Custo de implementação e parametrização de software elevado.</li>
+                            <li>Resistência cultural das equipes ao mapeamento detalhado de rotinas.</li>
+                            <li>Exige atualização periódica das taxas de direcionadores.</li>
+                            <li>Dificuldade de alocação de custos de infraestrutura fabril.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="controls"></div>
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="slide-card" data-slide="2">
+            <div>
+                <div class="slide-header">
+                    <span class="tag">Diagnóstico de Implantação</span>
+                    <span style="font-weight:700; color:var(--text-secondary);">Slide 02 / 04</span>
+                </div>
+                <h1 class="title">Quando a sua Empresa DEVE Adotar o ABC?</h1>
+                <p>O Administrador só deve recomendar a implementação do Custeio ABC se a organização preencher pelo menos 3 dos seguintes critérios:</p>
+                
+                <ul class="checklist">
+                    <li>
+                        <span style="font-size:1.2rem;">📌</span>
+                        <div><strong>1. Custos Indiretos Expressivos:</strong> Os CIF representam mais de 30% a 40% da estrutura global de custos da empresa.</div>
+                    </li>
+                    <li>
+                        <span style="font-size:1.2rem;">📌</span>
+                        <div><strong>2. Alta Diversidade de Linhas:</strong> A empresa produz itens padronizados em massa e itens sob encomenda altamente customizados na mesma estrutura.</div>
+                    </li>
+                    <li>
+                        <span style="font-size:1.2rem;">📌</span>
+                        <div><strong>3. Competição Agressiva de Preços:</strong> Margens apertadas exigem precificação precisa sem margem para subsídios cruzados.</div>
+                    </li>
+                    <li>
+                        <span style="font-size:1.2rem;">📌</span>
+                        <div><strong>4. Operação Multicanais / Clientes Complexos:</strong> Clientes que compram o mesmo volume, mas um exige visitas, embalagens especiais e relatórios diários.</div>
+                    </li>
+                </ul>
+            </div>
+            <div class="controls"></div>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="slide-card" data-slide="3">
+            <div>
+                <div class="slide-header">
+                    <span class="tag">Conexão da Ementa</span>
+                    <span style="font-weight:700; color:var(--text-secondary);">Slide 03 / 04</span>
+                </div>
+                <h1 class="title">A Ponte para a Aula 04: Custeio Variável</h1>
+                <p>O ABC refinou a apropriação dos Custos Indiretos, mas na hora de decidir se aceita uma encomenda extra no curto prazo, o gestor precisa separar estritamente:</p>
+                <div class="highlight-box">
+                    <strong>A Próxima Fronteira:</strong> Custos Fixos vs Custos Variáveis.<br>
+                    Na <strong>Aula 04</strong>, ingressaremos no <strong>Custeio Variável</strong> e na análise cirúrgica da <strong>Margem de Contribuição</strong>, que define se um negócio vive ou morre no mês!
+                </div>
+            </div>
+            <div class="controls"></div>
+        </div>
+
+        <!-- Slide 4 -->
+        <div class="slide-card" data-slide="4">
+            <div>
+                <div class="slide-header">
+                    <span class="tag">Conclusão da Aula 03</span>
+                    <span style="font-weight:700; color:var(--text-secondary);">Slide 04 / 04</span>
+                </div>
+                <h1 class="title">Síntese Consolidada dos Conceitos</h1>
+                <div class="highlight-box" style="text-align:center; font-size:1.05rem;">
+                    <strong>Regra Central do Administrador:</strong> "Não gerencie custos por departamentos. Gerencie as atividades que causam os custos, elimine o que não agrega valor e precifique cobrando exatamente pelo esforço consumido".
+                </div>
+                <p style="text-align:center; margin-top:2rem;">
+                    <a href="index.html" class="btn btn-nav" style="padding:0.9rem 2rem;">&larr; Retornar ao Portal Principal da Aula 03</a>
+                </p>
+            </div>
+            <div class="controls"></div>
+        </div>
+    </div>
+
+    <script>
+        let cur = 1;
+        const total = 4;
+
+        function render() {
+            document.querySelectorAll('.controls').forEach(bar => {
+                bar.innerHTML = `
+                    <button class="btn btn-out" onclick="go(-1)" ${cur === 1 ? 'disabled style="opacity:0.4; cursor:not-allowed;"' : ''}>&larr; Anterior</button>
+                    <div class="progress-dots">
+                        ${Array.from({length: total}, (_, i) => `<span class="dot ${i+1 === cur ? 'active' : ''}" onclick="toSlide(${i+1})"></span>`).join('')}
+                    </div>
+                    ${cur < total 
+                        ? `<button class="btn btn-nav" onclick="go(1)">Próximo &rarr;</button>`
+                        : `<a href="index.html" class="btn btn-nav" style="background:#10B981;">Concluir Apresentação &rarr;</a>`
+                    }
+                `;
+            });
+        }
+
+        function show(n) {
+            document.querySelectorAll('.slide-card').forEach(c => c.classList.remove('active'));
+            document.querySelector(`.slide-card[data-slide="${n}"]`).classList.add('active');
+            cur = n;
+            render();
+        }
+
+        function go(s) { if(cur + s >= 1 && cur + s <= total) show(cur + s); }
+        function toSlide(n) { show(n); }
+
+        document.addEventListener('keydown', e => {
+            if (e.key === 'ArrowRight' && cur < total) go(1);
+            if (e.key === 'ArrowLeft' && cur > 1) go(-1);
+        });
+
+        document.addEventListener('DOMContentLoaded', () => { render(); });
+    </script>
+</body>
+</html>

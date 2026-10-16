@@ -9,48 +9,66 @@
             --primary: #002060; --primary-dark: #001138; --secondary: #0080FF;
             --secondary-light: #E6F2FF; --danger: #EF4444; --danger-light: #FEE2E2;
             --success: #10B981; --background: #F4F7FA; --surface: #FFFFFF;
-            --text-primary: #0F172A; --text-secondary: #475569; --border: #E2E8F0;
+            --text-primary: #0F172A; --text-secondary: #475569; --border: #CBD5E1;
             --radius-md: 12px; --shadow-md: 0 4px 20px -2px rgba(0,32,96,0.08);
-            --font-mono: 'SFMono-Regular', Consolas, Menlo, monospace;
+            --font-mono: 'Consolas', 'Courier New', monospace;
         }
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: system-ui, -apple-system, sans-serif; background: var(--background); color: var(--text-primary); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
         header { background: #FFF; border-bottom: 1px solid var(--border); padding: 0.85rem 1.5rem; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
         .brand { text-decoration: none; color: var(--primary); font-weight: 700; font-size: 0.95rem; }
         .container { max-width: 980px; width: 100%; margin: 2rem auto; padding: 0 1rem; flex-grow: 1; display: flex; flex-direction: column; }
-        .slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 2.5rem; box-shadow: var(--shadow-md); min-height: 520px; display: none; flex-direction: column; justify-content: space-between; }
+        .slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 2.5rem; box-shadow: var(--shadow-md); min-height: 540px; display: none; flex-direction: column; justify-content: space-between; }
         .slide-card.active { display: flex; }
         .slide-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 1rem; margin-bottom: 1.5rem; }
         .tag { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--secondary); background: var(--secondary-light); padding: 4px 10px; border-radius: 6px; }
-        .title { font-size: 1.65rem; color: var(--primary); font-weight: 800; margin-bottom: 1rem; }
-        .highlight-box { background: var(--secondary-light); border-left: 4px solid var(--secondary); padding: 1.2rem; border-radius: 6px; margin: 1.25rem 0; color: var(--primary); font-weight: 500; }
-        .danger-box { background: var(--danger-light); border-left: 4px solid var(--danger); padding: 1.2rem; border-radius: 6px; margin: 1.25rem 0; color: #7F1D1D; font-weight: 500; }
+        .title { font-size: 1.6rem; color: var(--primary); font-weight: 800; margin-bottom: 1rem; }
+        .highlight-box { background: var(--secondary-light); border-left: 4px solid var(--secondary); padding: 1.2rem; border-radius: 6px; margin: 1.25rem 0; color: var(--primary); }
+        .danger-box { background: var(--danger-light); border-left: 4px solid var(--danger); padding: 1.2rem; border-radius: 6px; margin: 1.25rem 0; color: #7F1D1D; }
         
+        .notepad-box {
+            background: #FFFFFF;
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--primary);
+            padding: 1rem 1.25rem;
+            margin: 1rem 0;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            white-space: pre-wrap;
+            line-height: 1.5;
+            color: #1E293B;
+        }
+
         .sim-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; background: #F8FAFC; border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; margin: 1.25rem 0; }
         .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
         .form-label { font-size: 0.8rem; font-weight: 700; color: var(--primary); text-transform: uppercase; }
         .form-control { padding: 0.7rem 0.9rem; border: 1.5px solid var(--border); border-radius: 6px; font-family: var(--font-mono); font-size: 1rem; font-weight: 700; }
         
-        .chart-box { background: #FFFFFF; border: 1px solid var(--border); border-radius: 8px; padding: 1rem; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 180px; }
-        .bar-container { width: 100%; display: flex; gap: 1.5rem; align-items: flex-end; height: 120px; padding-bottom: 10px; border-bottom: 2px solid var(--border); }
-        .bar-item { flex: 1; display: flex; flex-direction: column; align-items: center; height: 100%; justify-content: flex-end; }
-        .bar { width: 45px; background: var(--secondary); border-radius: 4px 4px 0 0; transition: 0.3s; min-height: 5px; }
-        .bar.danger { background: var(--danger); }
-        .bar-label { font-size: 0.75rem; font-weight: 700; color: var(--text-secondary); margin-top: 6px; text-align: center; }
+        .calc-steps { background: #FFFFFF; border: 1px solid var(--border); border-radius: 8px; padding: 1rem; font-family: var(--font-mono); font-size: 0.85rem; color: #1E293B; line-height: 1.6; }
 
         .controls { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 1.25rem; margin-top: 2rem; }
         .btn { padding: 0.75rem 1.5rem; font-size: 0.9rem; font-weight: 700; border-radius: 6px; text-decoration: none; cursor: pointer; border: none; }
         .btn-nav { background: var(--primary); color: #FFF; }
         .btn-out { background: transparent; color: var(--primary); border: 1.5px solid var(--border); }
+        .btn-print { background: #FFFFFF; color: var(--text-primary); border: 1.5px solid var(--border); padding: 0.5rem 1rem; font-size: 0.8rem; font-weight: 700; border-radius: 6px; cursor: pointer; }
         .progress-dots { display: flex; gap: 8px; }
         .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--border); cursor: pointer; }
         .dot.active { background: var(--secondary); width: 22px; border-radius: 10px; }
+
+        @media print {
+            header, .controls, .btn-print { display: none !important; }
+            .slide-card { display: block !important; min-height: auto !important; page-break-after: always; border: 1px solid #999; margin-bottom: 2rem; }
+            body { background: #FFF; }
+        }
     </style>
 </head>
 <body>
     <header>
         <a href="index.html" class="brand">&larr; Portal da Aula 03</a>
-        <span style="font-size:0.85rem; font-weight:700; color:var(--text-secondary);">Tópico 1 de 10: Crise dos Rateios</span>
+        <div style="display:flex; align-items:center; gap:1rem;">
+            <button class="btn-print" onclick="window.print()">Imprimir Slide / PDF</button>
+            <span style="font-size:0.85rem; font-weight:700; color:var(--text-secondary);">Tópico 1 de 10: Crise dos Rateios</span>
+        </div>
     </header>
 
     <div class="container">
@@ -58,15 +76,22 @@
         <div class="slide-card active" data-slide="1">
             <div>
                 <div class="slide-header">
-                    <span class="tag">Contexto Histórico</span>
+                    <span class="tag">Estrutura de Custos</span>
                     <span style="font-weight:700; color:var(--text-secondary);">Slide 01 / 05</span>
                 </div>
-                <h1 class="title">A Mudança Tecnológica da Estrutura de Custos</h1>
-                <p>No início do século XX, as indústrias operavam com forte dependência de trabalhadores braçais (alta Mão de Obra Direta - MOD) e custos indiretos (CIF) pequenos e desprezíveis.</p>
+                <h1 class="title">A Mudança Estrutural e o Efeito da Jornada 6x1 &rarr; 5x2</h1>
+                <p>Historicamente, os custos indiretos de fabricação (CIF) eram reduzidos porque a produção dependia massivamente da força física de operários em longas jornadas de trabalho.</p>
+                
+                <div class="notepad-box">CENARIO INDUSTRIAL PASSADO:
+Materia-Prima Direta = 60%
+Mao de Obra Direta (MOD) = 30%
+Custos Indiretos (CIF) = 10%
+Distribuir 10% com base no volume de pecas causava erro insignificante.</div>
+
                 <div class="highlight-box">
-                    <strong>Cenário Tradicional:</strong> 60% Material Direto, 30% Mão de Obra Direta e apenas 10% de Custos Indiretos. Ratear os 10% com base nas horas de trabalho causava pouquíssima distorção.
+                    <strong>A Realidade Atual e a Transição da Escala 6x1 para 5x2:</strong><br>
+                    Com a automação dos processos e a diminuição da escala semanal de 6 dias trabalhados para 5 dias (com 2 dias de descanso), o custo da hora direta de trabalho sobe, enquanto os custos indiretos (manutenção de linhas, supervisão de fábrica, engenharia de processos e programação de turnos) aumentam consideravelmente. Ratear CIF volumétrico por peças virou um perigo à gestão financeira.
                 </div>
-                <p>Com a automação, robótica e tecnologia da informação, os custos de mão de obra direta encolheram e os <strong>Custos Indiretos explodiram</strong> (softwares, engenharia, manutenção, supervisão e setups).</p>
             </div>
             <div class="controls"></div>
         </div>
@@ -78,12 +103,18 @@
                     <span class="tag">Distorção Gerencial</span>
                     <span style="font-weight:700; color:var(--text-secondary);">Slide 02 / 05</span>
                 </div>
-                <h1 class="title">O Veneno do "Rateio Volumétrico"</h1>
-                <p>Quando uma empresa rateia custos indiretos massivos usando volume de produção (ex: número de peças ou horas-máquina), ela comete uma injustiça matemática:</p>
+                <h1 class="title">A Premissa Falsa do Rateio Volumétrico</h1>
+                <p>No custeio tradicional por absorção, presume-se que o volume de itens acabados determina o consumo de todos os recursos da fábrica:</p>
+
                 <div class="danger-box">
-                    <strong>Premissa Falsa:</strong> "Se o Produto A é produzido em lote de 10.000 unidades e o Produto B em lote de 100 unidades, o Produto A consumiu 100 vezes mais supervisão, setup, compras e controle de qualidade".
+                    <strong>Premissa Falha:</strong> "Se o Produto Padrão produz 9.000 peças e o Produto Customizado produz 1.000 peças, o Produto Padrão gerou 9 vezes mais despesas de engenharia, trocas de ferramentas, supervisão e logística de compras."
                 </div>
-                <p>Na prática, o produto complexo e customizado (Produto B) consome dezenas de horas de engenharia e inspeções exclusivas, mas recebe quase zero de custo indireto pelo método tradicional.</p>
+
+                <div class="notepad-box">EXPRESSAO DO ERRO NO RATEIO TRADICIONAL:
+Taxa de CIF Unitario = CIF Global Total / Volume Global de Producao
+CIF Alocado ao Produto = Volume do Produto * Taxa de CIF Unitario</div>
+
+                <p>Na vida real da fábrica, o lote de 1.000 peças customizadas costuma exigir dezenas de trocas de ferramentas nas máquinas e testes laboratoriais contínuos, mas é o produto padrão de 9.000 unidades que arca com praticamente todo o custo.</p>
             </div>
             <div class="controls"></div>
         </div>
@@ -92,16 +123,16 @@
         <div class="slide-card" data-slide="3">
             <div>
                 <div class="slide-header">
-                    <span class="tag">Simulador em Sala</span>
+                    <span class="tag">Simulação Numérica</span>
                     <span style="font-weight:700; color:var(--text-secondary);">Slide 03 / 05</span>
                 </div>
-                <h1 class="title">Demonstração: O Subsídio Cruzado na Prática</h1>
-                <p>Altere os dados para mostrar como o produto de alto volume "paga a conta" do produto complexo:</p>
+                <h1 class="title">Demonstração: Subsídio Cruzado com Cálculo Aberto</h1>
+                <p>Altere os dados para visualizar a memória de cálculo completa expressa passo a passo:</p>
                 
                 <div class="sim-grid">
                     <div>
                         <div class="form-group" style="margin-bottom:1rem;">
-                            <label class="form-label">CIF Total de Engenharia / Setup (R$)</label>
+                            <label class="form-label">CIF Total da Fábrica (R$)</label>
                             <input type="text" id="simCifTotal" class="form-control" value="100.000,00" oninput="simularSubsidio()">
                         </div>
                         <div class="form-group" style="margin-bottom:1rem;">
@@ -114,21 +145,8 @@
                         </div>
                     </div>
 
-                    <div class="chart-box">
-                        <div style="font-size:0.8rem; font-weight:800; color:var(--primary); margin-bottom:8px;">CIF Rateado por Volume (Absorção Tradicional)</div>
-                        <div class="bar-container">
-                            <div class="bar-item">
-                                <div class="bar" id="barPadrao" style="height:90%;"></div>
-                                <div class="bar-label">Padrão<br><span id="lblValPadrao" style="color:var(--primary);">R$ 90.000</span></div>
-                            </div>
-                            <div class="bar-item">
-                                <div class="bar danger" id="barEspecial" style="height:10%;"></div>
-                                <div class="bar-label">Especial<br><span id="lblValEspecial" style="color:var(--danger);">R$ 10.000</span></div>
-                            </div>
-                        </div>
-                        <div style="font-size:0.75rem; color:#64748B; margin-top:8px; text-align:center;">
-                            O produto Padrão carrega 90% da estrutura, mesmo que o Especial consuma metade dos testes!
-                        </div>
+                    <div class="calc-steps" id="boxCalculoAberto">
+                        Carregando memória de cálculo...
                     </div>
                 </div>
             </div>
@@ -139,15 +157,15 @@
         <div class="slide-card" data-slide="4">
             <div>
                 <div class="slide-header">
-                    <span class="tag">Consequências</span>
+                    <span class="tag">Efeito nos Preços</span>
                     <span style="font-weight:700; color:var(--text-secondary);">Slide 04 / 05</span>
                 </div>
-                <h1 class="title">A Espiral da Morte dos Custos</h1>
-                <p>O que acontece na gestão corporativa quando os rateios distorcem o custo real?</p>
+                <h1 class="title">A Espiral da Perda de Competitividade</h1>
+                <p>A distorção nos custos induz os administradores a tomarem decisões de preços errôneas no mercado:</p>
                 <div class="highlight-box">
-                    1. <strong>Superavaliação do Produto Padrão:</strong> Ele parece ter custo altíssimo &rarr; A empresa aumenta o preço de venda &rarr; Concorrentes tomam o mercado.<br><br>
-                    2. <strong>Subavaliação do Produto Especial:</strong> Ele parece extremamente barato e lucrativo &rarr; A empresa vende lotes customizados com desconto &rarr; Dá prejuízo sem saber.<br><br>
-                    3. <strong>Resultado:</strong> A empresa abandona seus produtos campeões de venda para focar em nichos que consomem toda a lucratividade fabril!
+                    <strong>1. Preço Artificialmente Alto no Produto Padrão:</strong> Ele recebe custo indireto em excesso, sua margem parece pequena e a diretoria encarece a venda, perdendo clientes para os concorrentes.<br><br>
+                    <strong>2. Preço Artificialmente Baixo no Produto Especial:</strong> As centenas de horas de suporte e regulagem consumidas pelo lote especial não são cobradas dele. A empresa vende com desconto achando que lucra, mas opera no vermelho.<br><br>
+                    <strong>3. Ajuste de Turnos na Escala 5x2:</strong> Sem trabalho aos sábados, as horas de fábrica precisam ser mais produtivas. Manter pequenas encomendas subsidiadas consome as horas nobres da semana sem retorno.
                 </div>
             </div>
             <div class="controls"></div>
@@ -157,16 +175,19 @@
         <div class="slide-card" data-slide="5">
             <div>
                 <div class="slide-header">
-                    <span class="tag">Solução</span>
+                    <span class="tag">Fundamento do ABC</span>
                     <span style="font-weight:700; color:var(--text-secondary);">Slide 05 / 05</span>
                 </div>
                 <h1 class="title">A Resposta Metodológica: O Sistema ABC</h1>
-                <p>Para solucionar essa cegueira contábil, os professores <strong>Robert Kaplan e Robin Cooper</strong> formalizaram no final da década de 1980 o <strong>Activity-Based Costing (ABC)</strong>.</p>
-                <div class="highlight-box" style="text-align:center; font-size:1.1rem;">
-                    <strong>Mudança de Paradigma:</strong> "Custos não são alocados diretamente aos produtos por regras abstratas. Custos são gerados pelas <strong>atividades</strong> necessárias para viabilizar a produção".
-                </div>
+                <p>O <strong>Custeio Baseado em Atividades (ABC)</strong> foi estruturado para romper com esse rateio cego:</p>
+                <div class="notepad-box">AXIOMA FUNDAMENTAL DO CUSTEIO ABC:
+Recursos Financeiros -> Gastos em Atividades Operacionais -> Cobrados dos Produtos
+
+Fomula de Alocacao:
+Custo da Atividade = Valor do Recurso * Direcionador de Recurso
+Custo no Produto = Demanda do Produto pela Atividade * Taxa da Atividade</div>
                 <p style="text-align:center; margin-top:1.5rem;">
-                    Avance para o <strong>Tópico 2</strong> e conheça o fluxo causal do Custeio ABC!
+                    Avance para o <strong>Tópico 2</strong> para ver detalhadamente a cadeia causal entre Recursos, Atividades e Objetos de Custo!
                 </p>
             </div>
             <div class="controls"></div>
@@ -186,17 +207,25 @@
             const vE = parseBR(document.getElementById('simVolEspecial').value);
             const totalVol = vP + vE || 1;
 
-            const percP = vP / totalVol;
-            const percE = vE / totalVol;
+            const taxaPorUnidade = cif / totalVol;
+            const cifP = taxaPorUnidade * vP;
+            const cifE = taxaPorUnidade * vE;
+            const percP = (vP / totalVol) * 100;
+            const percE = (vE / totalVol) * 100;
 
-            const cifP = cif * percP;
-            const cifE = cif * percE;
+            const html = `MEMORIA DE CALCULO EXPLICITA:
+Passo 1: Volume Global = ${vP.toLocaleString('pt-BR')} + ${vE.toLocaleString('pt-BR')} = ${totalVol.toLocaleString('pt-BR')} un
+Passo 2: Taxa de CIF por Unidade:
+  Taxa = ${fmtMoeda(cif)} / ${totalVol.toLocaleString('pt-BR')} un = ${fmtMoeda(taxaPorUnidade)} / un
+Passo 3: Apropriacao Volumetrica:
+  Produto Padrao:
+  ${vP.toLocaleString('pt-BR')} un * ${fmtMoeda(taxaPorUnidade)} = ${fmtMoeda(cifP)} (${percP.toFixed(1)}% do CIF)
+  Produto Especial:
+  ${vE.toLocaleString('pt-BR')} un * ${fmtMoeda(taxaPorUnidade)} = ${fmtMoeda(cifE)} (${percE.toFixed(1)}% do CIF)
 
-            document.getElementById('barPadrao').style.height = (percP * 100) + "%";
-            document.getElementById('barEspecial').style.height = Math.max(5, (percE * 100)) + "%";
+Diagnostico: O Produto Padrao carrega ${percP.toFixed(1)}% dos custos de suporte da fabrica inteira!`;
 
-            document.getElementById('lblValPadrao').innerText = fmtMoeda(cifP);
-            document.getElementById('lblValEspecial').innerText = fmtMoeda(cifE);
+            document.getElementById('boxCalculoAberto').innerText = html;
         }
 
         function render() {

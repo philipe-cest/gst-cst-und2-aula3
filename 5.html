@@ -7,23 +7,35 @@
     <style>
         :root {
             --primary: #002060; --primary-dark: #001138; --secondary: #0080FF;
-            --secondary-light: #E6F2FF; --success: #10B981; --warning: #F59E0B;
-            --background: #F4F7FA; --surface: #FFFFFF; --text-primary: #0F172A;
-            --text-secondary: #475569; --border: #E2E8F0; --radius-md: 12px;
-            --shadow-md: 0 4px 20px -2px rgba(0,32,96,0.08);
-            --font-mono: 'SFMono-Regular', Consolas, Menlo, monospace;
+            --secondary-light: #E6F2FF; --success: #10B981; --background: #F4F7FA;
+            --surface: #FFFFFF; --text-primary: #0F172A; --text-secondary: #475569;
+            --border: #CBD5E1; --radius-md: 12px; --shadow-md: 0 4px 20px -2px rgba(0,32,96,0.08);
+            --font-mono: 'Consolas', 'Courier New', monospace;
         }
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: system-ui, -apple-system, sans-serif; background: var(--background); color: var(--text-primary); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
         header { background: #FFF; border-bottom: 1px solid var(--border); padding: 0.85rem 1.5rem; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
         .brand { text-decoration: none; color: var(--primary); font-weight: 700; font-size: 0.95rem; }
         .container { max-width: 980px; width: 100%; margin: 2rem auto; padding: 0 1rem; flex-grow: 1; display: flex; flex-direction: column; }
-        .slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 2.5rem; box-shadow: var(--shadow-md); min-height: 520px; display: none; flex-direction: column; justify-content: space-between; }
+        .slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 2.5rem; box-shadow: var(--shadow-md); min-height: 540px; display: none; flex-direction: column; justify-content: space-between; }
         .slide-card.active { display: flex; }
         .slide-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 1rem; margin-bottom: 1.5rem; }
         .tag { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--secondary); background: var(--secondary-light); padding: 4px 10px; border-radius: 6px; }
-        .title { font-size: 1.65rem; color: var(--primary); font-weight: 800; margin-bottom: 1rem; }
-        .highlight-box { background: var(--secondary-light); border-left: 4px solid var(--secondary); padding: 1.2rem; border-radius: 6px; margin: 1.25rem 0; color: var(--primary); font-weight: 500; }
+        .title { font-size: 1.6rem; color: var(--primary); font-weight: 800; margin-bottom: 1rem; }
+        .highlight-box { background: var(--secondary-light); border-left: 4px solid var(--secondary); padding: 1.2rem; border-radius: 6px; margin: 1.25rem 0; color: var(--primary); }
+
+        .notepad-box {
+            background: #FFFFFF;
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--primary);
+            padding: 1rem 1.25rem;
+            margin: 1rem 0;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            white-space: pre-wrap;
+            line-height: 1.5;
+            color: #1E293B;
+        }
 
         .hier-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin: 1.5rem 0; }
         .hier-card { background: #FFFFFF; border: 1.5px solid var(--border); border-radius: 8px; padding: 1.25rem; border-top: 4px solid var(--secondary); }
@@ -35,15 +47,25 @@
         .btn { padding: 0.75rem 1.5rem; font-size: 0.9rem; font-weight: 700; border-radius: 6px; text-decoration: none; cursor: pointer; border: none; }
         .btn-nav { background: var(--primary); color: #FFF; }
         .btn-out { background: transparent; color: var(--primary); border: 1.5px solid var(--border); }
+        .btn-print { background: #FFFFFF; color: var(--text-primary); border: 1.5px solid var(--border); padding: 0.5rem 1rem; font-size: 0.8rem; font-weight: 700; border-radius: 6px; cursor: pointer; }
         .progress-dots { display: flex; gap: 8px; }
         .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--border); cursor: pointer; }
         .dot.active { background: var(--secondary); width: 22px; border-radius: 10px; }
+
+        @media print {
+            header, .controls, .btn-print { display: none !important; }
+            .slide-card { display: block !important; min-height: auto !important; page-break-after: always; border: 1px solid #999; margin-bottom: 2rem; }
+            body { background: #FFF; }
+        }
     </style>
 </head>
 <body>
     <header>
         <a href="index.html" class="brand">&larr; Portal da Aula 03</a>
-        <span style="font-size:0.85rem; font-weight:700; color:var(--text-secondary);">Tópico 5 de 10: Hierarquia de Atividades</span>
+        <div style="display:flex; align-items:center; gap:1rem;">
+            <button class="btn-print" onclick="window.print()">Imprimir Slide / PDF</button>
+            <span style="font-size:0.85rem; font-weight:700; color:var(--text-secondary);">Tópico 5 de 10: Hierarquia de Atividades</span>
+        </div>
     </header>
 
     <div class="container">
@@ -51,32 +73,32 @@
         <div class="slide-card active" data-slide="1">
             <div>
                 <div class="slide-header">
-                    <span class="tag">Arquitetura de Cooper & Kaplan</span>
+                    <span class="tag">Estruturação Conceitual</span>
                     <span style="font-weight:700; color:var(--text-secondary);">Slide 01 / 04</span>
                 </div>
-                <h1 class="title">Os Quatro Níveis de Atividades</h1>
-                <p>Nem todas as atividades de uma fábrica reagem ao mesmo tipo de estímulo. Robin Cooper e Robert Kaplan organizaram as atividades em uma hierarquia de 4 níveis conforme o gatilho que causa o seu custo:</p>
+                <h1 class="title">A Hierarquia de Atividades de Cooper & Kaplan</h1>
+                <p>Nem todas as atividades da fábrica variam em função da quantidade de peças fabricadas. Elas se dividem em 4 níveis causais:</p>
                 
                 <div class="hier-grid">
                     <div class="hier-card">
                         <div class="hier-level">Nível 1</div>
                         <div class="hier-title">Nível Unitário</div>
-                        <div class="hier-desc">Executadas a cada unidade individual fabricada (ex: usinar uma peça, inserir um componente, consumir energia da máquina).</div>
+                        <div class="hier-desc">Ocorrem cada vez que uma unidade física é processada (ex: consumo de energia de máquina por peça usinada).</div>
                     </div>
                     <div class="hier-card">
                         <div class="hier-level">Nível 2</div>
                         <div class="hier-title">Nível de Lote</div>
-                        <div class="hier-desc">Executadas uma única vez para um grupo inteiro de itens (ex: preparação de máquina - setup, emissão de ordem de compra, inspeção do lote).</div>
+                        <div class="hier-desc">Ocorrem uma única vez para um grupo de itens, independente de haver 10 ou 1.000 peças (ex: preparação e calibração de máquinas).</div>
                     </div>
                     <div class="hier-card">
                         <div class="hier-level">Nível 3</div>
                         <div class="hier-title">Nível de Produto</div>
-                        <div class="hier-desc">Necessárias para sustentar uma linha específica de produto (ex: projeto de engenharia, especificações técnicas, testes de conformidade do modelo).</div>
+                        <div class="hier-desc">Realizadas para permitir que determinada linha exista (ex: desenho técnico, testes de conformidade, registro no Inmetro).</div>
                     </div>
                     <div class="hier-card">
                         <div class="hier-level">Nível 4</div>
-                        <div class="hier-title">Sustentação da Fábrica</div>
-                        <div class="hier-desc">Mantêm a infraestrutura geral em funcionamento (ex: aluguel da fábrica, segurança patrimonial, iluminação do galpão, gestão de RH).</div>
+                        <div class="hier-title">Sustentação Fabril</div>
+                        <div class="hier-desc">Mantêm a infraestrutura em funcionamento (ex: aluguel do galpão, segurança patrimonial, gestão de RH na escala 5x2).</div>
                     </div>
                 </div>
             </div>
@@ -87,18 +109,24 @@
         <div class="slide-card" data-slide="2">
             <div>
                 <div class="slide-header">
-                    <span class="tag">Ponto Cego Tradicional</span>
+                    <span class="tag">A Lógica dos Lotes</span>
                     <span style="font-weight:700; color:var(--text-secondary);">Slide 02 / 04</span>
                 </div>
-                <h1 class="title">Por que essa distinção é Revolucionária?</h1>
-                <p>No custeio tradicional por absorção, presume-se erroneamente que <strong>todos os custos são de Nível Unitário</strong> (tudo é rateado por volume físico).</p>
-                <div class="highlight-box">
-                    <strong>A Revelação do Nível de Lote:</strong><br>
-                    Preparar uma máquina (setup) custa R$ 500, quer você produza <strong>10 unidades</strong> ou <strong>10.000 unidades</strong> no lote!<br><br>
-                    • No lote de 10 unidades, o custo de setup por peça é <strong>R$ 50,00</strong>.<br>
-                    • No lote de 10.000 unidades, o custo de setup por peça é <strong>R$ 0,05</strong>.<br><br>
-                    O rateio tradicional ignora isso e mascara o verdadeiro custo das pequenas encomendas personalizadas.
-                </div>
+                <h1 class="title">Por que o Nível de Lote Revolucionou a Gestão?</h1>
+                <p>O rateio tradicional presume erroneamente que todo custo varia com o número de unidades produzidas, ignorando o custo fixo do lote:</p>
+
+                <div class="notepad-box">EXEMPLO COMPARATIVO DO CUSTO DE PREPARACAO DA MAQUINA:
+Custo fixo da preparacao e calibracao da prensa = R$ 600,00 por lote.
+
+CENARIO 1: Lote Padrao de 3.000 unidades
+Custo Unitario de Preparacao = R$ 600,00 / 3.000 un = R$ 0,20 por peca
+
+CENARIO 2: Lote Especial de 30 unidades
+Custo Unitario de Preparacao = R$ 600,00 / 30 un = R$ 20,00 por peca
+
+Distorcao do Metodo Tradicional:
+Se ratear por volume fisico, as duas pecas recebem os mesmos R$ 0,20,
+fazendo o lote especial parecer 100 vezes mais barato do que realmente e!</div>
             </div>
             <div class="controls"></div>
         </div>
@@ -110,11 +138,17 @@
                     <span class="tag">Decisão Gerencial</span>
                     <span style="font-weight:700; color:var(--text-secondary);">Slide 03 / 04</span>
                 </div>
-                <h1 class="title">Tratamento dos Custos de Fábrica (Instalações)</h1>
-                <p>O nível mais controverso do ABC são as atividades de <strong>Sustentação da Fábrica</strong> (aluguel, IPTU, vigilância).</p>
+                <h1 class="title">Custos de Instalações e a Semana de 5 Dias</h1>
+                <p>O nível mais discutido do ABC é a sustentação das instalações fabris (aluguel, IPTU, vigilância):</p>
+                
+                <div class="notepad-box">TRATAMENTO DOS CUSTOS DE INSTALACOES:
+- No ABC Estrategico: Nao devem ser rateados aos produtos em decisoes
+  de precificacao de curto prazo, pois qualquer divisor sera arbitrario.
+- No ABC para Balanco (CPC 16): Sao rateados aos estoques para cumprir
+  a legislacao fiscal brasileira e as normas de auditoria externa.</div>
+
                 <div class="highlight-box">
-                    • <strong>Postura Rigorosa do ABC Gerencial:</strong> Não devem ser rateados aos produtos quando o objetivo for tomada de decisão ou precificação de curto prazo, pois qualquer base será arbitrária.<br><br>
-                    • <strong>Postura de Adequação Fiscal / Societária:</strong> São rateados no final para atendimento da conformidade legal do Custeio por Absorção (CPC 16 / RIR).
+                    <strong>Reflexo da Escala 5x2:</strong> Com a fábrica fechando aos sábados e domingos, os custos de instalações precisam ser cobertos com maior disciplina operacional de segunda a sexta-feira.
                 </div>
             </div>
             <div class="controls"></div>
@@ -127,13 +161,13 @@
                     <span class="tag">Próximo Módulo</span>
                     <span style="font-weight:700; color:var(--text-secondary);">Slide 04 / 04</span>
                 </div>
-                <h1 class="title">Hora da Verdade: O Laboratório Comparativo</h1>
-                <p>Agora que conhecemos a estrutura completa, vamos comparar numericamente o <strong>Custeio Tradicional vs. Custeio ABC</strong> em uma mesma linha industrial.</p>
-                <div class="highlight-box" style="text-align:center;">
-                    No <strong>Tópico 6</strong>, operaremos uma simulação dinâmica com dois produtos: Produto Caneta Padrão (Alto Volume) vs. Produto Caneta Luxo Customizada (Baixo Volume).
-                </div>
+                <h1 class="title">Laboratório Comparativo em Tempo Real</h1>
+                <p>Chegou o momento de ver todos os cálculos funcionando em conjunto.</p>
+                <div class="notepad-box">OBJETIVO DO TOPICO 6:
+Executar a comparacao numerica completa entre o Custeio por Absorcao
+Tradicional e o Custeio ABC, mostrando o calculo aberto da distorcao.</div>
                 <p style="text-align:center; margin-top:1.5rem;">
-                    Clique abaixo para ingressar no laboratório!
+                    Avance para o <strong>Tópico 6</strong> para operar o Laboratório Comparativo!
                 </p>
             </div>
             <div class="controls"></div>
@@ -174,7 +208,7 @@
             if (e.key === 'ArrowLeft' && cur > 1) go(-1);
         });
 
-        document.addEventListener('DOMContentLoaded', () => { render(); });
+        document.addEventListener('DOMContentLoaded', render);
     </script>
 </body>
 </html>

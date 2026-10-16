@@ -9,21 +9,34 @@
             --primary: #002060; --primary-dark: #001138; --secondary: #0080FF;
             --secondary-light: #E6F2FF; --success: #10B981; --warning: #F59E0B;
             --danger: #EF4444; --background: #F4F7FA; --surface: #FFFFFF;
-            --text-primary: #0F172A; --text-secondary: #475569; --border: #E2E8F0;
+            --text-primary: #0F172A; --text-secondary: #475569; --border: #CBD5E1;
             --radius-md: 12px; --shadow-md: 0 4px 20px -2px rgba(0,32,96,0.08);
-            --font-mono: 'SFMono-Regular', Consolas, Menlo, monospace;
+            --font-mono: 'Consolas', 'Courier New', monospace;
         }
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: system-ui, -apple-system, sans-serif; background: var(--background); color: var(--text-primary); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
         header { background: #FFF; border-bottom: 1px solid var(--border); padding: 0.85rem 1.5rem; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
         .brand { text-decoration: none; color: var(--primary); font-weight: 700; font-size: 0.95rem; }
         .container { max-width: 980px; width: 100%; margin: 2rem auto; padding: 0 1rem; flex-grow: 1; display: flex; flex-direction: column; }
-        .slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 2.5rem; box-shadow: var(--shadow-md); min-height: 520px; display: none; flex-direction: column; justify-content: space-between; }
+        .slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 2.5rem; box-shadow: var(--shadow-md); min-height: 540px; display: none; flex-direction: column; justify-content: space-between; }
         .slide-card.active { display: flex; }
         .slide-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 1rem; margin-bottom: 1.5rem; }
         .tag { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--secondary); background: var(--secondary-light); padding: 4px 10px; border-radius: 6px; }
-        .title { font-size: 1.65rem; color: var(--primary); font-weight: 800; margin-bottom: 1rem; }
-        .highlight-box { background: var(--secondary-light); border-left: 4px solid var(--secondary); padding: 1.2rem; border-radius: 6px; margin: 1.25rem 0; color: var(--primary); font-weight: 500; }
+        .title { font-size: 1.6rem; color: var(--primary); font-weight: 800; margin-bottom: 1rem; }
+        .highlight-box { background: var(--secondary-light); border-left: 4px solid var(--secondary); padding: 1.2rem; border-radius: 6px; margin: 1.25rem 0; color: var(--primary); }
+
+        .notepad-box {
+            background: #FFFFFF;
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--primary);
+            padding: 1rem 1.25rem;
+            margin: 1rem 0;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            white-space: pre-wrap;
+            line-height: 1.5;
+            color: #1E293B;
+        }
         
         .comp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 1.25rem 0; }
         .comp-box { padding: 1.25rem; border-radius: 8px; border: 1px solid var(--border); }
@@ -32,21 +45,30 @@
 
         .checklist { list-style: none; display: flex; flex-direction: column; gap: 0.75rem; margin: 1.25rem 0; }
         .checklist li { background: #F8FAFC; border: 1px solid var(--border); padding: 0.85rem 1.2rem; border-radius: 6px; display: flex; align-items: center; gap: 10px; font-size: 0.95rem; }
-        .checklist li strong { color: var(--primary); }
 
         .controls { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 1.25rem; margin-top: 2rem; }
         .btn { padding: 0.75rem 1.5rem; font-size: 0.9rem; font-weight: 700; border-radius: 6px; text-decoration: none; cursor: pointer; border: none; }
         .btn-nav { background: var(--primary); color: #FFF; }
         .btn-out { background: transparent; color: var(--primary); border: 1.5px solid var(--border); }
+        .btn-print { background: #FFFFFF; color: var(--text-primary); border: 1.5px solid var(--border); padding: 0.5rem 1rem; font-size: 0.8rem; font-weight: 700; border-radius: 6px; cursor: pointer; }
         .progress-dots { display: flex; gap: 8px; }
         .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--border); cursor: pointer; }
         .dot.active { background: var(--secondary); width: 22px; border-radius: 10px; }
+
+        @media print {
+            header, .controls, .btn-print { display: none !important; }
+            .slide-card { display: block !important; min-height: auto !important; page-break-after: always; border: 1px solid #999; margin-bottom: 2rem; }
+            body { background: #FFF; }
+        }
     </style>
 </head>
 <body>
     <header>
         <a href="index.html" class="brand">&larr; Portal da Aula 03</a>
-        <span style="font-size:0.85rem; font-weight:700; color:var(--text-secondary);">Tópico 10 de 10: Matriz de Decisão e Fechamento</span>
+        <div style="display:flex; align-items:center; gap:1rem;">
+            <button class="btn-print" onclick="window.print()">Imprimir Slide / PDF</button>
+            <span style="font-size:0.85rem; font-weight:700; color:var(--text-secondary);">Tópico 10 de 10: Matriz de Decisão e Fechamento</span>
+        </div>
     </header>
 
     <div class="container">
@@ -58,26 +80,26 @@
                     <span style="font-weight:700; color:var(--text-secondary);">Slide 01 / 04</span>
                 </div>
                 <h1 class="title">Vantagens vs Limitações Reais do ABC</h1>
-                <p>Nenhum sistema de custos é uma bala de prata. O bom Administrador conhece com precisão o retorno sobre o investimento e os pontos de atrito da metodologia:</p>
+                <p>Nenhum modelo gerencial resolve todos os problemas isoladamente. O administrador precisa pesar a relação custo-benefício:</p>
                 
                 <div class="comp-grid">
                     <div class="comp-box pros">
                         <strong style="color:#166534; font-size:1rem; text-transform:uppercase;">Principais Vantagens</strong>
                         <ul style="padding-left:1.2rem; margin-top:0.5rem; font-size:0.88rem; color:#14532D; display:flex; flex-direction:column; gap:0.4rem;">
-                            <li>Elimina o subsídio cruzado entre produtos e contratos de clientes.</li>
-                            <li>Apoia decisões estratégicas de formação de preço e descontinuação.</li>
-                            <li>Identifica e quantifica o custo financeiro da capacidade ociosa.</li>
-                            <li>Fornece base rigorosa para a Gestão de Processos (ABM).</li>
+                            <li>Elimina distorções e subsídios cruzados entre linhas de produtos.</li>
+                            <li>Permite precificar contratos com base no consumo real de tarefas.</li>
+                            <li>Identifica com exatidão o custo financeiro da ociosidade fabril.</li>
+                            <li>Adequa a empresa à perda de turnos de sábado na escala 5x2.</li>
                         </ul>
                     </div>
 
                     <div class="comp-box cons">
-                        <strong style="color:#991B1B; font-size:1rem; text-transform:uppercase;">Principais Limitações</strong>
+                        <strong style="color:#991B1B; font-size:1rem; text-transform:uppercase;">Limitações Operacionais</strong>
                         <ul style="padding-left:1.2rem; margin-top:0.5rem; font-size:0.88rem; color:#7F1D1D; display:flex; flex-direction:column; gap:0.4rem;">
-                            <li>Custo de implementação e parametrização de software elevado.</li>
-                            <li>Resistência cultural das equipes ao mapeamento detalhado de rotinas.</li>
-                            <li>Exige atualização periódica das taxas de direcionadores.</li>
-                            <li>Dificuldade de alocação de custos de infraestrutura fabril.</li>
+                            <li>Custo de implantação e parametrização de software ERP elevado.</li>
+                            <li>Exige disciplina de apontamento de dados e processos padronizados.</li>
+                            <li>Dificuldade de alocar despesas de sustentação de instalações.</li>
+                            <li>Não é aceito isoladamente pela Receita Federal para apuração do IRPJ.</li>
                         </ul>
                     </div>
                 </div>
@@ -89,28 +111,28 @@
         <div class="slide-card" data-slide="2">
             <div>
                 <div class="slide-header">
-                    <span class="tag">Diagnóstico de Implantação</span>
+                    <span class="tag">Critérios de Adoção</span>
                     <span style="font-weight:700; color:var(--text-secondary);">Slide 02 / 04</span>
                 </div>
-                <h1 class="title">Quando a sua Empresa DEVE Adotar o ABC?</h1>
-                <p>O Administrador só deve recomendar a implementação do Custeio ABC se a organização preencher pelo menos 3 dos seguintes critérios:</p>
+                <h1 class="title">Quando Vale a Pena Adotar o Custeio ABC?</h1>
+                <p>O administrador só deve recomendar o investimento na metodologia quando a empresa preencher ao menos 3 das seguintes características:</p>
                 
                 <ul class="checklist">
                     <li>
-                        <span style="font-size:1.2rem;">📌</span>
-                        <div><strong>1. Custos Indiretos Expressivos:</strong> Os CIF representam mais de 30% a 40% da estrutura global de custos da empresa.</div>
+                        <span>✔</span>
+                        <div><strong>1. Custos Indiretos Altos:</strong> Os CIF representam mais de 35% do custo global da organização.</div>
                     </li>
                     <li>
-                        <span style="font-size:1.2rem;">📌</span>
-                        <div><strong>2. Alta Diversidade de Linhas:</strong> A empresa produz itens padronizados em massa e itens sob encomenda altamente customizados na mesma estrutura.</div>
+                        <span>✔</span>
+                        <div><strong>2. Alta Diversidade de Linhas:</strong> A mesma fábrica produz produtos de grande tiragem padronizada e itens sob encomenda com muitas trocas de ferramentas.</div>
                     </li>
                     <li>
-                        <span style="font-size:1.2rem;">📌</span>
-                        <div><strong>3. Competição Agressiva de Preços:</strong> Margens apertadas exigem precificação precisa sem margem para subsídios cruzados.</div>
+                        <span>✔</span>
+                        <div><strong>3. Competição Forte no Mercado:</strong> Margens de lucro estreitas exigem precificação cirúrgica para não perder clientes.</div>
                     </li>
                     <li>
-                        <span style="font-size:1.2rem;">📌</span>
-                        <div><strong>4. Operação Multicanais / Clientes Complexos:</strong> Clientes que compram o mesmo volume, mas um exige visitas, embalagens especiais e relatórios diários.</div>
+                        <span>✔</span>
+                        <div><strong>4. Reorganização de Turnos de Trabalho:</strong> Mudanças estruturais na jornada (como a transição de 6x1 para 5x2) que exigem controle rigoroso da produtividade horária.</div>
                     </li>
                 </ul>
             </div>
@@ -121,15 +143,16 @@
         <div class="slide-card" data-slide="3">
             <div>
                 <div class="slide-header">
-                    <span class="tag">Conexão da Ementa</span>
+                    <span class="tag">Ponte Metodológica</span>
                     <span style="font-weight:700; color:var(--text-secondary);">Slide 03 / 04</span>
                 </div>
-                <h1 class="title">A Ponte para a Aula 04: Custeio Variável</h1>
-                <p>O ABC refinou a apropriação dos Custos Indiretos, mas na hora de decidir se aceita uma encomenda extra no curto prazo, o gestor precisa separar estritamente:</p>
-                <div class="highlight-box">
-                    <strong>A Próxima Fronteira:</strong> Custos Fixos vs Custos Variáveis.<br>
-                    Na <strong>Aula 04</strong>, ingressaremos no <strong>Custeio Variável</strong> e na análise cirúrgica da <strong>Margem de Contribuição</strong>, que define se um negócio vive ou morre no mês!
-                </div>
+                <h1 class="title">A Ligação com a Próxima Aula: Custeio Variável</h1>
+                <p>O ABC refinou a distribuição dos Custos Indiretos, mas nas decisões comerciais imediatas de aceitar pedidos extras, o gestor precisa separar:</p>
+
+                <div class="notepad-box">A FRONTEIRA ENTRE O ABC E O CUSTEIO VARIAVEL:
+- Custeio ABC: Foco na precisao de longo prazo, processos e sustentacao da estrutura.
+- Custeio Variavel (Aula 04): Foco na tomada de decisao de curto prazo,
+  separando Custos Fixos de Custos Variaveis e calculando a Margem de Contribuicao!</div>
             </div>
             <div class="controls"></div>
         </div>
@@ -138,15 +161,19 @@
         <div class="slide-card" data-slide="4">
             <div>
                 <div class="slide-header">
-                    <span class="tag">Conclusão da Aula 03</span>
+                    <span class="tag">Encerramento</span>
                     <span style="font-weight:700; color:var(--text-secondary);">Slide 04 / 04</span>
                 </div>
-                <h1 class="title">Síntese Consolidada dos Conceitos</h1>
-                <div class="highlight-box" style="text-align:center; font-size:1.05rem;">
-                    <strong>Regra Central do Administrador:</strong> "Não gerencie custos por departamentos. Gerencie as atividades que causam os custos, elimine o que não agrega valor e precifique cobrando exatamente pelo esforço consumido".
-                </div>
+                <h1 class="title">Síntese Prática do Administrador</h1>
+                
+                <div class="notepad-box">REGRA DE OURO DA AULA 03:
+Nao gerencie despesas por departamentos ou silos isolados.
+Mapeie e gerencie as atividades que causam os custos.
+Elimine o que nao agrega valor e cobre de cada produto e cliente
+exatamente o esforco operacional que ele demandou.</div>
+
                 <p style="text-align:center; margin-top:2rem;">
-                    <a href="index.html" class="btn btn-nav" style="padding:0.9rem 2rem;">&larr; Retornar ao Portal Principal da Aula 03</a>
+                    <a href="index.html" class="btn btn-nav" style="padding:0.9rem 2rem;">&larr; Retornar ao Portal da Aula 03</a>
                 </p>
             </div>
             <div class="controls"></div>
@@ -187,7 +214,7 @@
             if (e.key === 'ArrowLeft' && cur > 1) go(-1);
         });
 
-        document.addEventListener('DOMContentLoaded', () => { render(); });
+        document.addEventListener('DOMContentLoaded', render);
     </script>
 </body>
 </html>

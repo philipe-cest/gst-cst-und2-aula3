@@ -3,32 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tópico 6: Laboratório Comparativo Absorção vs ABC | CEST</title>
+    <title>Tópico 6: Laboratório Comparativo Absorção vs ABC | Gestão de Custos CEST</title>
     <style>
         :root {
             --primary: #002060; --primary-dark: #001138; --secondary: #0080FF;
             --secondary-light: #E6F2FF; --danger: #EF4444; --danger-light: #FEE2E2;
             --success: #10B981; --background: #F4F7FA; --surface: #FFFFFF;
-            --text-primary: #0F172A; --text-secondary: #475569; --border: #E2E8F0;
+            --text-primary: #0F172A; --text-secondary: #475569; --border: #CBD5E1;
             --radius-md: 12px; --shadow-md: 0 4px 20px -2px rgba(0,32,96,0.08);
-            --font-mono: 'SFMono-Regular', Consolas, Menlo, monospace;
+            --font-mono: 'Consolas', 'Courier New', monospace;
         }
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: system-ui, -apple-system, sans-serif; background: var(--background); color: var(--text-primary); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
         header { background: #FFF; border-bottom: 1px solid var(--border); padding: 0.85rem 1.5rem; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
         .brand { text-decoration: none; color: var(--primary); font-weight: 700; font-size: 0.95rem; }
-        .container { max-width: 1050px; width: 100%; margin: 2rem auto; padding: 0 1rem; flex-grow: 1; display: flex; flex-direction: column; }
+        .container { max-width: 1020px; width: 100%; margin: 2rem auto; padding: 0 1rem; flex-grow: 1; display: flex; flex-direction: column; }
         .slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 2rem 2.5rem; box-shadow: var(--shadow-md); min-height: 540px; display: none; flex-direction: column; justify-content: space-between; }
         .slide-card.active { display: flex; }
         .slide-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 0.75rem; margin-bottom: 1rem; }
         .tag { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--secondary); background: var(--secondary-light); padding: 4px 10px; border-radius: 6px; }
         .title { font-size: 1.55rem; color: var(--primary); font-weight: 800; margin-bottom: 0.75rem; }
 
+        .notepad-box {
+            background: #FFFFFF;
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--primary);
+            padding: 1rem 1.25rem;
+            margin: 1rem 0;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            white-space: pre-wrap;
+            line-height: 1.5;
+            color: #1E293B;
+        }
+
         .lab-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 1rem 0; }
         .panel { background: #F8FAFC; border: 1px solid var(--border); border-radius: 8px; padding: 1.25rem; }
         .panel-title { font-size: 0.85rem; font-weight: 800; text-transform: uppercase; color: var(--primary); margin-bottom: 0.75rem; }
         .form-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem; font-size: 0.88rem; }
-        .form-row input { width: 110px; padding: 0.4rem 0.6rem; border: 1.5px solid var(--border); border-radius: 4px; font-family: var(--font-mono); font-weight: 700; text-align: right; }
+        .form-row input { width: 120px; padding: 0.4rem 0.6rem; border: 1.5px solid var(--border); border-radius: 4px; font-family: var(--font-mono); font-weight: 700; text-align: right; }
 
         .comp-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; margin-top: 1rem; }
         .comp-table th, .comp-table td { border: 1px solid var(--border); padding: 8px 10px; text-align: center; }
@@ -38,33 +51,43 @@
         .btn { padding: 0.75rem 1.5rem; font-size: 0.9rem; font-weight: 700; border-radius: 6px; text-decoration: none; cursor: pointer; border: none; }
         .btn-nav { background: var(--primary); color: #FFF; }
         .btn-out { background: transparent; color: var(--primary); border: 1.5px solid var(--border); }
+        .btn-print { background: #FFFFFF; color: var(--text-primary); border: 1.5px solid var(--border); padding: 0.5rem 1rem; font-size: 0.8rem; font-weight: 700; border-radius: 6px; cursor: pointer; }
         .progress-dots { display: flex; gap: 8px; }
         .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--border); cursor: pointer; }
         .dot.active { background: var(--secondary); width: 22px; border-radius: 10px; }
+
+        @media print {
+            header, .controls, .btn-print { display: none !important; }
+            .slide-card { display: block !important; min-height: auto !important; page-break-after: always; border: 1px solid #999; margin-bottom: 2rem; }
+            body { background: #FFF; }
+        }
     </style>
 </head>
 <body>
     <header>
         <a href="index.html" class="brand">&larr; Portal da Aula 03</a>
-        <span style="font-size:0.85rem; font-weight:700; color:var(--text-secondary);">Tópico 6 de 10: Laboratório Comparativo</span>
+        <div style="display:flex; align-items:center; gap:1rem;">
+            <button class="btn-print" onclick="window.print()">Imprimir Slide / PDF</button>
+            <span style="font-size:0.85rem; font-weight:700; color:var(--text-secondary);">Tópico 6 de 10: Laboratório Comparativo</span>
+        </div>
     </header>
 
     <div class="container">
-        <!-- Slide 1: Laboratório Operacional Completo -->
+        <!-- Slide 1 -->
         <div class="slide-card active" data-slide="1">
             <div>
                 <div class="slide-header">
-                    <span class="tag">Simulador em Tempo Real</span>
+                    <span class="tag">Simulador em Sala</span>
                     <span style="font-weight:700; color:var(--text-secondary);">Slide 01 / 03</span>
                 </div>
-                <h1 class="title">Simulador: Absorção Tradicional vs Custeio ABC</h1>
-                <p style="font-size:0.9rem; color:var(--text-secondary);">Altere os parâmetros da fábrica e veja o cálculo dos dois métodos mudando na hora:</p>
+                <h1 class="title">Laboratório Comparativo: Absorção Tradicional vs ABC</h1>
+                <p style="font-size:0.9rem; color:var(--text-secondary);">Altere os parâmetros para comparar os dois sistemas com cálculo exposto na íntegra:</p>
 
                 <div class="lab-grid">
                     <div class="panel">
                         <div class="panel-title">1. Dados dos Produtos</div>
                         <div class="form-row">
-                            <span>Qtd. Produzida Produto Padrão:</span>
+                            <span>Volume Produto Padrão:</span>
                             <input type="text" id="qtdA" value="9.000" oninput="calcularComparativo()">
                         </div>
                         <div class="form-row">
@@ -72,7 +95,7 @@
                             <input type="text" id="cdA" value="20,00" oninput="calcularComparativo()">
                         </div>
                         <div class="form-row">
-                            <span>Qtd. Produzida Produto Especial:</span>
+                            <span>Volume Produto Especial:</span>
                             <input type="text" id="qtdB" value="1.000" oninput="calcularComparativo()">
                         </div>
                         <div class="form-row">
@@ -84,25 +107,25 @@
                     <div class="panel">
                         <div class="panel-title">2. Atividades e Custos Indiretos (CIF)</div>
                         <div class="form-row">
-                            <span>CIF Total Setup (R$):</span>
-                            <input type="text" id="cifSetup" value="60.000,00" oninput="calcularComparativo()">
+                            <span>CIF Preparação de Máquinas (R$):</span>
+                            <input type="text" id="cifPrep" value="60.000,00" oninput="calcularComparativo()">
                         </div>
                         <div class="form-row">
-                            <span>Setups Padrão vs Especial:</span>
+                            <span>Preparações (Padrão vs Especial):</span>
                             <div style="display:flex; gap:4px;">
-                                <input type="text" id="setA" value="4" style="width:45px;" oninput="calcularComparativo()">
-                                <input type="text" id="setB" value="16" style="width:45px;" oninput="calcularComparativo()">
+                                <input type="text" id="prepA" value="4" style="width:55px;" oninput="calcularComparativo()">
+                                <input type="text" id="prepB" value="16" style="width:55px;" oninput="calcularComparativo()">
                             </div>
                         </div>
                         <div class="form-row">
-                            <span>CIF Total Inspeção (R$):</span>
+                            <span>CIF Inspeção Laboratorial (R$):</span>
                             <input type="text" id="cifInsp" value="40.000,00" oninput="calcularComparativo()">
                         </div>
                         <div class="form-row">
-                            <span>Horas Insp. Padrão vs Especial:</span>
+                            <span>Horas Inspeção (Padrão vs Especial):</span>
                             <div style="display:flex; gap:4px;">
-                                <input type="text" id="insA" value="100" style="width:45px;" oninput="calcularComparativo()">
-                                <input type="text" id="insB" value="300" style="width:45px;" oninput="calcularComparativo()">
+                                <input type="text" id="insA" value="100" style="width:55px;" oninput="calcularComparativo()">
+                                <input type="text" id="insB" value="300" style="width:55px;" oninput="calcularComparativo()">
                             </div>
                         </div>
                     </div>
@@ -114,7 +137,7 @@
                         <th>Volume</th>
                         <th>Custo Unit. (Absorção Tradicional)</th>
                         <th>Custo Unit. (Custeio ABC)</th>
-                        <th>Distorção / Subsídio</th>
+                        <th>Distorção Apurada</th>
                     </tr>
                     <tr>
                         <td style="font-weight:700;">Produto Padrão</td>
@@ -135,38 +158,46 @@
             <div class="controls"></div>
         </div>
 
-        <!-- Slide 2: Análise Gerencial do Resultado -->
+        <!-- Slide 2 -->
         <div class="slide-card" data-slide="2">
             <div>
                 <div class="slide-header">
-                    <span class="tag">Conclusões Críticas</span>
+                    <span class="tag">Passo a Passo Matemático</span>
                     <span style="font-weight:700; color:var(--text-secondary);">Slide 02 / 03</span>
                 </div>
-                <h1 class="title">O Diagnóstico da Cegueira Contábil</h1>
-                <p>Observe atentamente o que o simulador revelou:</p>
-                <div style="background:#FEF2F2; border-left:4px solid var(--danger); padding:1.2rem; border-radius:6px; margin:1.25rem 0; color:#991B1B;">
-                    • Pelo método tradicional, o <strong>Produto Especial</strong> parecia custar <strong>R$ 45,00</strong>. Se o comercial vendesse a R$ 60,00, a diretoria acreditava estar tendo lucro!<br><br>
-                    • Pelo Custeio ABC, descobre-se que o custo real do Produto Especial é <strong>R$ 113,00</strong>! Vender a R$ 60,00 estava gerando um prejuízo de R$ 53,00 por unidade vendida!
+                <h1 class="title">Demonstração das Equações dos Dois Métodos</h1>
+                <p>Veja como cada número da tabela anterior é apurado:</p>
+                <div class="notepad-box" id="boxMemoriaLab">
+                    Carregando equações completas...
                 </div>
-                <p>O Produto Padrão era obrigado a pagar pelos setups e inspeções do Especial, tornando-se artificialmente caro no catálogo.</p>
             </div>
             <div class="controls"></div>
         </div>
 
-        <!-- Slide 3: O que o Gestor Deve Fazer? -->
+        <!-- Slide 3 -->
         <div class="slide-card" data-slide="3">
             <div>
                 <div class="slide-header">
                     <span class="tag">Ações Estratégicas</span>
                     <span style="font-weight:700; color:var(--text-secondary);">Slide 03 / 03</span>
                 </div>
-                <h1 class="title">Decisões Tomadas com Base no ABC</h1>
-                <p>De posse desses dados reais, o Administrador possui 3 caminhos:</p>
-                <div style="background:var(--secondary-light); border-left:4px solid var(--secondary); padding:1.2rem; border-radius:6px; margin:1.25rem 0; color:var(--primary);">
-                    1. <strong>Reprecificação dos Especiais:</strong> Elevar o preço do Produto Especial para acima de R$ 113,00 + margem.<br><br>
-                    2. <strong>Redução do Preço do Produto Padrão:</strong> Baixar o preço da Caneta Padrão de R$ 35 para R$ 28, conquistando fatias enormes de mercado do concorrente com margem garantida.<br><br>
-                    3. <strong>Tamanho Mínimo de Pedido (Lote Mínimo):</strong> Proibir encomendas menores que 500 unidades para diluir o custo dos setups.
-                </div>
+                <h1 class="title">Decisões do Administrador com Base no ABC</h1>
+                <p>Com os custos verdadeiros em mãos, o gestor evita prejuízos na operação:</p>
+                
+                <div class="notepad-box">DECISOES ESTRATEGICAS COM BASE NO CUSTEIO ABC:
+
+1. Reprecificacao Comercial:
+O Produto Especial precisa ter seu preco recalculado para cobrir R$ 113,00
+mais a margem de lucro desejada. Se for vendido a R$ 60,00, causara perda de
+R$ 53,00 por peca vendida!
+
+2. Ganho de Competitividade no Produto Padrao:
+O Produto Padrao custa apenas R$ 22,44 e nao R$ 30,00. A empresa pode reduzir
+seu preco de venda com seguranca para ganhar mercado de concorrentes.
+
+3. Politica de Lote Minimo:
+Exigir lotes minimos de 500 pecas para diluir as preparacoes de maquinas,
+especialmente na escala 5x2, onde ha menos turnos livres para trocas de linha.</div>
             </div>
             <div class="controls"></div>
         </div>
@@ -185,35 +216,37 @@
             const qB = parseBR(document.getElementById('qtdB').value) || 1;
             const cdB = parseBR(document.getElementById('cdB').value);
 
-            const cifSetup = parseBR(document.getElementById('cifSetup').value);
-            const sA = parseBR(document.getElementById('setA').value);
-            const sB = parseBR(document.getElementById('setB').value);
-            const totalSet = sA + sB || 1;
+            const cifPrep = parseBR(document.getElementById('cifPrep').value);
+            const pA = parseBR(document.getElementById('prepA').value);
+            const pB = parseBR(document.getElementById('prepB').value);
+            const totPrep = pA + pB || 1;
 
             const cifInsp = parseBR(document.getElementById('cifInsp').value);
             const iA = parseBR(document.getElementById('insA').value);
             const iB = parseBR(document.getElementById('insB').value);
-            const totalIns = iA + iB || 1;
+            const totInsp = iA + iB || 1;
 
-            const cifTotal = cifSetup + cifInsp;
+            const cifTotal = cifPrep + cifInsp;
             const totalQtd = qA + qB;
 
             // 1. Absorção Tradicional (Volume)
-            const cifUnitTrad = cifTotal / totalQtd;
-            const custoTradA = cdA + cifUnitTrad;
-            const custoTradB = cdB + cifUnitTrad;
+            const taxaTrad = cifTotal / totalQtd;
+            const custoTradA = cdA + taxaTrad;
+            const custoTradB = cdB + taxaTrad;
 
-            // 2. ABC
-            const taxaSetup = cifSetup / totalSet;
-            const taxaInsp = cifInsp / totalIns;
+            // 2. Custeio ABC
+            const taxaPrep = cifPrep / totPrep;
+            const taxaInsp = cifInsp / totInsp;
 
-            const cifAbcA = (sA * taxaSetup) + (iA * taxaInsp);
-            const cifAbcB = (sB * taxaSetup) + (iB * taxaInsp);
+            const cifAbcA = (pA * taxaPrep) + (iA * taxaInsp);
+            const cifAbcB = (pB * taxaPrep) + (iB * taxaInsp);
 
-            const custoAbcA = cdA + (cifAbcA / qA);
-            const custoAbcB = cdB + (cifAbcB / qB);
+            const cifAbcUnA = cifAbcA / qA;
+            const cifAbcUnB = cifAbcB / qB;
 
-            // Atualiza tela
+            const custoAbcA = cdA + cifAbcUnA;
+            const custoAbcB = cdB + cifAbcUnB;
+
             document.getElementById('lblQtdA').innerText = qA.toLocaleString('pt-BR') + ' un';
             document.getElementById('lblQtdB').innerText = qB.toLocaleString('pt-BR') + ' un';
 
@@ -228,6 +261,39 @@
 
             document.getElementById('lblDistA').innerText = (distA >= 0 ? 'Superavaliado (+' : 'Subavaliado (') + distA.toFixed(1) + '%)';
             document.getElementById('lblDistB').innerText = (distB >= 0 ? 'Superavaliado (+' : 'Subavaliado (') + distB.toFixed(1) + '%)';
+
+            const memoria = `MEMORIA DE CALCULO EXPLICITA (BLOCO DE NOTAS):
+
+1. METODO TRADICIONAL (RATEIO POR VOLUME GLOBAL):
+Volume Global = ${qA.toLocaleString('pt-BR')} + ${qB.toLocaleString('pt-BR')} = ${totalQtd.toLocaleString('pt-BR')} unidades
+CIF Global Total = ${fmtMoeda(cifPrep)} + ${fmtMoeda(cifInsp)} = ${fmtMoeda(cifTotal)}
+Taxa Unitaria de CIF = ${fmtMoeda(cifTotal)} / ${totalQtd.toLocaleString('pt-BR')} un = ${fmtMoeda(taxaTrad)} por unidade
+Custo Tradicional Produto Padrao:
+  Custo Total = ${fmtMoeda(cdA)} (Direto) + ${fmtMoeda(taxaTrad)} (CIF) = ${fmtMoeda(custoTradA)}
+Custo Tradicional Produto Especial:
+  Custo Total = ${fmtMoeda(cdB)} (Direto) + ${fmtMoeda(taxaTrad)} (CIF) = ${fmtMoeda(custoTradB)}
+
+2. CUSTEIO BASEADO EM ATIVIDADES (ABC):
+Taxa da Atividade 'Preparar Maquinas':
+  Taxa = ${fmtMoeda(cifPrep)} / (${pA} + ${pB} preparacoes) = ${fmtMoeda(taxaPrep)} / preparacao
+Taxa da Atividade 'Inspecionar Pecas':
+  Taxa = ${fmtMoeda(cifInsp)} / (${iA} + ${iB} horas) = ${fmtMoeda(taxaInsp)} / hora tecnica
+
+Apropriacao de CIF ao Produto Padrao (${qA.toLocaleString('pt-BR')} un):
+  Preparacao: ${pA} * ${fmtMoeda(taxaPrep)} = ${fmtMoeda(pA * taxaPrep)}
+  Inspecao:   ${iA} * ${fmtMoeda(taxaInsp)} = ${fmtMoeda(iA * taxaInsp)}
+  CIF Total ABC Padrao = ${fmtMoeda(cifAbcA)}
+  CIF Unitario ABC = ${fmtMoeda(cifAbcA)} / ${qA.toLocaleString('pt-BR')} un = ${fmtMoeda(cifAbcUnA)}
+  Custo Total Unitario ABC = ${fmtMoeda(cdA)} + ${fmtMoeda(cifAbcUnA)} = ${fmtMoeda(custoAbcA)}
+
+Apropriacao de CIF ao Produto Especial (${qB.toLocaleString('pt-BR')} un):
+  Preparacao: ${pB} * ${fmtMoeda(taxaPrep)} = ${fmtMoeda(pB * taxaPrep)}
+  Inspecao:   ${iB} * ${fmtMoeda(taxaInsp)} = ${fmtMoeda(iB * taxaInsp)}
+  CIF Total ABC Especial = ${fmtMoeda(cifAbcB)}
+  CIF Unitario ABC = ${fmtMoeda(cifAbcB)} / ${qB.toLocaleString('pt-BR')} un = ${fmtMoeda(cifAbcUnB)}
+  Custo Total Unitario ABC = ${fmtMoeda(cdB)} + ${fmtMoeda(cifAbcUnB)} = ${fmtMoeda(custoAbcB)}`;
+
+            document.getElementById('boxMemoriaLab').innerText = memoria;
         }
 
         function render() {

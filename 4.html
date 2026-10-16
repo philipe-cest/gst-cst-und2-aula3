@@ -9,20 +9,33 @@
             --primary: #002060; --primary-dark: #001138; --secondary: #0080FF;
             --secondary-light: #E6F2FF; --success: #10B981; --background: #F4F7FA;
             --surface: #FFFFFF; --text-primary: #0F172A; --text-secondary: #475569;
-            --border: #E2E8F0; --radius-md: 12px; --shadow-md: 0 4px 20px -2px rgba(0,32,96,0.08);
-            --font-mono: 'SFMono-Regular', Consolas, Menlo, monospace;
+            --border: #CBD5E1; --radius-md: 12px; --shadow-md: 0 4px 20px -2px rgba(0,32,96,0.08);
+            --font-mono: 'Consolas', 'Courier New', monospace;
         }
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: system-ui, -apple-system, sans-serif; background: var(--background); color: var(--text-primary); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
         header { background: #FFF; border-bottom: 1px solid var(--border); padding: 0.85rem 1.5rem; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
         .brand { text-decoration: none; color: var(--primary); font-weight: 700; font-size: 0.95rem; }
         .container { max-width: 980px; width: 100%; margin: 2rem auto; padding: 0 1rem; flex-grow: 1; display: flex; flex-direction: column; }
-        .slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 2.5rem; box-shadow: var(--shadow-md); min-height: 520px; display: none; flex-direction: column; justify-content: space-between; }
+        .slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 2.5rem; box-shadow: var(--shadow-md); min-height: 540px; display: none; flex-direction: column; justify-content: space-between; }
         .slide-card.active { display: flex; }
         .slide-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 1rem; margin-bottom: 1.5rem; }
         .tag { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--secondary); background: var(--secondary-light); padding: 4px 10px; border-radius: 6px; }
-        .title { font-size: 1.65rem; color: var(--primary); font-weight: 800; margin-bottom: 1rem; }
-        .highlight-box { background: var(--secondary-light); border-left: 4px solid var(--secondary); padding: 1.2rem; border-radius: 6px; margin: 1.25rem 0; color: var(--primary); font-weight: 500; }
+        .title { font-size: 1.6rem; color: var(--primary); font-weight: 800; margin-bottom: 1rem; }
+        .highlight-box { background: var(--secondary-light); border-left: 4px solid var(--secondary); padding: 1.2rem; border-radius: 6px; margin: 1.25rem 0; color: var(--primary); }
+
+        .notepad-box {
+            background: #FFFFFF;
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--primary);
+            padding: 1rem 1.25rem;
+            margin: 1rem 0;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            white-space: pre-wrap;
+            line-height: 1.5;
+            color: #1E293B;
+        }
 
         .calc-panel { background: #F8FAFC; border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; margin: 1.25rem 0; }
         .grid-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
@@ -30,21 +43,31 @@
         .form-label { font-size: 0.8rem; font-weight: 700; color: var(--primary); text-transform: uppercase; }
         .form-control { padding: 0.65rem 0.85rem; border: 1.5px solid var(--border); border-radius: 6px; font-family: var(--font-mono); font-weight: 700; font-size: 0.95rem; }
         
-        .res-display { background: var(--primary); color: #FFF; padding: 1.2rem; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; }
+        .calc-steps { background: #FFFFFF; border: 1px solid var(--border); border-radius: 8px; padding: 1rem; font-family: var(--font-mono); font-size: 0.85rem; color: #1E293B; line-height: 1.6; margin-top: 1rem; }
 
         .controls { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 1.25rem; margin-top: 2rem; }
         .btn { padding: 0.75rem 1.5rem; font-size: 0.9rem; font-weight: 700; border-radius: 6px; text-decoration: none; cursor: pointer; border: none; }
         .btn-nav { background: var(--primary); color: #FFF; }
         .btn-out { background: transparent; color: var(--primary); border: 1.5px solid var(--border); }
+        .btn-print { background: #FFFFFF; color: var(--text-primary); border: 1.5px solid var(--border); padding: 0.5rem 1rem; font-size: 0.8rem; font-weight: 700; border-radius: 6px; cursor: pointer; }
         .progress-dots { display: flex; gap: 8px; }
         .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--border); cursor: pointer; }
         .dot.active { background: var(--secondary); width: 22px; border-radius: 10px; }
+
+        @media print {
+            header, .controls, .btn-print { display: none !important; }
+            .slide-card { display: block !important; min-height: auto !important; page-break-after: always; border: 1px solid #999; margin-bottom: 2rem; }
+            body { background: #FFF; }
+        }
     </style>
 </head>
 <body>
     <header>
         <a href="index.html" class="brand">&larr; Portal da Aula 03</a>
-        <span style="font-size:0.85rem; font-weight:700; color:var(--text-secondary);">Tópico 4 de 10: Cost Drivers</span>
+        <div style="display:flex; align-items:center; gap:1rem;">
+            <button class="btn-print" onclick="window.print()">Imprimir Slide / PDF</button>
+            <span style="font-size:0.85rem; font-weight:700; color:var(--text-secondary);">Tópico 4 de 10: Cost Drivers</span>
+        </div>
     </header>
 
     <div class="container">
@@ -55,13 +78,23 @@
                     <span class="tag">Mecânica dos Drivers</span>
                     <span style="font-weight:700; color:var(--text-secondary);">Slide 01 / 04</span>
                 </div>
-                <h1 class="title">Os Dois Estágios de Direcionamento</h1>
-                <p>O ABC opera em dois momentos perfeitamente coordenados para garantir precisão:</p>
+                <h1 class="title">Os Dois Estágios de Direcionamento de Custos</h1>
+                <p>O ABC constrói uma ponte mensurável entre o razão contábil e a ordem de fabricação em duas etapas:</p>
+                
+                <div class="notepad-box">ESTAGIOS DE RASTREAMENTO NO ABC:
+
+1o ESTAGIO - DIRECIONADOR DE RECURSOS:
+Atribui gastos contabeis globais (folha de salarios, energia, depreciacoes)
+para as atividades operacionais.
+Exemplo: Horas trabalhadas pela equipe de manutencao na atividade de calibracao.
+
+2o ESTAGIO - DIRECIONADOR DE ATIVIDADES:
+Atribui os custos acumulados em cada atividade para os lotes e produtos.
+Exemplo: Quantidade de vezes em que as maquinas foram preparadas para cada produto.</div>
+
                 <div class="highlight-box">
-                    <strong>1º Estágio • Direcionador de Recursos:</strong> Distribui os gastos globais (aluguel, salários, energia) para as <em>atividades</em>.<br>
-                    <em>Exemplo:</em> Horas trabalhadas pela equipe de suporte para cada atividade.<br><br>
-                    <strong>2º Estágio • Direcionador de Atividades:</strong> Distribui o custo acumulado nas atividades para os <em>produtos</em>.<br>
-                    <em>Exemplo:</em> Quantidade de setups realizados para fabricar o Produto A.
+                    <strong>Impacto da Mudança para a Escala 5x2:</strong><br>
+                    Na jornada 5x2, os mesmos salários mensais são divididos por menos dias úteis no mês. O custo do 1º estágio por hora de atividade sobe cerca de 9% a 10%, exigindo cálculo preciso para não repassar ineficiência aos produtos regulares.
                 </div>
             </div>
             <div class="controls"></div>
@@ -74,13 +107,24 @@
                     <span class="tag">Tipologia dos Drivers</span>
                     <span style="font-weight:700; color:var(--text-secondary);">Slide 02 / 04</span>
                 </div>
-                <h1 class="title">Três Tipos de Direcionadores de Atividades</h1>
-                <p>A precisão e o custo de controle variam conforme o tipo de direcionador escolhido:</p>
-                <div class="highlight-box">
-                    • <strong>1. Direcionador de Transação:</strong> Conta quantas vezes a atividade aconteceu (ex: número de setups, número de compras). É o mais simples e barato de medir.<br><br>
-                    • <strong>2. Direcionador de Duração:</strong> Mede o tempo gasto na atividade (ex: horas de setup, horas de inspeção). Usado quando um lote demora muito mais tempo que outro.<br><br>
-                    • <strong>3. Direcionador de Intensidade:</strong> Apropria os recursos diretamente pelo esforço e expertise específicos requeridos em cada atendimento complexo.
-                </div>
+                <h1 class="title">Três Categorias de Direcionadores de Atividades</h1>
+                <p>A precisão do método depende do nível de esforço e monitoramento adotado pela empresa:</p>
+                
+                <div class="notepad-box">TIPOLOGIA DOS DIRECIONADORES:
+
+1. Direcionador de Transacao:
+Conta a frequencia simples do evento.
+Formula: Custo no Produto = Numero de Ocorrencias * Taxa por Evento
+Exemplo: Quantidade de preparacoes de maquinas, numero de pedidos emitidos.
+
+2. Direcionador de Duracao:
+Mede o tempo efetivo gasto na execucao da tarefa.
+Formula: Custo no Produto = Horas Dedicadas * Taxa Horaria da Atividade
+Exemplo: Horas tecnicas gastas na troca de moldes complexos.
+
+3. Direcionador de Intensidade:
+Apropriacao direta dos recursos específicos exigidos por uma operacao atipica.
+Formula: Custo no Produto = Apuracao Direta de Insumos e Especialistas</div>
             </div>
             <div class="controls"></div>
         </div>
@@ -92,28 +136,23 @@
                     <span class="tag">Simulador em Sala</span>
                     <span style="font-weight:700; color:var(--text-secondary);">Slide 03 / 04</span>
                 </div>
-                <h1 class="title">Calculadora da Taxa de Atividade</h1>
-                <p>Demonstre aos alunos como apurar o custo unitário por evento do direcionador:</p>
+                <h1 class="title">Calculadora da Taxa da Atividade de Preparação</h1>
+                <p>Observe o cálculo completo sem fórmulas ocultas, demonstrando o custo de cada preparação de máquina:</p>
                 
                 <div class="calc-panel">
                     <div class="grid-inputs">
                         <div class="form-group">
-                            <label class="form-label">Custo Total da Atividade "Setup" (R$)</label>
+                            <label class="form-label">Custo da Atividade "Preparar Máquinas" (R$)</label>
                             <input type="text" id="inCustoAtv" class="form-control" value="48.000,00" oninput="calcTaxaAtv()">
                         </div>
                         <div class="form-group">
-                            <label class="form-label">Total de Setups Realizados no Mês</label>
+                            <label class="form-label">Total de Preparações Realizadas no Mês</label>
                             <input type="text" id="inQtdDrivers" class="form-control" value="120" oninput="calcTaxaAtv()">
                         </div>
                     </div>
-                    <div class="res-display">
-                        <div>
-                            <span style="font-size:0.8rem; text-transform:uppercase; color:var(--secondary-light);">Taxa do Direcionador</span>
-                            <div id="lblTaxaDriver" style="font-size:1.4rem; font-weight:800; color:#A7F3D0;">R$ 400,00 / setup</div>
-                        </div>
-                        <div style="font-size:0.85rem; color:rgba(255,255,255,0.85); text-align:right;">
-                            Cada lote produzido absorverá R$ 400 por setup que exigir!
-                        </div>
+                    
+                    <div class="calc-steps" id="boxCalcTaxa">
+                        Carregando memória de cálculo...
                     </div>
                 </div>
             </div>
@@ -127,11 +166,20 @@
                     <span class="tag">Conclusão do Módulo</span>
                     <span style="font-weight:700; color:var(--text-secondary);">Slide 04 / 04</span>
                 </div>
-                <h1 class="title">Resumo do Tópico & Próximo Módulo</h1>
-                <p>Com os direcionadores calibrados, as atividades passam a cobrar dos produtos exatamente a quantidade de esforço consumida.</p>
+                <h1 class="title">Resumo e Transição Estrutural</h1>
+                <p>A taxa apurada é a base para faturar internamente cada produto conforme o consumo real de tarefas.</p>
+                
+                <div class="notepad-box">REGRA DE APLICACAO GERENCIAL:
+Se uma linha exige 5 preparacoes no mes e a taxa unitaria e de R$ 400,00,
+o valor absorvido sera exatamente:
+5 preparacoes * R$ 400,00 = R$ 2.000,00 de Custo Indireto.</div>
+
                 <div class="highlight-box">
-                    No próximo tópico (Tópico 5), categorizaremos as atividades na famosa <strong>Hierarquia de Cooper & Kaplan</strong>: Unidade, Lote, Produto e Instalações fabris.
+                    No próximo tópico, veremos como agrupar as tarefas segundo a <strong>Hierarquia de Cooper & Kaplan</strong>: Unitárias, de Lote, de Produto e de Instalação Fabril.
                 </div>
+                <p style="text-align:center; margin-top:1.5rem;">
+                    Avance para o <strong>Tópico 5</strong>!
+                </p>
             </div>
             <div class="controls"></div>
         </div>
@@ -148,7 +196,20 @@
             const custo = parseBR(document.getElementById('inCustoAtv').value);
             const qtd = parseBR(document.getElementById('inQtdDrivers').value) || 1;
             const taxa = custo / qtd;
-            document.getElementById('lblTaxaDriver').innerText = fmtMoeda(taxa) + " / setup";
+
+            const html = `MEMORIA DE CALCULO DA TAXA DO DIRECIONADOR:
+Passo 1: Identificar o Custo Total da Atividade = ${fmtMoeda(custo)}
+Passo 2: Identificar a Base Total do Direcionador = ${qtd.toLocaleString('pt-BR')} preparacoes
+Passo 3: Aplicar a Formula:
+  Taxa = Custo Total da Atividade / Quantidade Total do Direcionador
+  Taxa = ${fmtMoeda(custo)} / ${qtd.toLocaleString('pt-BR')} preparacoes
+Passo 4: Taxa Unitaria Apurada = ${fmtMoeda(taxa)} por preparacao
+
+Exemplo de Cobranca em Lote:
+Se um lote de produtos customizados exigir 4 preparacoes de maquina:
+Custo Indireto Absorvido = 4 * ${fmtMoeda(taxa)} = ${fmtMoeda(4 * taxa)}`;
+
+            document.getElementById('boxCalcTaxa').innerText = html;
         }
 
         function render() {

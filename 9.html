@@ -9,20 +9,33 @@
             --primary: #002060; --primary-dark: #001138; --secondary: #0080FF;
             --secondary-light: #E6F2FF; --success: #10B981; --background: #F4F7FA;
             --surface: #FFFFFF; --text-primary: #0F172A; --text-secondary: #475569;
-            --border: #E2E8F0; --radius-md: 12px; --shadow-md: 0 4px 20px -2px rgba(0,32,96,0.08);
-            --font-mono: 'SFMono-Regular', Consolas, Menlo, monospace;
+            --border: #CBD5E1; --radius-md: 12px; --shadow-md: 0 4px 20px -2px rgba(0,32,96,0.08);
+            --font-mono: 'Consolas', 'Courier New', monospace;
         }
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: system-ui, -apple-system, sans-serif; background: var(--background); color: var(--text-primary); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
         header { background: #FFF; border-bottom: 1px solid var(--border); padding: 0.85rem 1.5rem; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
         .brand { text-decoration: none; color: var(--primary); font-weight: 700; font-size: 0.95rem; }
         .container { max-width: 980px; width: 100%; margin: 2rem auto; padding: 0 1rem; flex-grow: 1; display: flex; flex-direction: column; }
-        .slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 2.5rem; box-shadow: var(--shadow-md); min-height: 520px; display: none; flex-direction: column; justify-content: space-between; }
+        .slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 2.5rem; box-shadow: var(--shadow-md); min-height: 540px; display: none; flex-direction: column; justify-content: space-between; }
         .slide-card.active { display: flex; }
         .slide-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 1rem; margin-bottom: 1.5rem; }
         .tag { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--secondary); background: var(--secondary-light); padding: 4px 10px; border-radius: 6px; }
-        .title { font-size: 1.65rem; color: var(--primary); font-weight: 800; margin-bottom: 1rem; }
-        .highlight-box { background: var(--secondary-light); border-left: 4px solid var(--secondary); padding: 1.2rem; border-radius: 6px; margin: 1.25rem 0; color: var(--primary); font-weight: 500; }
+        .title { font-size: 1.6rem; color: var(--primary); font-weight: 800; margin-bottom: 1rem; }
+        .highlight-box { background: var(--secondary-light); border-left: 4px solid var(--secondary); padding: 1.2rem; border-radius: 6px; margin: 1.25rem 0; color: var(--primary); }
+
+        .notepad-box {
+            background: #FFFFFF;
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--primary);
+            padding: 1rem 1.25rem;
+            margin: 1rem 0;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            white-space: pre-wrap;
+            line-height: 1.5;
+            color: #1E293B;
+        }
 
         .calc-box { background: #F8FAFC; border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; margin: 1.25rem 0; }
         .calc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1rem; }
@@ -30,21 +43,31 @@
         .form-label { font-size: 0.8rem; font-weight: 700; color: var(--primary); text-transform: uppercase; }
         .form-control { padding: 0.65rem 0.85rem; border: 1.5px solid var(--border); border-radius: 6px; font-family: var(--font-mono); font-weight: 700; font-size: 0.95rem; }
         
-        .res-display { background: var(--primary); color: #FFF; padding: 1.2rem; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; }
+        .calc-steps { background: #FFFFFF; border: 1px solid var(--border); border-radius: 8px; padding: 1rem; font-family: var(--font-mono); font-size: 0.85rem; color: #1E293B; line-height: 1.6; margin-top: 1rem; }
 
         .controls { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 1.25rem; margin-top: 2rem; }
         .btn { padding: 0.75rem 1.5rem; font-size: 0.9rem; font-weight: 700; border-radius: 6px; text-decoration: none; cursor: pointer; border: none; }
         .btn-nav { background: var(--primary); color: #FFF; }
         .btn-out { background: transparent; color: var(--primary); border: 1.5px solid var(--border); }
+        .btn-print { background: #FFFFFF; color: var(--text-primary); border: 1.5px solid var(--border); padding: 0.5rem 1rem; font-size: 0.8rem; font-weight: 700; border-radius: 6px; cursor: pointer; }
         .progress-dots { display: flex; gap: 8px; }
         .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--border); cursor: pointer; }
         .dot.active { background: var(--secondary); width: 22px; border-radius: 10px; }
+
+        @media print {
+            header, .controls, .btn-print { display: none !important; }
+            .slide-card { display: block !important; min-height: auto !important; page-break-after: always; border: 1px solid #999; margin-bottom: 2rem; }
+            body { background: #FFF; }
+        }
     </style>
 </head>
 <body>
     <header>
         <a href="index.html" class="brand">&larr; Portal da Aula 03</a>
-        <span style="font-size:0.85rem; font-weight:700; color:var(--text-secondary);">Tópico 9 de 10: TDABC</span>
+        <div style="display:flex; align-items:center; gap:1rem;">
+            <button class="btn-print" onclick="window.print()">Imprimir Slide / PDF</button>
+            <span style="font-size:0.85rem; font-weight:700; color:var(--text-secondary);">Tópico 9 de 10: TDABC</span>
+        </div>
     </header>
 
     <div class="container">
@@ -55,12 +78,21 @@
                     <span class="tag">Inovação em Custos</span>
                     <span style="font-weight:700; color:var(--text-secondary);">Slide 01 / 04</span>
                 </div>
-                <h1 class="title">A Simplificação Genial do TDABC</h1>
-                <p>O <strong>Time-Driven Activity-Based Costing (TDABC)</strong> dispensa o processo trabalhoso de entrevistar funcionários sobre percentuais de tempo dedicados a atividades.</p>
+                <h1 class="title">A Simplificação Operacional do TDABC</h1>
+                <p>O <strong>Time-Driven Activity-Based Costing (TDABC)</strong> elimina questionários sobre o percentual de tempo dedicado às rotinas, substituindo-os por dois parâmetros objetivos:</p>
+                
+                <div class="notepad-box">OS DOIS PILARES DO TDABC:
+
+1. Taxa do Custo Unitario por Minuto:
+Calculada dividindo o custo mensal do setor pelos minutos uteis da capacidade pratica.
+Formula: Taxa Minuto = Custo Total do Setor / (Horas Praticas * 60 minutos)
+
+2. Equacao de Tempo Padrao:
+O tempo estimado (em minutos) necessario para atender as condicoes de um pedido ou lote.
+Formula: Custo do Pedido = Tempo Consumido (min) * Taxa do Minuto (R$/min)</div>
+
                 <div class="highlight-box">
-                    <strong>Tudo o que o TDABC precisa são dois parâmetros:</strong><br>
-                    1. <strong>Custo Unitário da Capacidade:</strong> O custo de cada minuto da equipe ou máquina (Custo Total &divide; Minutos de Capacidade Prática).<br><br>
-                    2. <strong>Equação de Tempo:</strong> O tempo padrão que a atividade leva em minutos.
+                    <strong>Aplicação Direta na Escala 5x2:</strong> Com menos horas semanais disponíveis (passando de 44h para 40h sem redução de salário), a taxa por minuto do operador sobe. O TDABC reflete imediatamente essa nova taxa no sistema integrado (ERP) sem exigir novo projeto de consultoria.
                 </div>
             </div>
             <div class="controls"></div>
@@ -74,11 +106,17 @@
                     <span style="font-weight:700; color:var(--text-secondary);">Slide 02 / 04</span>
                 </div>
                 <h1 class="title">Como Funcionam as Equações de Tempo?</h1>
-                <p>O tempo de uma tarefa varia conforme as características do cliente ou produto:</p>
-                <div class="highlight-box" style="font-family:var(--font-mono); font-size:0.95rem;">
-                    Tempo de Processar Pedido = 10 min (base) + 2 min por item + 15 min (se cliente novo)
-                </div>
-                <p>O ERP da empresa multiplica o tempo total resultante pela taxa por minuto da equipe. Simples, automático e sem questionários subjetivos!</p>
+                <p>As rotinas operacionais variam conforme o perfil do cliente e a complexidade do pedido:</p>
+
+                <div class="notepad-box">EXEMPLO DE EQUACAO DE TEMPO PARA PROCESSAR PEDIDO:
+Tempo Total = 10 min (base) + 2 min por item + 15 min (se cliente novo)
+
+Exemplo Pratico:
+Pedido de cliente antigo com 8 itens solicitados:
+Tempo = 10 min + (8 itens * 2 min) = 26 minutos.
+
+Se a taxa do minuto do setor for R$ 0,50/minuto:
+Custo da Atividade = 26 minutos * R$ 0,50 = R$ 13,00 de custo indireto.</div>
             </div>
             <div class="controls"></div>
         </div>
@@ -91,7 +129,7 @@
                     <span style="font-weight:700; color:var(--text-secondary);">Slide 03 / 04</span>
                 </div>
                 <h1 class="title">Calculadora da Taxa por Minuto no TDABC</h1>
-                <p>Calcule o custo exato do minuto de um setor e precifique o atendimento de um pedido:</p>
+                <p>Demonstração numérica do custo de capacidade por minuto e valor absorvido pelo pedido:</p>
 
                 <div class="calc-box">
                     <div class="calc-grid">
@@ -108,15 +146,9 @@
                             <input type="text" id="tdTempoPedido" class="form-control" value="45" oninput="calcTDABC()">
                         </div>
                     </div>
-                    <div class="res-display">
-                        <div>
-                            <span style="font-size:0.75rem; text-transform:uppercase; color:var(--secondary-light);">Taxa do Minuto de Trabalho</span>
-                            <div id="lblTaxaMinuto" style="font-size:1.3rem; font-weight:800; color:#A7F3D0;">R$ 0,50 / minuto</div>
-                        </div>
-                        <div style="text-align:right;">
-                            <span style="font-size:0.75rem; text-transform:uppercase; color:var(--secondary-light);">Custo Indireto do Pedido</span>
-                            <div id="lblCustoPedido" style="font-size:1.3rem; font-weight:800; color:#60A5FA;">R$ 22,50</div>
-                        </div>
+                    
+                    <div class="calc-steps" id="boxCalcTDABC">
+                        Carregando memória de cálculo...
                     </div>
                 </div>
             </div>
@@ -127,14 +159,23 @@
         <div class="slide-card" data-slide="4">
             <div>
                 <div class="slide-header">
-                    <span class="tag">Síntese e Fechamento</span>
+                    <span class="tag">Conclusão do Módulo</span>
                     <span style="font-weight:700; color:var(--text-secondary);">Slide 04 / 04</span>
                 </div>
-                <h1 class="title">O Estado da Arte da Gestão de Custos</h1>
-                <p>O TDABC conecta os custos aos sistemas ERP modernos, permitindo monitorar a lucratividade de cada cliente e produto pedido a pedido.</p>
-                <div class="highlight-box">
-                    No último tópico (Tópico 10), faremos a síntese geral de vantagens, limites de implantação e prepararemos a ponte para o <strong>Custeio Variável</strong> da Aula 04!
-                </div>
+                <h1 class="title">TDABC e a Gestão da Ociosidade por Minutos</h1>
+                <p>O TDABC permite identificar o total de minutos ociosos de cada equipe no final do mês sem burocracia:</p>
+                
+                <div class="notepad-box">CONTROLE DE CAPACIDADE NO TDABC:
+Minutos Praticos Disponiveis = 48.000 min
+Minutos Utilizados nos Pedidos = 38.000 min
+Minutos Ociosos no Mes = 10.000 min
+
+Custo da Ociosidade = 10.000 min * Taxa do Minuto
+Valor lancado direto como Perda Operacional na DRE.</div>
+
+                <p style="text-align:center; margin-top:1.5rem;">
+                    Avance para o <strong>Tópico 10</strong> para a síntese comparativa e fechamento da Aula 03!
+                </p>
             </div>
             <div class="controls"></div>
         </div>
@@ -156,8 +197,21 @@
             const taxaMinuto = custo / minTotais;
             const custoPedido = taxaMinuto * tempoPed;
 
-            document.getElementById('lblTaxaMinuto').innerText = fmtMoeda(taxaMinuto) + " / min";
-            document.getElementById('lblCustoPedido').innerText = fmtMoeda(custoPedido);
+            const html = `MEMORIA DE CALCULO EXPLICITA DO TDABC:
+Passo 1: Converter a Capacidade Pratica de Horas para Minutos:
+  Minutos Uteis = ${horas.toLocaleString('pt-BR')} horas * 60 = ${minTotais.toLocaleString('pt-BR')} minutos mensais
+
+Passo 2: Apurar a Taxa Unitaria do Minuto de Trabalho:
+  Taxa do Minuto = Custo Total do Setor / Minutos Uteis
+  Taxa do Minuto = ${fmtMoeda(custo)} / ${minTotais.toLocaleString('pt-BR')} min = ${fmtMoeda(taxaMinuto)} por minuto
+
+Passo 3: Apropriar o Custo ao Pedido Analisado:
+  Custo Indireto = Tempo Gasto * Taxa do Minuto
+  Custo Indireto = ${tempoPed} minutos * ${fmtMoeda(taxaMinuto)}/min = ${fmtMoeda(custoPedido)}
+
+Conclusao: A ordem de servico absorve exatamente ${fmtMoeda(custoPedido)} pelo suporte tecnico recebido.`;
+
+            document.getElementById('boxCalcTDABC').innerText = html;
         }
 
         function render() {

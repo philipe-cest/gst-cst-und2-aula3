@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aula 03: Custeio Baseado em Atividades (ABC) & ABM | CEST Anil</title>
+    <title>Aula 03: Custeio Baseado em Atividades (ABC) & ABM | Gestão de Custos CEST</title>
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23002060'/><path d='M20 75 Q50 65 75 25' stroke='%230080FF' stroke-width='8' fill='none'/></svg>">
     <style>
         :root {
@@ -11,18 +11,16 @@
             --primary-dark: #001138;
             --secondary: #0080FF;
             --secondary-light: #E6F2FF;
-            --accent: #00A3FF;
             --success: #10B981;
-            --warning: #F59E0B;
             --background: #F4F7FA;
             --surface: #FFFFFF;
             --text-primary: #0F172A;
             --text-secondary: #475569;
-            --border: #E2E8F0;
+            --border: #CBD5E1;
             --radius-md: 12px;
             --shadow-sm: 0 1px 3px rgba(0, 32, 96, 0.05);
             --shadow-md: 0 4px 20px -2px rgba(0, 32, 96, 0.08);
-            --transition: all 0.25s ease;
+            --font-mono: 'Consolas', 'Courier New', monospace;
         }
 
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -32,12 +30,10 @@
         header {
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
             color: #FFFFFF;
-            padding: 3rem 2.5rem;
+            padding: 2.5rem 2rem;
             border-radius: var(--radius-md);
             margin-bottom: 2rem;
             box-shadow: var(--shadow-md);
-            position: relative;
-            overflow: hidden;
         }
 
         .badge {
@@ -50,11 +46,11 @@
             font-size: 0.85rem;
             font-weight: 700;
             color: var(--secondary-light);
-            margin-bottom: 1.25rem;
+            margin-bottom: 1rem;
         }
 
-        .header-title { font-size: clamp(1.8rem, 3vw, 2.5rem); font-weight: 800; line-height: 1.2; margin-bottom: 0.75rem; }
-        .header-desc { font-size: 1.05rem; color: rgba(255, 255, 255, 0.88); max-width: 780px; margin-bottom: 1.5rem; }
+        .header-title { font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 800; line-height: 1.2; margin-bottom: 0.75rem; }
+        .header-desc { font-size: 1.05rem; color: rgba(255, 255, 255, 0.9); max-width: 850px; margin-bottom: 1.5rem; }
 
         .header-meta {
             display: grid;
@@ -68,26 +64,40 @@
         .meta-label { font-size: 0.75rem; text-transform: uppercase; color: var(--secondary-light); font-weight: 700; }
         .meta-val { font-size: 0.95rem; font-weight: 700; color: #FFF; }
 
-        .action-bar { display: flex; gap: 1rem; margin-bottom: 2.5rem; flex-wrap: wrap; }
+        .context-alert {
+            background: #EFF6FF;
+            border-left: 5px solid var(--secondary);
+            border-radius: 8px;
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-sm);
+        }
+        .context-alert h4 { color: var(--primary); font-size: 1.05rem; margin-bottom: 0.4rem; font-weight: 800; }
+        .context-alert p { color: var(--text-secondary); font-size: 0.95rem; }
+
+        .action-bar { display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; align-items: center; }
         .btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
-            padding: 0.85rem 1.6rem;
+            padding: 0.85rem 1.5rem;
             font-size: 0.95rem;
             font-weight: 700;
             border-radius: 8px;
             text-decoration: none;
-            transition: var(--transition);
             cursor: pointer;
+            border: none;
+            transition: transform 0.2s, background 0.2s;
         }
-        .btn-green { background: #10B981; color: #FFF; }
+        .btn-green { background: var(--success); color: #FFF; }
         .btn-green:hover { background: #059669; transform: translateY(-2px); }
         .btn-blue { background: var(--secondary); color: #FFF; }
         .btn-blue:hover { background: #0066CC; transform: translateY(-2px); }
+        .btn-print { background: #FFFFFF; color: var(--primary); border: 1.5px solid var(--border); }
+        .btn-print:hover { background: #F1F5F9; border-color: var(--primary); }
 
-        .section-title { font-size: 1.4rem; font-weight: 800; color: var(--primary); margin-bottom: 1.25rem; border-left: 5px solid var(--secondary); padding-left: 12px; }
+        .section-title { font-size: 1.35rem; font-weight: 800; color: var(--primary); margin-bottom: 1.25rem; border-left: 5px solid var(--secondary); padding-left: 12px; }
         
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; }
         .card {
@@ -101,11 +111,11 @@
             justify-content: space-between;
             text-decoration: none;
             color: inherit;
-            transition: var(--transition);
             box-shadow: var(--shadow-sm);
+            transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
         }
         .card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: var(--secondary); }
-        .card-num { font-size: 0.8rem; font-weight: 800; color: var(--secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.4rem; }
+        .card-num { font-size: 0.8rem; font-weight: 800; color: var(--secondary); text-transform: uppercase; margin-bottom: 0.4rem; }
         .card-title { font-size: 1.15rem; font-weight: 800; color: var(--primary); margin-bottom: 0.6rem; line-height: 1.3; }
         .card-desc { font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 1.5rem; flex-grow: 1; }
         .card-btn {
@@ -116,122 +126,139 @@
             font-size: 0.85rem;
             font-weight: 700;
             text-align: center;
-            transition: var(--transition);
         }
         .card:hover .card-btn { background: var(--secondary); }
+
+        @media print {
+            body { background: #FFF; color: #000; }
+            .action-bar, .card-btn { display: none !important; }
+            header { background: #FFF !important; color: #000 !important; border: 1px solid #000; box-shadow: none; padding: 1.5rem; }
+            .header-meta { border: 1px solid #000; color: #000; }
+            .meta-val, .header-desc { color: #000 !important; }
+            .card { break-inside: avoid; border: 1px solid #999 !important; box-shadow: none !important; }
+            .context-alert { border: 1px solid #000 !important; background: #FFF !important; }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <div class="badge">Aula 03 • Administração CEST Anil • 4º Período</div>
+            <div class="badge">Administração CEST • Gestão Estratégica de Custos</div>
             <h1 class="header-title">Custeio Baseado em Atividades (ABC) & ABM</h1>
             <p class="header-desc">
-                Ruptura com o rateio tradicional, eliminação do subsídio cruzado e identificação dos reais direcionadores de custos da operação empresarial.
+                Compreensão definitiva da causalidade de custos, fim do rateio arbitrário por volume e análise do impacto da transição da jornada de trabalho 6x1 para 5x2 sobre a capacidade produtiva e os custos indiretos.
             </p>
             <div class="header-meta">
                 <div><span class="meta-label">Disciplina</span><div class="meta-val">Gestão de Custos</div></div>
                 <div><span class="meta-label">Docente</span><div class="meta-val">Prof. Msc. Philipe Sampaio Lima</div></div>
-                <div><span class="meta-label">Foco Metodológico</span><div class="meta-val">Atividades, Cost Drivers e ABM</div></div>
+                <div><span class="meta-label">Aplicação Prática</span><div class="meta-val">Impacto de Turnos 6x1 &rarr; 5x2 e Drivers de Custo</div></div>
             </div>
         </header>
 
-        <div class="action-bar">
-            <a href="atv.html" class="btn btn-green">Laboratório Prático de Fixação (Aluno)</a>
-            <a href="gbt.html" class="btn btn-blue">Painel do Professor (Solucionador em Tempo Real)</a>
+        <div class="context-alert">
+            <h4>Estudo de Contexto Real: A Transição da Escala 6x1 para 5x2</h4>
+            <p>
+                A alteração da escala de trabalho de 6x1 (44 horas semanais) para 5x2 (40 ou 36 horas semanais) reduz a disponibilidade bruta de horas diretas dos operários. Como o salário base mensal permanece protegido, o custo direto por hora trabalhada aumenta e a empresa necessita reorganizar suas equipes de manutenção, supervisão e preparação de máquinas. O Custeio ABC torna-se vital para calcular com precisão quanto custa cada hora útil e evitar que produtos de alto volume paguem a conta da ociosidade fabril.
+            </p>
         </div>
 
-        <h2 class="section-title">Trilha Temática dos 10 Módulos de Slides</h2>
+        <div class="action-bar">
+            <a href="atv.html" class="btn btn-green">Laboratório Prático (Exercícios do Aluno)</a>
+            <a href="gbt.html" class="btn btn-blue">Gabarito e Solucionador em Sala</a>
+            <button class="btn btn-print" onclick="window.print()">Imprimir / Salvar PDF do Portal</button>
+        </div>
+
+        <h2 class="section-title">Trilha Formativa dos 10 Módulos de Slides</h2>
 
         <div class="grid">
             <a href="1.html" class="card">
                 <div>
                     <div class="card-num">Tópico 01 de 10</div>
-                    <h3 class="card-title">A Crise dos Rateios Tradicionais e a Gênese do ABC</h3>
-                    <p class="card-desc">Por que o Custeio por Absorção com base volumétrica gera subsídios cruzados e decisões empresariais desastrosas.</p>
+                    <h3 class="card-title">A Crise dos Rateios Tradicionais e a Nova Realidade Operacional</h3>
+                    <p class="card-desc">Como o crescimento dos custos indiretos e a mudança nas jornadas (6x1 para 5x2) expõem o perigo de usar rateio por volume de peças.</p>
                 </div>
-                <div class="card-btn">Acessar Módulo &rarr;</div>
+                <div class="card-btn">Acessar Slide 1 &rarr;</div>
             </a>
 
             <a href="2.html" class="card">
                 <div>
                     <div class="card-num">Tópico 02 de 10</div>
-                    <h3 class="card-title">O Princípio Central: Recursos, Atividades e Objetos</h3>
-                    <p class="card-desc">A máxima do ABC: "Produtos consomem atividades; atividades consomem recursos". O fim das arbitrariedades de rateio.</p>
+                    <h3 class="card-title">O Princípio Fundamental: Recursos, Atividades e Objetos</h3>
+                    <p class="card-desc">A regra de ouro da causalidade: produtos demandam atividades e atividades consomem recursos humanos e estruturais.</p>
                 </div>
-                <div class="card-btn">Acessar Módulo &rarr;</div>
+                <div class="card-btn">Acessar Slide 2 &rarr;</div>
             </a>
 
             <a href="3.html" class="card">
                 <div>
                     <div class="card-num">Tópico 03 de 10</div>
                     <h3 class="card-title">Mapeamento de Processos e Dicionário de Atividades</h3>
-                    <p class="card-desc">Como decompor uma organização em macroprocessos, atividades primárias e atividades de suporte operacional.</p>
+                    <p class="card-desc">Como catalogar as tarefas reais da fábrica sem cair na armadilha do microdetalhamento excessivo.</p>
                 </div>
-                <div class="card-btn">Acessar Módulo &rarr;</div>
+                <div class="card-btn">Acessar Slide 3 &rarr;</div>
             </a>
 
             <a href="4.html" class="card">
                 <div>
                     <div class="card-num">Tópico 04 de 10</div>
-                    <h3 class="card-title">Direcionadores de Recursos vs Direcionadores de Atividades</h3>
-                    <p class="card-desc">Diferenciação clara entre direcionadores de 1º e 2º estágio (Cost Drivers) e a mecânica das taxas de atividade.</p>
+                    <h3 class="card-title">Direcionadores de Custos: 1º e 2º Estágio</h3>
+                    <p class="card-desc">A separação exata entre direcionadores de recursos e direcionadores de atividades com taxas unitárias transparentes.</p>
                 </div>
-                <div class="card-btn">Acessar Módulo &rarr;</div>
+                <div class="card-btn">Acessar Slide 4 &rarr;</div>
             </a>
 
             <a href="5.html" class="card">
                 <div>
                     <div class="card-num">Tópico 05 de 10</div>
-                    <h3 class="card-title">Hierarquia de Atividades: Unidade, Lote, Produto e Fábrica</h3>
-                    <p class="card-desc">A arquitetura de Cooper & Kaplan para categorizar os custos conforme o gatilho de sua ocorrência física.</p>
+                    <h3 class="card-title">Hierarquia de Atividades de Cooper & Kaplan</h3>
+                    <p class="card-desc">Classificação em nível unitário, nível de lote, sustentação de produtos e sustentação da fábrica.</p>
                 </div>
-                <div class="card-btn">Acessar Módulo &rarr;</div>
+                <div class="card-btn">Acessar Slide 5 &rarr;</div>
             </a>
 
             <a href="6.html" class="card">
                 <div>
                     <div class="card-num">Tópico 06 de 10</div>
                     <h3 class="card-title">Laboratório Comparativo: Absorção Tradicional vs ABC</h3>
-                    <p class="card-desc">Caso numérico em tempo real comprovando como o produto padrão subsidia o produto complexo e especializado.</p>
+                    <p class="card-desc">Cálculos completos passo a passo comprovando o subsídio cruzado entre linhas padronizadas e linhas customizadas.</p>
                 </div>
-                <div class="card-btn">Acessar Módulo &rarr;</div>
+                <div class="card-btn">Acessar Slide 6 &rarr;</div>
             </a>
 
             <a href="7.html" class="card">
                 <div>
                     <div class="card-num">Tópico 07 de 10</div>
-                    <h3 class="card-title">Custos da Capacidade Ociosa: Teórica, Prática e Real</h3>
-                    <p class="card-desc">Como evitar embutir o desperdício de máquinas paradas no preço do produto ativo e apurar a ociosidade na DRE.</p>
+                    <h3 class="card-title">Custos da Capacidade Ociosa na Escala 5x2</h3>
+                    <p class="card-desc">Cálculo da capacidade prática, horas efetivas e segregação das perdas por paradas direto na DRE.</p>
                 </div>
-                <div class="card-btn">Acessar Módulo &rarr;</div>
+                <div class="card-btn">Acessar Slide 7 &rarr;</div>
             </a>
 
             <a href="8.html" class="card">
                 <div>
                     <div class="card-num">Tópico 08 de 10</div>
-                    <h3 class="card-title">Gestão Baseada em Atividades (ABM) e Cadeia de Valor</h3>
-                    <p class="card-desc">Análise de Atividades que Agregam Valor (AV) versus Não Agregam Valor (NAV) e técnicas de eliminação de desperdícios.</p>
+                    <h3 class="card-title">Gestão Baseada em Atividades (ABM) e Otimização de Processos</h3>
+                    <p class="card-desc">Como eliminar atividades que não agregam valor e reorganizar turnos para sustentar a produtividade.</p>
                 </div>
-                <div class="card-btn">Acessar Módulo &rarr;</div>
+                <div class="card-btn">Acessar Slide 8 &rarr;</div>
             </a>
 
             <a href="9.html" class="card">
                 <div>
                     <div class="card-num">Tópico 09 de 10</div>
-                    <h3 class="card-title">TDABC: Custeio Baseado em Atividades por Tempo</h3>
-                    <p class="card-desc">A evolução moderna do ABC: simplificação por equações de tempo e taxas horárias de capacidade prática.</p>
+                    <h3 class="card-title">TDABC: Custeio por Tempo e Taxa Unitária do Minuto</h3>
+                    <p class="card-desc">Aplicação de equações de tempo e taxas por minuto para precificar ordens de produção sem burocracia.</p>
                 </div>
-                <div class="card-btn">Acessar Módulo &rarr;</div>
+                <div class="card-btn">Acessar Slide 9 &rarr;</div>
             </a>
 
             <a href="10.html" class="card">
                 <div>
                     <div class="card-num">Tópico 10 de 10</div>
                     <h3 class="card-title">Matriz de Decisão Gerencial, Vantagens e Limitações</h3>
-                    <p class="card-desc">Quando vale a pena implantar o ABC na empresa e preparação estratégica para o Custeio Variável na Aula 04.</p>
+                    <p class="card-desc">Balanço crítico de implantação e preparação para a introdução ao Custeio Variável na próxima aula.</p>
                 </div>
-                <div class="card-btn">Acessar Módulo &rarr;</div>
+                <div class="card-btn">Acessar Slide 10 &rarr;</div>
             </a>
         </div>
     </div>
